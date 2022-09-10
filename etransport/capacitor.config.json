@@ -1,0 +1,6 @@
+{
+	"appId": "io.ionic.starter",
+	"appName": "etransport",
+	"webDir": "www",
+	"bundledWebRuntime": false
+}
