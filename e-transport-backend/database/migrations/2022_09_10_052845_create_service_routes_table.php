@@ -15,7 +15,7 @@ class CreateServiceRoutesTable extends Migration
     {
         Schema::create('service_routes', function (Blueprint $table) {
             $table->id('service_route_id');
-            $table->string('service_route_description', 500);
+            $table->string('service_route_description', 10000);
             $table->timestamps();
         });
     }
