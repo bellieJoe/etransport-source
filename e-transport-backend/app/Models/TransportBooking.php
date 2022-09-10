@@ -12,6 +12,6 @@ class TransportBooking extends Model
     protected $primaryKey = 'transport_booking_id';
 
     protected $fillable = [
-        'booking_status', 'user_customer_id', 'service_id', 'transport_booking_date'
+        'booking_status', 'user_customer_id', 'service_id', 'transport_booking_date', 'fare_id'
     ];
 }

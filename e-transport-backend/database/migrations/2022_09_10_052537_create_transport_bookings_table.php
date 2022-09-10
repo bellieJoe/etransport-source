@@ -18,6 +18,7 @@ class CreateTransportBookingsTable extends Migration
             $table->enum('booking_status', ['pending', 'accepted', 'canceled', 'finished']);
             $table->foreignId('user_customer_id');
             $table->foreignId('service_id');
+            $table->foreignId('fare_id');
             $table->date('transport_booking_date');
             $table->timestamps();
         });

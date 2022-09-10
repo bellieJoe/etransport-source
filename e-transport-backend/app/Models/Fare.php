@@ -5,13 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ServiceType extends Model
+class Fare extends Model
 {
     use HasFactory;
 
-    protected $primaryKey = 'service_type_id';
+    protected $primaryKey = 'fare_id';
 
     protected $fillable = [
-        'service_description'
+        'service_id', 'start_location', 'drop_off_location', 'fare', 'service_type'
     ];
 }

@@ -20,6 +20,8 @@ class Service extends Model
         'license_number',
         'plate_number',
         'fare',
-        'mode_of_payment'
+        'mode_of_payment',
+        'vehicle_model',
+        'capacity'
     ];
 }
