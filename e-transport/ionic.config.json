@@ -1,7 +1,0 @@
-{
-  "name": "e-transport",
-  "integrations": {
-    "capacitor": {}
-  },
-  "type": "angular"
-}
