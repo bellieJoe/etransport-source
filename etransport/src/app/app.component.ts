@@ -1,12 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from './services/auth.service';
+import { TestingService } from './services/testing.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss'],
 })
-export class AppComponent {
+export class AppComponent implements OnInit{
   public appPages = [
     // { title: 'Profile', url: '/profile', icon: 'mail' },
     // { title: 'Logout', url: '/profile', icon: 'mail' },
@@ -18,6 +19,11 @@ export class AppComponent {
   ];
   public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
   constructor(
-    private auth: AuthService
+    private auth: AuthService,
+    private testing : TestingService
   ) {}
+
+  ngOnInit(){
+    this.testing.test()
+  }
 }
