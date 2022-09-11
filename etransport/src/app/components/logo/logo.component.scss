@@ -1,0 +1,13 @@
+.logo{
+    text-align: center;
+    h1, h6{
+        margin: 0rem;
+    }
+    h6{
+        font-size: small;
+    }
+    h1{
+        text-shadow: 3px 3px  var(--ion-color-shade);
+        font-weight: bolder
+    }
+}
