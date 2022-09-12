@@ -2,7 +2,7 @@
 <ion-content color="primary">
   <div class="container">
     <app-logo></app-logo>
-    <form action="">
+    <div class="sign_in_form" (ngSubmit)="sign_in_form.submit()">
         <ion-card>
           <ion-card-header >
             <ion-card-title>Sign In</ion-card-title>
@@ -11,14 +11,16 @@
           <ion-card-content>
             <ion-item>
               <ion-label position="floating">Email</ion-label>
-              <ion-input type="email" required></ion-input>
+              <ion-input type="email" required [(ngModel)]="sign_in_form.email.data" ></ion-input>
             </ion-item>
+            <ion-note color="danger" *ngIf="sign_in_form_err.email">{{ sign_in_form_err.email }}</ion-note>
             <ion-item>
               <ion-label position="floating">Password</ion-label>
-              <ion-input type="password" required></ion-input>
+              <ion-input type="password" required  [(ngModel)]="sign_in_form.password.data"></ion-input>
             </ion-item>
+            <ion-note color="danger"  *ngIf="sign_in_form_err.password">{{ sign_in_form_err.password }}</ion-note>
             <div>
-              <ion-button expand="block" type="submit">
+              <ion-button expand="block" (click)="sign_in_form.submit()">
                 <i class="fa-solid fa-arrow-right-to-bracket space-after"></i>
                 Sign In
               </ion-button>
@@ -29,6 +31,6 @@
             </div>
           </ion-card-content>
         </ion-card>
-    </form>
+      </div>
   </div>
 </ion-content>

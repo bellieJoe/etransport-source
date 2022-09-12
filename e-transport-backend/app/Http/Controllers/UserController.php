@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
@@ -81,6 +82,21 @@ class UserController extends Controller
      */
     public function login(Request $request)
     {
+    //    $validator = Validator::make($request->all(), [
+    //     'email' => ['email', 'required'],
+    //     'password' => ['required', 'min:8']
+    //    ]);
+
+    //    if($validator->fails()){
+    //         return response([
+    //             'errors' => $validator->getMessageBag()
+    //         ], 422);
+    //    }
+        $request->validate([
+            'email' => ['email', 'required'],
+            'password' => ['required', 'min:8']
+        ]);
+        
         $user = User::where('email', $request->email);
 
         if(!$user || !Hash::check($request->password, $user->first()->password)){
