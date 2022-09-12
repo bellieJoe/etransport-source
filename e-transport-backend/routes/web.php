@@ -17,6 +17,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     // return User::find(2);
-    return Hash::check('password', Hash::make('password'));
+    return User::where('email', 'asd')->first();
 });
 

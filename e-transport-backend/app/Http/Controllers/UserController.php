@@ -82,16 +82,6 @@ class UserController extends Controller
      */
     public function login(Request $request)
     {
-    //    $validator = Validator::make($request->all(), [
-    //     'email' => ['email', 'required'],
-    //     'password' => ['required', 'min:8']
-    //    ]);
-
-    //    if($validator->fails()){
-    //         return response([
-    //             'errors' => $validator->getMessageBag()
-    //         ], 422);
-    //    }
         $request->validate([
             'email' => ['email', 'required'],
             'password' => ['required', 'min:8']
@@ -99,13 +89,18 @@ class UserController extends Controller
         
         $user = User::where('email', $request->email);
 
-        if(!$user || !Hash::check($request->password, $user->first()->password)){
+        if(!$user->first() || !Hash::check($request->password, $user->first()->password)){
             return response([
                 'message' => 'Invalid Credentials'
             ], 401);
         }
 
-        return response($user->with(['role'])->first(), 200);
+        $token = $user->first()->createToken('sampletoken')->plainTextToken;
+
+        $data = $user->with(['role'])->first();
+        $data->token = $token;
+
+        return response($data, 200);
     }
 
     // /**

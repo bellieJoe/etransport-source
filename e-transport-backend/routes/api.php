@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('token', function(){
     return "ok";
-});
+})->middleware('auth:sanctum');
 
 Route::prefix('roles')->group(function () {
     Route::resource('', RoleController::class)->only(['index']);
@@ -29,4 +29,8 @@ Route::prefix('roles')->group(function () {
 
 Route::prefix('users')->group(function () {
     Route::post('login', [UserController::class, 'login']);
+});
+
+Route::prefix('emails')->group(function () {
+
 });
