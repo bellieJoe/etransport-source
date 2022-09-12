@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import axios from 'axios';
-import { environment } from '../../environments/environment';
+import { environment } from 'src/environments/environment';
+
 
 axios.defaults.withCredentials = true;
 
@@ -15,12 +16,9 @@ export class TestingService {
 
   test(){
     axios.get(`${this.apiUrl}/sanctum/csrf-cookie`).then(() => {
-      axios.get(`${this.apiUrl}/api/token`).then((response)=>{
+      axios.get(`${this.apiUrl}/api/roles/clients`).then((response)=>{
         console.log(response)
       })
     })
-    // axios.get(`${this.apiUrl}/api/token`).then((response)=>{
-    //   console.log(response)
-    // })
   }
 }

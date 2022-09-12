@@ -18,11 +18,19 @@ class User extends Authenticatable
         'name', 'email', 'password', 'contact_number', 'role_id'
     ];
 
-    protected $hidden = [
-        'password', 'remember_token',
-    ];
+    // protected $hidden = [
+    //     'password', 'remember_token',
+    // ];
 
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /* 
+    Relationships
+    */
+    public function role(){
+        return $this->hasOne(Role::class, 'role_id', 'role_id');
+    }
+
 }

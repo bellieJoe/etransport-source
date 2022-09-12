@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,11 +16,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::middleware('auth:api')->get('/', function (Request $request) {
-//     return 'ok';
-//     // return $request->user();
-// });
 
 Route::get('token', function(){
     return "ok";
-})->middleware('auth:sanctum');
+});
+
+Route::prefix('roles')->group(function () {
+    Route::resource('', RoleController::class)->only(['index']);
+
+    Route::get('clients', [RoleController::class, 'getClientRoles']);
+});
+
+Route::prefix('users')->group(function () {
+    Route::post('login', [UserController::class, 'login']);
+});
