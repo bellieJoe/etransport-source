@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import axios, { Axios, AxiosResponse } from 'axios';
 import { environment } from 'src/environments/environment';
 
-// axios.defaults.withCredentials = true;
+axios.defaults.withCredentials = true;
 
 class LoginData {
     email: string
@@ -25,9 +25,15 @@ export class AuthService {
   }
 
   async login(data: LoginData) : Promise<any> {
-    const res = await axios.post(`${environment.apiUrl}/api/users/login`, data)
+    const res = await axios.post(`${environment.apiUrl}/api/users/login`, data, {
+      headers: {
+        Accept: 'application/json'
+      }
+    })
     .then(res => res)
     .catch(err => err.response)
+
+    console.log(res)
     return res;
   }
 }

@@ -20,6 +20,13 @@ use Illuminate\Support\Facades\Route;
 Route::get('token', function(){
     return "ok";
 })->middleware('auth:sanctum');
+Route::post('token', function(Request $request){
+    $request->validate([
+        'name' => 'required'
+    ]);
+    
+    return "ok";
+});
 
 Route::prefix('roles')->group(function () {
     Route::resource('', RoleController::class)->only(['index']);

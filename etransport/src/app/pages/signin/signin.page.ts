@@ -46,6 +46,7 @@ export class SigninPage implements OnInit {
 
       if(res.status === 422){
         this.sign_in_form_err = res.data.errors
+        await loader.dismiss();
         return;
       }
 
