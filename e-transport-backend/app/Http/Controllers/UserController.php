@@ -75,7 +75,7 @@ class UserController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * login and authenticate the user
      *
      * @param  Request $request
      * @return \Illuminate\Http\Response
@@ -103,14 +103,39 @@ class UserController extends Controller
         return response($data, 200);
     }
 
-    // /**
-    //  * Remove the specified resource from storage.
-    //  *
-    //  * @param  int  $id
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function destroy($id)
-    // {
-    //     //
-    // }
+    /**
+     * Create a new user account
+     *
+     * @param  Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function signup(Request $request)
+    {
+        $request->validate([
+            'name' => ['required', 'max:1000'],
+            'username' => ['required', 'unique:users,username', 'max:1000'],
+            'email' => ['required', 'unique:users,email'],
+            'contact_number' => ['required', 'digits:10'],
+            'password' => ['required', 'confirmed'],
+            'role_id' => ['required', 'numeric', 'exists:roles,role_id']
+        ]);
+
+        $user = User::create([
+            'name' => $request->name,
+            'username' => $request->username,
+            'email' => $request->email,
+            'contact_number' => $request->contact_number,
+            'password' => Hash::make($request->password),
+            'role_id' => $request->role_id
+        ]);
+
+        // send verification email
+        Mail::to($user)->send(new VerificationEmail());
+
+        // generate token
+
+        // return authenticated user instance
+    }
+
+ 
 }

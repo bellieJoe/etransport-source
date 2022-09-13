@@ -2,7 +2,7 @@
 <ion-content color="primary">
   <div class="container">
     <app-logo></app-logo>
-    <form action="">
+    <div class="sign_up_form">
       <ion-card>
         <ion-card-header>
           <ion-card-title>Sign Up</ion-card-title>
@@ -11,37 +11,51 @@
         <ion-card-content>
           <ion-item>
             <ion-label position="floating">Name</ion-label>
-            <ion-input type="text" required></ion-input>
+            <ion-input type="text" required [(ngModel)]="sign_up_form.name"></ion-input>
           </ion-item>
+          <ion-note color="danger" *ngIf="sign_up_form_err.name">{{ sign_up_form_err.name }}</ion-note>
+
           <ion-item>
             <ion-label position="floating">Username</ion-label>
-            <ion-input type="text" required></ion-input>
+            <ion-input type="text" required [(ngModel)]="sign_up_form.username"></ion-input>
           </ion-item>
+          <ion-note color="danger" *ngIf="sign_up_form_err.username">{{ sign_up_form_err.username }}</ion-note>
+
           <ion-item>
             <ion-label position="floating">Email</ion-label>
-            <ion-input type="email" required></ion-input>
+            <ion-input type="email" required [(ngModel)]="sign_up_form.email"></ion-input>
           </ion-item>
+          <ion-note color="danger" *ngIf="sign_up_form_err.email">{{ sign_up_form_err.email }}</ion-note>
+
           <ion-item>
             <ion-label position="stacked">Contact Number</ion-label>
-            <ion-input type="tel" max="10" required>+63 </ion-input>
+            <ion-input type="tel" max="10" required [(ngModel)]="sign_up_form.contact_number">+63 </ion-input>
           </ion-item>
+          <ion-note color="danger" *ngIf="sign_up_form_err.contact_number">{{ sign_up_form_err.contact_number }}</ion-note>
+
           <ion-item>
             <ion-label position="floating">Password</ion-label>
-            <ion-input type="password" required></ion-input>
+            <ion-input type="password" required [(ngModel)]="sign_up_form.password"></ion-input>
           </ion-item>
+          <ion-note color="danger" *ngIf="sign_up_form_err.password">{{ sign_up_form_err.password }}</ion-note>
+
           <ion-item>
             <ion-label position="floating">Password Confirmation</ion-label>
-            <ion-input type="password" required></ion-input>
+            <ion-input type="password" required [(ngModel)]="sign_up_form.password_confirmation"></ion-input>
           </ion-item>
+          <ion-note color="danger" *ngIf="sign_up_form_err.password_confirmation">{{ sign_up_form_err.password_confirmation }}</ion-note>
+
           <ion-item>
             <ion-label>Role</ion-label>
-          <ion-select value="3" placeholder="Select Role" slot="end">
+            <ion-select placeholder="Select Role" slot="end"  [(ngModel)]="sign_up_form.role">
               <ion-select-option value="2">Administrator</ion-select-option>
               <ion-select-option value="3">Customer</ion-select-option>
             </ion-select>
           </ion-item>
+          <ion-note color="danger" *ngIf="sign_up_form_err.role">{{ sign_up_form_err.role }}</ion-note>
+
           <div>
-            <ion-button expand="block" type="submit">
+            <ion-button expand="block" (click)="sign_up_form.submit()">
               <i class="fa-solid fa-user-plus space-after"></i>
               Sign Up
             </ion-button>
@@ -52,6 +66,6 @@
           </div>
         </ion-card-content>
       </ion-card>
-    </form>
+    </div>
   </div>
 </ion-content>

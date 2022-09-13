@@ -36,6 +36,8 @@ Route::prefix('roles')->group(function () {
 
 Route::prefix('users')->group(function () {
     Route::post('login', [UserController::class, 'login']);
+
+    Route::post('signup', [UserController::class, 'signup']);
 });
 
 Route::prefix('emails')->group(function () {

@@ -21,27 +21,22 @@ export class SigninPage implements OnInit {
 
   sign_in_form_err : any = {};
   sign_in_form = {
-    email: {
-      data: null,
-      error: null
-    },
-    password: {
-      data: null,
-      error: null
-    },
+    email: null,
+    password: null,
     submit : async () => {
       this.sign_in_form_err = {};
 
       const loader = await this.loading.create({
         spinner: 'bubbles',
-        message: 'Signing In'
+        message: 'Signing In',
+        backdropDismiss: false
       })
 
       loader.present()
 
       const res = await this.auth.login({
-        email: this.sign_in_form.email.data,
-        password: this.sign_in_form.password.data
+        email: this.sign_in_form.email,
+        password: this.sign_in_form.password
       })
 
       if(res.status === 422){
@@ -50,10 +45,10 @@ export class SigninPage implements OnInit {
         return;
       }
 
-      if(res.status === 401){
+      if(res.status >= 400){
         const alert = await this.alert.create({
-          header: 'Sign In failed.',
-          message: res.data.message,
+          header: 'Sign In failed',
+          message: `${res.status} | ${res.data.message}`,
           buttons: ['Ok']
         })
         await loader.dismiss();
