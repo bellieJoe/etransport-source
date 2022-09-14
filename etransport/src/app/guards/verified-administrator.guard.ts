@@ -14,7 +14,14 @@ export class VerifiedAdministratorGuard implements CanActivate {
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+    const user = JSON.parse(localStorage.getItem('user'))
+    console.log(user)
+    if(user.role_id != 2){
+      return true;
+    }
+
     return this.router.createUrlTree(['/administrator/unverified']);
+    
   }
   
 }

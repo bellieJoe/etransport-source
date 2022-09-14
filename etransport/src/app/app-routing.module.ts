@@ -3,6 +3,7 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './guards/auth.guard';
 import { GuestGuard } from './guards/guest.guard';
 import { VerifiedAdministratorGuard } from './guards/verified-administrator.guard';
+import { VerifiedEmailGuard } from './guards/verified-email.guard';
 
 const routes: Routes = [
   {
@@ -36,6 +37,7 @@ const routes: Routes = [
     loadChildren: () => import('./pages/profile/profile.module').then( m => m.ProfilePageModule),
     canActivate: [
       AuthGuard,
+      VerifiedEmailGuard,
       VerifiedAdministratorGuard
     ]
   },
@@ -43,7 +45,8 @@ const routes: Routes = [
     path: 'administrator/unverified',
     loadChildren: () => import('./pages/administrator/unverified/unverified.module').then( m => m.UnverifiedPageModule),
     canActivate: [
-      AuthGuard
+      AuthGuard,
+      VerifiedEmailGuard
     ]
   }
 ];

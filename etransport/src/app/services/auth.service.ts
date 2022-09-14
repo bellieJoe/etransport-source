@@ -36,4 +36,8 @@ export class AuthService {
     console.log(res)
     return res;
   }
+
+  getAuth(){
+    return JSON.parse(localStorage.getItem('user'));
+  }
 }

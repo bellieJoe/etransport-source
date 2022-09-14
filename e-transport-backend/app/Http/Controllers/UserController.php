@@ -72,6 +72,9 @@ class UserController extends Controller
             'verification_code' => $faker->randomNumber(6)
         ]);
 
+        $user->refresh();
+        $user->with(['role']);
+
         // send verification email
         Mail::to($user)->send(new VerificationEmail($user->verification_code));
 

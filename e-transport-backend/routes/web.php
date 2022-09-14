@@ -17,7 +17,8 @@ use Faker\Factory;
 
 Route::get('/', function () {
     // return User::find(2);
-    $faker = Factory::create();
-    return new App\Mail\VerificationEmail($faker->randomNumber(6));
+    // $faker = Factory::create();
+    // return new App\Mail\VerificationEmail($faker->randomNumber(6));
+    return User::find(2);
 });
 
