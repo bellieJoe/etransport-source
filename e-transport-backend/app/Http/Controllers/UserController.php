@@ -12,7 +12,7 @@ use Faker\Factory;
 
 class UserController extends Controller
 {
-    private $faker = Factory::create();
+
 
     /**
      * login and authenticate the user
@@ -51,10 +51,12 @@ class UserController extends Controller
      */
     public function signup(Request $request)
     {
+        $faker = Factory::create();
+        
         $request->validate([
             'name' => ['required', 'max:1000'],
             'username' => ['required', 'unique:users,username', 'max:1000'],
-            'email' => ['required', 'unique:users,email'],
+            'email' => ['required', 'unique:users,email', 'email'],
             'contact_number' => ['required', 'digits:10'],
             'password' => ['required', 'confirmed'],
             'role_id' => ['required', 'numeric', 'exists:roles,role_id']
@@ -66,11 +68,12 @@ class UserController extends Controller
             'email' => $request->email,
             'contact_number' => $request->contact_number,
             'password' => Hash::make($request->password),
-            'role_id' => $request->role_id
+            'role_id' => $request->role_id,
+            'verification_code' => $faker->randomNumber(6)
         ]);
 
         // send verification email
-        Mail::to($user)->send(new VerificationEmail($this->faker->randomNumber(6)));
+        Mail::to($user)->send(new VerificationEmail($user->verification_code));
 
         // generate token
         $user->token = $user->createToken('sampletoken')->plainTextToken;

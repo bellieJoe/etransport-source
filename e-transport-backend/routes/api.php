@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('token', function(){
     return "ok";
 })->middleware('auth:sanctum');
+
 Route::post('token', function(Request $request){
     $request->validate([
         'name' => 'required'

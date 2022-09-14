@@ -4,6 +4,9 @@ import { environment } from 'src/environments/environment';
 
 axios.defaults.withCredentials = true;
 axios.defaults.headers.common['Accept'] = 'application/json';
+axios.defaults.headers.common['Access-Control-Allow-Origin'] = "*";
+axios.defaults.headers.common['Access-Control-Allow-Methods'] = '*';
+axios.defaults.headers.common['Access-Control-Allow-Headers'] = '*';
 
 class LoginData {
     email: string

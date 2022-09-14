@@ -47,12 +47,12 @@
 
           <ion-item>
             <ion-label>Role</ion-label>
-            <ion-select placeholder="Select Role" slot="end"  [(ngModel)]="sign_up_form.role">
+            <ion-select placeholder="Select Role" slot="end"  [(ngModel)]="sign_up_form.role_id">
               <ion-select-option value="2">Administrator</ion-select-option>
               <ion-select-option value="3">Customer</ion-select-option>
             </ion-select>
           </ion-item>
-          <ion-note color="danger" *ngIf="sign_up_form_err.role">{{ sign_up_form_err.role }}</ion-note>
+          <ion-note color="danger" *ngIf="sign_up_form_err.role_id">{{ sign_up_form_err.role_id }}</ion-note>
 
           <div>
             <ion-button expand="block" (click)="sign_up_form.submit()">
