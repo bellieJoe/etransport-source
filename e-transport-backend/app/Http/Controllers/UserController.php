@@ -86,5 +86,13 @@ class UserController extends Controller
         
     }
 
+    public function isVerified($user_id){
+        $user = User::find($user_id);
+
+        return response([
+            'email_verified_at' => $user->email_verified_at
+        ],200);
+    }
+
  
 }

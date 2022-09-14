@@ -26,6 +26,27 @@ export class UserService {
 
   constructor() { }
 
+  user = JSON.parse(localStorage.getItem('user'));
+
+  async isVerified(user_id){
+    const res = await axios.get(`${environment.apiUrl}/api/users/isVerified/${user_id}`)
+    .then(res => res)
+    .catch(res => res.response)
+
+    console.log(res)
+    
+    if(res.status != 200){
+      return false;
+    }
+
+    if(!res.data.email_verified_at){
+      console.log('sa')
+      return false;
+    }
+
+    return true;
+  }
+
   async signup(data : SignupData){
     const res = await axios.post(`${environment.apiUrl}/api/users/signup`, data)
     .then(res => res)

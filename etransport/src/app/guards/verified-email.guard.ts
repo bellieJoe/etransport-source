@@ -1,21 +1,29 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot, UrlTree } from '@angular/router';
+import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
+import { UserService } from '../services/user.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class VerifiedEmailGuard implements CanActivate {
-  canActivate(
+
+  constructor(
+    private userService : UserService,
+    private router : Router
+  ){}
+
+  async canActivate(
     route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+    state: RouterStateSnapshot){
     
     const user = JSON.parse(localStorage.getItem('user'));
-
-    if(!user.email_verified_at){
+    const verified = await this.userService.isVerified(user.user_id);
+    
+    if(!verified){
       return false;
     }
-    
+
     return true;
   }
   
