@@ -44,5 +44,5 @@ Route::prefix('users')->group(function () {
 });
 
 Route::prefix('emails')->group(function () {
-
+    Route::post('resend-verification-code/{user_id}', [UserController::class, 'resendVerificationCode'])->middleware(['throttle:email-resend']);
 });

@@ -94,5 +94,22 @@ class UserController extends Controller
         ],200);
     }
 
+    public function resendVerificationCode($user_id){
+        $faker = Factory::create();
+
+        // $user = User::where([
+        //     'user_id' => $user_id
+        // ]);
+        $user = User::find($user_id);
+
+        $user->update([
+            'verification_code' => $faker->randomNumber(6)
+        ]);
+        
+        $user->refresh();
+
+        Mail::to($user)->send(new VerificationEmail($user->verification_code));
+    }
+
  
 }

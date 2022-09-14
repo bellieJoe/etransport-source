@@ -48,5 +48,13 @@ class RouteServiceProvider extends ServiceProvider
         RateLimiter::for('api', function (Request $request) {
             return Limit::perMinute(60);
         });
+
+        RateLimiter::for('email-resend', function(){
+            return Limit::perMinute(1)->response(function(){
+                return response([
+                    'message' => 'Please wait for 1 minute to resend the verification code'
+                ], 429);
+            });
+        });
     }
 }
