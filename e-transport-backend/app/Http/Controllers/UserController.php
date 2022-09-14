@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Faker\Factory;
+use App\Models\Customer;
+use App\Models\Administrator;
 
 class UserController extends Controller
 {
@@ -24,7 +26,7 @@ class UserController extends Controller
     public function login(Request $request)
     {
         $request->validate([
-            'email' => ['email', 'required'],
+            'email' => ['required', 'email'],
             'password' => ['required', 'min:8']
         ]);
         
@@ -76,6 +78,20 @@ class UserController extends Controller
         $user->refresh();
         $user->with(['role']);
 
+        // create customer instance
+        if($request->role_id == 3){
+            Customer::create([
+                'user_id' => $user->user_id
+            ]);
+        }
+
+        // create administrator instance 
+        if($request->role_id == 2){
+            Adminiatrator::create([
+                'user_id' => $user->user_id
+            ]);
+        }
+
         // send verification email
         Mail::to($user)->send(new VerificationEmail($user->verification_code));
 
@@ -98,9 +114,6 @@ class UserController extends Controller
     public function resendVerificationCode($user_id){
         $faker = Factory::create();
 
-        // $user = User::where([
-        //     'user_id' => $user_id
-        // ]);
         $user = User::find($user_id);
 
         $user->update([

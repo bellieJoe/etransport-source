@@ -16,7 +16,7 @@ class CreateAdministratorsTable extends Migration
         Schema::create('administrators', function (Blueprint $table) {
             $table->id('administrator_id');
             $table->foreignId('user_id');
-            $table->date('verified_at');
+            $table->date('verified_at')->nullable();
             $table->timestamps();
         });
     }
