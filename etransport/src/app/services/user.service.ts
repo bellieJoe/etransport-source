@@ -61,4 +61,14 @@ export class UserService {
     .catch(err => err.response)
     return res;
   }
+
+  async verifyEmail(verification_code){
+    const data = {
+      verification_code
+    }
+    const res = await axios.post(`${environment.apiUrl}/api/users/verify-email/${this.user.user_id}`, data)
+    .then(res => res)
+    .catch(err => err.response)
+    return res;
+  }
 }

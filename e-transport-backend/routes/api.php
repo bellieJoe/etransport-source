@@ -41,6 +41,8 @@ Route::prefix('users')->group(function () {
     Route::post('signup', [UserController::class, 'signup']);
 
     Route::get('isVerified/{user_id}', [UserController::class, 'isVerified']);
+
+    Route::post('verify-email/{user_id}', [UserController::class, 'verifyEmail']);
 });
 
 Route::prefix('emails')->group(function () {

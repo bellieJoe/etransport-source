@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Mail\VerificationEmail;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
@@ -109,6 +110,24 @@ class UserController extends Controller
         $user->refresh();
 
         Mail::to($user)->send(new VerificationEmail($user->verification_code));
+    }
+
+    public function verifyEmail(Request $request, $user_id) {
+        $request->validate([
+            'verification_code' => ['required']
+        ]);
+
+        $user = User::find($user_id);
+
+        if(!($user->verification_code === $request->verification_code)){
+            return response([
+                'message' => 'Verification Code doesnt match.'
+            ], 400);
+        }
+
+        $user->update([
+            'email_verified_at' => Carbon::now()
+        ]);
     }
 
  

@@ -16,10 +16,12 @@
           <p>Enter the numeric code we sent to your email.</p>
         </ion-text>
         <ion-item>
-          <ion-label position="floating">Veirification Code</ion-label>
-          <ion-input type="password" maxlength="6" required></ion-input>
+          <ion-label position="floating">Verification Code</ion-label>
+          <ion-input type="password" maxlength="6" required [(ngModel)]="email_verification_form.verification_code"></ion-input>
         </ion-item>
-        <ion-button expand="block">
+        <ion-note color="danger" *ngIf="email_verification_form_err.verification_code">{{ email_verification_form_err.verification_code }}</ion-note>
+
+        <ion-button expand="block" (click)="email_verification_form.submit()">
           <ion-icon slot="start" md="checkmark-done-sharp" ios="checkmark-done-outline"></ion-icon>
           Verify Email
         </ion-button>
