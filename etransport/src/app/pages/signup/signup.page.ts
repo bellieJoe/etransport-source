@@ -75,10 +75,23 @@ export class SignupPage implements OnInit {
       loader.dismiss();
 
       this.router.navigate(['/profile'])
+    },
+    clear : async () => {
+      this.sign_up_form.contact_number = null;
+      this.sign_up_form.email = null;
+      this.sign_up_form.name = null;
+      this.sign_up_form.username = null;
+      this.sign_up_form.password = null;
+      this.sign_up_form.password_confirmation = null;
+      this.sign_up_form_err = {};
     }
   }
 
   ngOnInit() {
+  }
+
+  async ionViewWillEnter(){
+    this.sign_up_form.clear();
   }
 
 }

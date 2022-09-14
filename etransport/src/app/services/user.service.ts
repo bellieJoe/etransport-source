@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import axios from 'axios';
 import { environment } from 'src/environments/environment';
 
@@ -24,7 +25,9 @@ class SignupData {
 })
 export class UserService {
 
-  constructor() { }
+  constructor(
+    private router : Router
+  ) { }
 
   user = JSON.parse(localStorage.getItem('user'));
 
@@ -70,5 +73,11 @@ export class UserService {
     .then(res => res)
     .catch(err => err.response)
     return res;
+  }
+
+  logout(){
+    localStorage.clear()
+
+    this.router.navigate(['/signin'])
   }
 }

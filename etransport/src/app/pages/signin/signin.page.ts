@@ -65,11 +65,20 @@ export class SigninPage implements OnInit {
 
       this.router.navigate(['/profile'])
 
+    },
+    clear : async () => {
+      this.sign_in_form.email = null;
+      this.sign_in_form.password = null;
+      this.sign_in_form_err = {};
     }
   }
 
   async ngOnInit() {
 
+  }
+
+  ionViewWillEnter(){
+    this.sign_in_form.clear();
   }
 
 }

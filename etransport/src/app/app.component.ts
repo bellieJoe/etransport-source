@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { LoadingController } from '@ionic/angular';
 import { AuthService } from './services/auth.service';
 import { TestingService } from './services/testing.service';
+import { UserService } from './services/user.service';
 
 @Component({
   selector: 'app-root',
@@ -18,10 +20,28 @@ export class AppComponent implements OnInit{
     // { title: 'Spam', url: '/folder/Spam', icon: 'warning' },
   ]; */
   public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
+
   constructor(
-    private auth: AuthService,
-    private testing : TestingService
+    private authService: AuthService,
+    private testing : TestingService,
+    private userService : UserService,
+    private loadingController : LoadingController
   ) {}
+
+  auth = this.authService;
+
+  async logout () {
+    const loader = await this.loadingController.create({
+      message: "Logginf out",
+      spinner: 'bubbles',
+      backdropDismiss: false
+    })
+    await loader.present();
+
+    await this.userService.logout()
+
+    await loader.dismiss();
+  }
 
   async ngOnInit(){
     
