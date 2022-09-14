@@ -3,7 +3,7 @@
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
-
+use Faker\Factory;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     // return User::find(2);
-    return new App\Mail\VerificationEmail();
+    $faker = Factory::create();
+    return new App\Mail\VerificationEmail($faker->randomNumber(6));
 });
 

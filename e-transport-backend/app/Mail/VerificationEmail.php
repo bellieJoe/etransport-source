@@ -16,9 +16,10 @@ class VerificationEmail extends Mailable
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($code)
     {
         //
+        $this->code = $code;
     }
 
     /**
@@ -28,6 +29,8 @@ class VerificationEmail extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.verification-code');
+        return $this->markdown('emails.verification-code')->with([
+            'code' => $this->code
+        ]);
     }
 }
