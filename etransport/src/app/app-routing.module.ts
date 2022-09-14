@@ -49,7 +49,15 @@ const routes: Routes = [
       AuthGuard,
       VerifiedEmailGuard
     ]
+  },
+  {
+    path: 'verify-email',
+    loadChildren: () => import('./pages/verify-email/verify-email.module').then( m => m.VerifyEmailPageModule),
+    canActivate: [
+      AuthGuard
+    ]
   }
+
 ];
 
 @NgModule({

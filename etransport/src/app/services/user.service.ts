@@ -54,4 +54,11 @@ export class UserService {
     console.log(res)
     return res;
   }
+
+  async resendVerificationEmail(user_id){
+    const res = await axios.post(`${environment.apiUrl}/api/emails/resend-verification-code/${user_id}`)
+    .then(res => res)
+    .catch(err => err.response)
+    return res;
+  }
 }

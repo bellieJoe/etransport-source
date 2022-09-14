@@ -58,6 +58,7 @@ export class SigninPage implements OnInit {
         return;
       }
       
+      res.data.verification_code = null;
       localStorage.setItem('user', JSON.stringify(res.data))
 
       loader.dismiss();

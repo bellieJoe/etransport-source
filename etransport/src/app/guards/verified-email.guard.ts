@@ -21,7 +21,7 @@ export class VerifiedEmailGuard implements CanActivate {
     const verified = await this.userService.isVerified(user.user_id);
     
     if(!verified){
-      return false;
+      return this.router.createUrlTree(['/verify-email']);
     }
 
     return true;

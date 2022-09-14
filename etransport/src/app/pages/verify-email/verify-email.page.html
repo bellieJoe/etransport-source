@@ -1,0 +1,33 @@
+<!-- <ion-header>
+  <ion-toolbar>
+    <ion-title>verify-email</ion-title>
+  </ion-toolbar>
+</ion-header> -->
+
+<ion-content color="primary">
+  <div class="container">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Email Verification</ion-card-title>
+        <ion-card-subtitle mode="md">Prove that this email is yours.</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-text>
+          <p>Enter the numeric code we sent to your email.</p>
+        </ion-text>
+        <ion-item>
+          <ion-label position="floating">Veirification Code</ion-label>
+          <ion-input type="password" maxlength="6" required></ion-input>
+        </ion-item>
+        <ion-button expand="block">
+          <ion-icon slot="start" md="checkmark-done-sharp" ios="checkmark-done-outline"></ion-icon>
+          Verify Email
+        </ion-button>
+        <ion-button expand="block" fill="outline" (click)="resendVerification()">
+          <ion-icon slot="start" md="refresh-sharp" ios="refresh-outline"></ion-icon>
+          Resend Code
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>
