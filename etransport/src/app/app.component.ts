@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { LoadingController } from '@ionic/angular';
 import { AuthService } from './services/auth.service';
 import { TestingService } from './services/testing.service';
@@ -25,7 +26,8 @@ export class AppComponent implements OnInit{
     private authService: AuthService,
     private testing : TestingService,
     private userService : UserService,
-    private loadingController : LoadingController
+    private loadingController : LoadingController,
+    private router : Router
   ) {}
 
   auth = this.authService;
@@ -33,15 +35,17 @@ export class AppComponent implements OnInit{
 
   async logout () {
     const loader = await this.loadingController.create({
-      message: "Logginf out",
+      message: "Logging out",
       spinner: 'bubbles',
       backdropDismiss: false
     })
     await loader.present();
 
-    await this.userService.logout()
+    this.userService.logout()
 
     await loader.dismiss();
+
+    this.router.navigate(['/signin'])
   }
 
   async ngOnInit(){

@@ -11,13 +11,13 @@
           <ion-card-content>
             <ion-item>
               <ion-label position="floating">Email</ion-label>
-              <ion-input type="email" required [(ngModel)]="sign_in_form.email" ></ion-input>
+              <ion-input type="email" [(ngModel)]="sign_in_form.email" ></ion-input>
             </ion-item>
             <ion-note color="danger" *ngIf="sign_in_form_err.email">{{ sign_in_form_err.email }}</ion-note>
 
             <ion-item>
               <ion-label position="floating">Password</ion-label>
-              <ion-input type="password" required  [(ngModel)]="sign_in_form.password"></ion-input>
+              <ion-input type="password"  [(ngModel)]="sign_in_form.password"></ion-input>
             </ion-item>
             <ion-note color="danger"  *ngIf="sign_in_form_err.password">{{ sign_in_form_err.password }}</ion-note>
             
