@@ -66,6 +66,7 @@ export class UserService {
   }
 
   async verifyEmail(verification_code){
+    this.user = JSON.parse(localStorage.getItem('user'));
     const data = {
       verification_code
     }

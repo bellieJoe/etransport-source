@@ -20,7 +20,8 @@ export class VerifiedAdministratorGuard implements CanActivate {
       return true;
     }
 
-    return this.router.createUrlTree(['/administrator/unverified']);
+    // return this.router.createUrlTree(['/administrator/unverified']);
+    return true;
     
   }
   

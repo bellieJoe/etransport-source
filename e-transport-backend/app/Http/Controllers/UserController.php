@@ -87,7 +87,7 @@ class UserController extends Controller
 
         // create administrator instance 
         if($request->role_id == 2){
-            Adminiatrator::create([
+            Administrator::create([
                 'user_id' => $user->user_id
             ]);
         }
