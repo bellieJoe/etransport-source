@@ -6,7 +6,7 @@ import { AuthService } from 'src/app/services/auth.service';
   templateUrl: './profile.page.html',
   styleUrls: ['./profile.page.scss'],
 })
-export class ProfilePage implements OnInit {
+export class ProfilePage  {
 
   constructor(
     private authService : AuthService
@@ -15,13 +15,11 @@ export class ProfilePage implements OnInit {
   user : any = {}
   role = {}
 
-  ngOnInit() {
-  }
 
-  ionViewWillEnter(){
+
+  ionViewDidEnter(){
     this.user = this.authService.getAuth();
     this.role = this.authService.getAuth().role;
-    console.log(this.user.role.role_description)
   }
 
 }

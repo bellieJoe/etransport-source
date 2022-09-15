@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import axios from 'axios';
 import { environment } from 'src/environments/environment';
+import { AuthService } from './auth.service';
 
 axios.defaults.withCredentials = true;
 axios.defaults.headers.common['Accept'] = 'application/json';
@@ -26,24 +27,18 @@ class SignupData {
 export class UserService {
 
   constructor(
-    private router : Router
+    private router : Router,
+    private authService : AuthService
   ) { }
 
   user = JSON.parse(localStorage.getItem('user'));
 
   async isVerified(user_id){
-    const res = await axios.get(`${environment.apiUrl}/api/users/isVerified/${user_id}`)
-    .then(res => res)
-    .catch(res => res.response)
 
+    const res = this.authService.getAuth();
     console.log(res)
     
-    if(res.status != 200){
-      return false;
-    }
-
-    if(!res.data.email_verified_at){
-      console.log('sa')
+    if(!res.email_verified_at){
       return false;
     }
 

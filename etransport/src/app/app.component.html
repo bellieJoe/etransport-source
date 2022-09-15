@@ -18,6 +18,12 @@
               <ion-label>Profile</ion-label>
             </ion-item>
           </ion-menu-toggle>
+          <ion-menu-toggle  auto-hide="false" *ngIf="user.role_id === 2">
+            <ion-item routerDirection="root" routerLink="/services" lines="none" detail="false" routerLinkActive="selected">
+              <ion-icon slot="start" ios="car-outline" md="car-sharp"></ion-icon>
+              <ion-label>Services</ion-label>
+            </ion-item>
+          </ion-menu-toggle>
           <ion-menu-toggle  auto-hide="false">
             <ion-item lines="none" detail="false" (click)="logout()">
               <ion-icon slot="start" ios="log-out-outline" md="log-out-sharp"></ion-icon>

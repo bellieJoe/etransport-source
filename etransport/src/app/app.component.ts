@@ -29,6 +29,7 @@ export class AppComponent implements OnInit{
   ) {}
 
   auth = this.authService;
+  user : any = {};
 
   async logout () {
     const loader = await this.loadingController.create({
@@ -44,6 +45,9 @@ export class AppComponent implements OnInit{
   }
 
   async ngOnInit(){
-    
+    setInterval(() => {
+      this.user = this.authService.getAuth();
+    }, 1000);
   }
+
 }
