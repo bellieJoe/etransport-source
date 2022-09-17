@@ -58,4 +58,6 @@ Route::prefix('services')->group(function () {
     Route::post('', [ServiceController::class, 'store']);
 
     Route::get('get-by-user-id/{user_id}', [ServiceController::class, 'getServicesByUserID']);
+
+    Route::delete('{service_id}', [ServiceController::class, 'destroy']);
 });

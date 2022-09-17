@@ -72,7 +72,7 @@ class UserController extends Controller
             'contact_number' => $request->contact_number,
             'password' => Hash::make($request->password),
             'role_id' => $request->role_id,
-            'verification_code' => $faker->randomNumber(6)
+            'verification_code' => $faker->randomNumber(6, true)
         ]);
 
         $user->refresh();
@@ -117,7 +117,7 @@ class UserController extends Controller
         $user = User::find($user_id);
 
         $user->update([
-            'verification_code' => $faker->randomNumber(6)
+            'verification_code' => $faker->randomNumber(6, true)
         ]);
         
         $user->refresh();
@@ -141,6 +141,10 @@ class UserController extends Controller
         $user->update([
             'email_verified_at' => Carbon::now()
         ]);
+
+        $user->refresh();
+
+        return $user;
     }
 
  

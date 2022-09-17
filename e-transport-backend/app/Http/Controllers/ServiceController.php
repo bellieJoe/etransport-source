@@ -51,4 +51,8 @@ class ServiceController extends Controller
         
         return $services;
     }
+
+    public function destroy($service_id){
+        
+    }
 }
