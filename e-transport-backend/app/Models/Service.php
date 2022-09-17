@@ -12,16 +12,13 @@ class Service extends Model
     protected $primaryKey = 'service_id';
 
     protected $fillable = [
-        'service_type_id', 
-        'vehicle_type_id',
         'administrator_id',
-        'service_status',
         'driver',
+        'service_name',   
         'license_number',
         'plate_number',
-        'fare',
-        'mode_of_payment',
         'vehicle_model',
-        'capacity'
+        'capacity',
+        'mode_of_payment'
     ];
 }

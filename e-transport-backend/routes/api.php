@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\AdministratorController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -47,4 +49,11 @@ Route::prefix('users')->group(function () {
 
 Route::prefix('emails')->group(function () {
     Route::post('resend-verification-code/{user_id}', [UserController::class, 'resendVerificationCode'])->middleware(['throttle:email-resend']);
+});
+
+Route::prefix('administrators')->group(function () {
+    Route::get('get-administrator-by-user-id/{user_id}', [AdministratorController::class, 'getAdministratorByUserID']);
+});
+Route::prefix('services')->group(function () {
+    Route::post('', [ServiceController::class, 'store']);
 });
