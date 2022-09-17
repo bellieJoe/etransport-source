@@ -26,6 +26,8 @@ export class ServiceService {
 
   constructor() { }
 
+  public services : any = [];
+
   async addService(data: AddServiceData){
     const res = await axios.post(`${environment.apiUrl}/api/services`, data)
     .then(res => res)
@@ -35,6 +37,13 @@ export class ServiceService {
 
   async getServicesByUserID(user_id){
     const res = await axios.get(`${environment.apiUrl}/api/services/get-by-user-id/${user_id}`)
+    .then(res => res)
+    .catch(err => err.response);
+    return res;
+  }
+
+  async deleteByID(service_id){
+    const res = await axios.delete(`${environment.apiUrl}/api/services/${service_id}`)
     .then(res => res)
     .catch(err => err.response);
     return res;

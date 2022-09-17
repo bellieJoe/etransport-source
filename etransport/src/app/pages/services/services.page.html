@@ -23,12 +23,17 @@
 <ion-header class="ion-no-border" mode="md">
   <ion-toolbar>
     <ion-title color="primary"><h5><i class="fa-solid fa-van-shuttle"></i> {{ serviceFilter | titlecase }} Services</h5></ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="fetchServices()">
+        <ion-icon slot="icon-only" name="refresh-sharp"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content color="background">
-  <div class="container">
-    <ng-container *ngFor="let service of services">
+  <div class="">
+    <ng-container *ngFor="let service of serviceService.services">
       <ion-card  *ngIf="serviceFilter == 'all' || serviceFilter == service.service_status">      
         <ion-card-content>
           <ion-grid class="ion-no-padding">
@@ -42,13 +47,13 @@
                 <ion-button id="click-trigger-{{ service.service_id }}" shape="round" color="medium" fill="clear" size="small">
                   <ion-icon slot="icon-only"  name="ellipsis-horizontal-sharp"></ion-icon>
                 </ion-button>
-                <ion-popover trigger="click-trigger-{{  service.service_id}}" triggerAction="click" size="auto"  show-backdrop="false" >
+                <ion-popover trigger="click-trigger-{{  service.service_id}}" triggerAction="click" size="auto"  show-backdrop="false" dismissOnSelect="true">
                   <ng-template>
                   <ion-content class="ion-no-padding" class="popover-options">
                       <ion-button expand="full" color="dark" fill="clear">
                         Edit
                       </ion-button>
-                      <ion-button expand="full" color="danger" fill="clear">
+                      <ion-button expand="full" color="danger" fill="clear" (click)="deleteService(service.service_id)">
                         Delete
                       </ion-button>
                     </ion-content>
