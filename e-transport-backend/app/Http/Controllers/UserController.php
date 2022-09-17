@@ -130,7 +130,7 @@ class UserController extends Controller
             'verification_code' => ['required']
         ]);
 
-        $user = User::find($user_id);
+        $user = User::where('user_id',$user_id)->with(['role'])->first();
 
         if(!($user->verification_code === $request->verification_code)){
             return response([
