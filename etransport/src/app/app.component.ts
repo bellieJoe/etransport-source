@@ -30,7 +30,7 @@ export class AppComponent implements OnInit{
     private router : Router
   ) {}
 
-  auth = this.authService;
+  auth = {};
   user : any = {};
 
   async logout () {

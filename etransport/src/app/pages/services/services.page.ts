@@ -17,6 +17,7 @@ export class ServicesPage implements OnInit {
   ) { }
 
   services : any = [];
+  serviceFilter : string = 'all';
 
   async fetchServices(){
     const user = this.authService.getAuth();

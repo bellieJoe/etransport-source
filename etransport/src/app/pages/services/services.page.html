@@ -11,10 +11,10 @@
   <ion-card>
       <ion-item details="false" lines="none">
         <ion-label>Filter Services</ion-label>
-        <ion-select value="all" interface="popover">
+        <ion-select  interface="popover" [(ngModel)]="serviceFilter">
+          <ion-select-option value="all">All</ion-select-option>
           <ion-select-option value="open">Open</ion-select-option>
           <ion-select-option value="close">Close</ion-select-option>
-          <ion-select-option value="all">All</ion-select-option>
         </ion-select>
       </ion-item>
   </ion-card>
@@ -22,58 +22,60 @@
 
 <ion-header class="ion-no-border" mode="md">
   <ion-toolbar>
-    <ion-title color="primary"><h5><i class="fa-solid fa-van-shuttle"></i> All Services</h5></ion-title>
+    <ion-title color="primary"><h5><i class="fa-solid fa-van-shuttle"></i> {{ serviceFilter | titlecase }} Services</h5></ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content color="background">
   <div class="container">
-    <ion-card *ngFor="let service of services">      
-      <ion-card-content>
-        <ion-grid class="ion-no-padding">
-          <ion-row color="primary">
-            <ion-col class="ion-no-padding">
-              <ion-text color="primary">
-                <h4>{{ service.service_name }}</h4>
-              </ion-text>
-            </ion-col>
-            <ion-col size="auto" class="ion-align-self-end" class="ion-no-padding">
-              <ion-button id="click-trigger-{{ service.service_id }}" shape="round" color="medium" fill="clear" size="small">
-                <ion-icon slot="icon-only"  name="ellipsis-horizontal-sharp"></ion-icon>
-              </ion-button>
-              <ion-popover trigger="click-trigger-{{  service.service_id}}" triggerAction="click" size="auto"  show-backdrop="false">
-                <ng-template>
-                <ion-content class="ion-no-padding" class="popover-options">
-                    <ion-button expand="full" color="dark" fill="clear">
-                      Edit
-                    </ion-button>
-                    <ion-button expand="full" color="danger" fill="clear">
-                      Delete
-                    </ion-button>
-                  </ion-content>
-                </ng-template>
-              </ion-popover>
-            </ion-col>
-          </ion-row>
-          <ion-row>
-            <ion-col size="6" class="ion-no-padding">Driver : {{ service.driver }}</ion-col>
-            <ion-col size="6">LN# : {{ service.license_number }}</ion-col>
-          </ion-row>
-          <ion-row>
-            <ion-col size="6" class="ion-no-padding">Model : {{ service.vehicle_model }}</ion-col>
-            <ion-col size="6">PN# : {{ service.plate_number }}</ion-col>
-          </ion-row>
-          <ion-row>
-            <ion-col size="6">
-              Payment : <span *ngFor="let p of service.mode_of_payment">{{ p }}</span></ion-col>
-            <ion-col size="6">Capacity : {{ service.capacity }}</ion-col>
-          </ion-row>
-          <ion-row>
-            <ion-col size="12" ><ion-note color="{{ service.service_status == 'open' ? 'success' : 'medium' }}">{{ service.service_status | titlecase }}</ion-note></ion-col>
-          </ion-row>
-        </ion-grid>
-      </ion-card-content>
-    </ion-card>
+    <ng-container *ngFor="let service of services">
+      <ion-card  *ngIf="serviceFilter == 'all' || serviceFilter == service.service_status">      
+        <ion-card-content>
+          <ion-grid class="ion-no-padding">
+            <ion-row color="primary">
+              <ion-col class="ion-no-padding">
+                <ion-text color="primary">
+                  <h4>{{ service.service_name }}</h4>
+                </ion-text>
+              </ion-col>
+              <ion-col size="auto" class="ion-align-self-end" class="ion-no-padding">
+                <ion-button id="click-trigger-{{ service.service_id }}" shape="round" color="medium" fill="clear" size="small">
+                  <ion-icon slot="icon-only"  name="ellipsis-horizontal-sharp"></ion-icon>
+                </ion-button>
+                <ion-popover trigger="click-trigger-{{  service.service_id}}" triggerAction="click" size="auto"  show-backdrop="false" >
+                  <ng-template>
+                  <ion-content class="ion-no-padding" class="popover-options">
+                      <ion-button expand="full" color="dark" fill="clear">
+                        Edit
+                      </ion-button>
+                      <ion-button expand="full" color="danger" fill="clear">
+                        Delete
+                      </ion-button>
+                    </ion-content>
+                  </ng-template>
+                </ion-popover>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col size="6" class="ion-no-padding">Driver : {{ service.driver }}</ion-col>
+              <ion-col size="6">LN# : {{ service.license_number }}</ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col size="6" class="ion-no-padding">Model : {{ service.vehicle_model }}</ion-col>
+              <ion-col size="6">PN# : {{ service.plate_number }}</ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col size="6">
+                Payment : <span *ngFor="let p of service.mode_of_payment">{{ p }}</span></ion-col>
+              <ion-col size="6">Capacity : {{ service.capacity }}</ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col size="12" ><ion-note color="{{ service.service_status == 'open' ? 'success' : 'medium' }}">{{ service.service_status | titlecase }}</ion-note></ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-card-content>
+      </ion-card>
+    </ng-container>
   </div>
 
   <ion-fab vertical="bottom" horizontal="end" slot="fixed" >
