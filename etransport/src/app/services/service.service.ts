@@ -33,4 +33,11 @@ export class ServiceService {
     return res;
   }
 
+  async getServicesByUserID(user_id){
+    const res = await axios.get(`${environment.apiUrl}/api/services/get-by-user-id/${user_id}`)
+    .then(res => res)
+    .catch(err => err.response);
+    return res;
+  }
+
 }

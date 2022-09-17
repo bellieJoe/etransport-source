@@ -21,4 +21,5 @@ class Service extends Model
         'capacity',
         'mode_of_payment'
     ];
+
 }
