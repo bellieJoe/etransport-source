@@ -20,7 +20,9 @@ class Service extends Model
         'plate_number',
         'vehicle_model',
         'capacity',
-        'mode_of_payment'
+        'mode_of_payment',
+        'fare',
+        'load_type'
     ];
 
 }

@@ -26,7 +26,9 @@ class ServiceFactory extends Factory
             'plate_number' => $this->faker->ean8(),
             'vehicle_model' => $this->faker->company(),
             'capacity' => $this->faker->randomNumber(1, true)." person",
-            'mode_of_payment' => json_encode([$this->faker->randomElement(['cash', 'gcash'])])
+            'mode_of_payment' => json_encode($this->faker->randomElements(['Cash', 'GCash', 'Paymaya'])),
+            'fare' => $this->faker->randomNumber(4, true),
+            'load_type' => $this->faker->randomElement(['passenger', 'luggage', 'both']),
         ];
     }
 }

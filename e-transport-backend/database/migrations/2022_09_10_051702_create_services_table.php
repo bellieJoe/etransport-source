@@ -24,6 +24,8 @@ class CreateServicesTable extends Migration
             $table->string('vehicle_model', 5000);
             $table->string('capacity', 5000);
             $table->json('mode_of_payment');
+            $table->enum('load_type', ['passenger', 'luggage', 'both']);
+            $table->float('fare');
             $table->softDeletes();
             $table->timestamps();
         });

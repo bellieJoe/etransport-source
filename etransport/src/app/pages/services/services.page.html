@@ -32,6 +32,7 @@
 </ion-header>
 
 <ion-content color="background">
+  <ion-progress-bar *ngIf="progress_bar.loading" type="indeterminate" color="primary"></ion-progress-bar>
   <div class="">
     <ng-container *ngFor="let service of serviceService.services">
       <ion-card  *ngIf="serviceFilter == 'all' || serviceFilter == service.service_status">      
@@ -50,7 +51,7 @@
                 <ion-popover trigger="click-trigger-{{  service.service_id}}" triggerAction="click" size="auto"  show-backdrop="false" dismissOnSelect="true">
                   <ng-template>
                   <ion-content class="ion-no-padding" class="popover-options">
-                      <ion-button expand="full" color="dark" fill="clear">
+                      <ion-button expand="full" color="dark" fill="clear" routerLink="/services/edit/{{ service.service_id }}" >
                         Edit
                       </ion-button>
                       <ion-button expand="full" color="danger" fill="clear" (click)="deleteService(service.service_id)">

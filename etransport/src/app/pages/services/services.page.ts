@@ -21,13 +21,12 @@ export class ServicesPage implements OnInit {
 
   services : any = [];
   serviceFilter : string = 'all';
-  
+  progress_bar : any = {
+    loading : false
+  }
+
   async fetchServices(){
-    const loader = await this.loadingController.create({
-      message: "Fetching services",
-      spinner: 'bubbles'
-    })
-    await loader.present();
+    this.progress_bar.loading = true;
 
     const user = this.authService.getAuth();
     const res = await this.serviceService.getServicesByUserID(user.user_id)
@@ -38,13 +37,13 @@ export class ServicesPage implements OnInit {
         message: `${res.status} | ${res.data.message}`,
         buttons: ['OK']
       })
-      await loader.dismiss();
+      this.progress_bar.loading = false;
       await alert.present();
       return;
     }
 
     this.serviceService.services = res.data;
-    await loader.dismiss();
+    this.progress_bar.loading = false;
   }
 
   async deleteService(id){
@@ -95,6 +94,9 @@ export class ServicesPage implements OnInit {
   }
 
   async ngOnInit() {
+    // await this.fetchServices()
+  }
+  async ionViewWillEnter() {
     await this.fetchServices()
   }
 }
