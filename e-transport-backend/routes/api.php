@@ -62,5 +62,7 @@ Route::prefix('services')->group(function () {
 
     Route::put('{service_id}', [ServiceController::class, 'update']);
 
+    Route::patch('set-status/{service_id}', [ServiceController::class, 'setStatus']);
+
     Route::delete('{service_id}', [ServiceController::class, 'destroy']);
 });

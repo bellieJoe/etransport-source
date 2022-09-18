@@ -45,6 +45,12 @@ export class ServiceService {
     return res;
   }
 
+  async setStatus(service_id, service_status){
+    const res = await axios.patch(`${environment.apiUrl}/api/services/set-status/${service_id}`, {service_status})
+    .then(res => res)
+    .catch(err => err.response);
+    return res;
+  }
 }
 
 class AddServiceData {

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Service;
 use App\Models\Administrator;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class ServiceController extends Controller
 {
@@ -85,5 +86,21 @@ class ServiceController extends Controller
             'load_type' => $request->load_type,
             'fare' => $request->fare
         ]);
+    }
+
+    public function setStatus(Request $request, $service_id){
+        $request->validate([
+            'service_status' => ['required']
+        ]);
+
+        $service = Service::find($service_id);
+
+        $service->update([
+            'service_status' => $request->service_status
+        ]);
+
+        $service->refresh();
+
+        return $service;
     }
 }

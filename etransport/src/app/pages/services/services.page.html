@@ -35,9 +35,9 @@
   <ion-progress-bar *ngIf="progress_bar.loading" type="indeterminate" color="primary"></ion-progress-bar>
   <div class="">
     <ng-container *ngFor="let service of serviceService.services">
-      <ion-card  *ngIf="serviceFilter == 'all' || serviceFilter == service.service_status">      
+      <ion-card  *ngIf="serviceFilter == 'all' || serviceFilter == service.service_status" id="service_{{ service.service_id }}">      
         <ion-card-content>
-          <ion-grid class="ion-no-padding">
+          <ion-grid class="ion-no-padding ">
             <ion-row color="primary">
               <ion-col class="ion-no-padding">
                 <ion-text color="primary">
@@ -63,20 +63,28 @@
               </ion-col>
             </ion-row>
             <ion-row>
-              <ion-col size="6" class="ion-no-padding">Driver : {{ service.driver }}</ion-col>
-              <ion-col size="6">LN# : {{ service.license_number }}</ion-col>
+              <ion-col size="6" ><ion-text color="dark">Driver :</ion-text>  {{ service.driver }}</ion-col>
+              <ion-col size="6" class="ion-padding-start"><ion-text color="dark">LN# :</ion-text> {{ service.license_number }}</ion-col>
             </ion-row>
             <ion-row>
-              <ion-col size="6" class="ion-no-padding">Model : {{ service.vehicle_model }}</ion-col>
-              <ion-col size="6">PN# : {{ service.plate_number }}</ion-col>
+              <ion-col size="6" ><ion-text color="dark">Model :</ion-text> {{ service.vehicle_model }}</ion-col>
+              <ion-col size="6" class="ion-padding-start"><ion-text color="dark">PN# :</ion-text> {{ service.plate_number }}</ion-col>
             </ion-row>
             <ion-row>
-              <ion-col size="6">
-                Payment : <span *ngFor="let p of service.mode_of_payment">{{ p }}</span></ion-col>
-              <ion-col size="6">Capacity : {{ service.capacity }}</ion-col>
+              <ion-col size="6"><ion-text color="dark">Payments :</ion-text> <span *ngFor="let p of service.mode_of_payment">{{ p }}</span></ion-col>
+              <ion-col size="6" class="ion-padding-start"><ion-text color="dark">Fare :</ion-text> {{ service.fare | currency : 'PHP' }}</ion-col>
             </ion-row>
             <ion-row>
-              <ion-col size="12" ><ion-note color="{{ service.service_status == 'open' ? 'success' : 'medium' }}">{{ service.service_status | titlecase }}</ion-note></ion-col>
+              <ion-col size="6"><ion-text color="dark">Load Type :</ion-text> <span >{{ service.load_type == 'both' ? 'Passenger & Luggage' : (service.load_type | titlecase) }}</span></ion-col>
+              <ion-col size="6" class="ion-padding-start"><ion-text color="dark">Capacity :</ion-text> {{ service.capacity }}</ion-col>
+            </ion-row>
+            <ion-row >
+              <ion-col >
+                <ion-item class="ion-no-padding" lines="none">
+                  <ion-label>{{ service.service_status | titlecase }}</ion-label>
+                  <ion-toggle (ionChange)="setStatus(service.service_id, (service.service_status == 'open' ? 'close' : 'open'))" slot="start" color="success" checked="{{ service.service_status == 'open' ? true : false }}"></ion-toggle>
+                </ion-item>
+              </ion-col>
             </ion-row>
           </ion-grid>
         </ion-card-content>

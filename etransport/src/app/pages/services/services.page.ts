@@ -23,7 +23,7 @@ export class ServicesPage implements OnInit {
   serviceFilter : string = 'all';
   progress_bar : any = {
     loading : false
-  }
+  };
 
   async fetchServices(){
     this.progress_bar.loading = true;
@@ -93,9 +93,47 @@ export class ServicesPage implements OnInit {
     await alert.present();
   }
 
+  async setStatus(service_id, service_status){
+    console.log(arguments)
+    const loader = await this.loadingController.create({
+      message: 'Updating status',
+      spinner: 'bubbles'
+    });
+
+    const toast = await this.toastController.create({
+      message: 'Service status was updated',
+      icon: 'checkmark-circle-sharp',
+      duration: 5000
+    })
+
+    await loader.present();
+
+    const res = await this.serviceService.setStatus(service_id, service_status);
+
+    if(res.status != 200){
+      const alert = await this.alertController.create({
+        message: `${res.status} | ${res.data.message}`,
+        buttons: ['Ok']
+      })
+      await loader.dismiss();
+      await alert.present();
+      return;
+    }
+    this.serviceService.services = this.serviceService.services.map(service => {
+      if(service.service_id == service_id){
+        service.service_status = res.data.service_status
+      }
+      return service;
+    });
+
+    await loader.dismiss();
+    await toast.present();
+  }
+
   async ngOnInit() {
     // await this.fetchServices()
   }
+
   async ionViewWillEnter() {
     await this.fetchServices()
   }

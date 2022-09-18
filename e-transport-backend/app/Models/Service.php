@@ -22,7 +22,8 @@ class Service extends Model
         'capacity',
         'mode_of_payment',
         'fare',
-        'load_type'
+        'load_type',
+        'service_status'
     ];
 
 }
