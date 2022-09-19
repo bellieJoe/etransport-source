@@ -24,6 +24,18 @@
               <ion-label>Services</ion-label>
             </ion-item>
           </ion-menu-toggle>
+          <ion-menu-toggle  auto-hide="false" *ngIf="user.role_id === 3">
+            <ion-item routerDirection="root" routerLink="/listings" lines="none" detail="false" routerLinkActive="selected">
+              <ion-icon slot="start" ios="list-outline" md="list-sharp"></ion-icon>
+              <ion-label>D2D Listings</ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+          <ion-menu-toggle  auto-hide="false" *ngIf="user.role_id === 3">
+            <ion-item routerDirection="root" routerLink="/listings" lines="none" detail="false" routerLinkActive="selected">
+              <ion-icon slot="start" ios="book-outline" md="book-sharp"></ion-icon>
+              <ion-label>D2D Bookings</ion-label>
+            </ion-item>
+          </ion-menu-toggle>
           <ion-menu-toggle  auto-hide="false">
             <ion-item lines="none" detail="false" (click)="logout()">
               <ion-icon slot="start" ios="log-out-outline" md="log-out-sharp"></ion-icon>
