@@ -15,7 +15,9 @@ export class ServiceService {
 
   constructor() { }
 
+  // states
   public services : any = [];
+  public listings : any = [];
 
   async addService(data: AddServiceData){
     const res = await axios.post(`${environment.apiUrl}/api/services`, data)
@@ -47,6 +49,13 @@ export class ServiceService {
 
   async setStatus(service_id, service_status){
     const res = await axios.patch(`${environment.apiUrl}/api/services/set-status/${service_id}`, {service_status})
+    .then(res => res)
+    .catch(err => err.response);
+    return res;
+  }
+
+  async getListings(){
+    const res = await axios.get(`${environment.apiUrl}/api/services/listings`)
     .then(res => res)
     .catch(err => err.response);
     return res;

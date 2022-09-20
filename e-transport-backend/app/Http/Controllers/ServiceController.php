@@ -103,4 +103,11 @@ class ServiceController extends Controller
 
         return $service;
     }
+
+    public function getListings(){
+        return Service::where([
+            'service_status' => 'open'
+        ])
+        ->get();
+    }
 }

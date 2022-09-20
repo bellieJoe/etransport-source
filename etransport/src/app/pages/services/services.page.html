@@ -8,7 +8,8 @@
 </ion-header>
 
 <ion-header class="ion-no-border">
-  <ion-card>
+  <ion-toolbar>
+    <ion-card>
       <ion-item details="false" lines="none">
         <ion-label>Filter Services</ion-label>
         <ion-select  interface="popover" [(ngModel)]="serviceFilter">
@@ -17,7 +18,8 @@
           <ion-select-option value="close">Close</ion-select-option>
         </ion-select>
       </ion-item>
-  </ion-card>
+    </ion-card>
+  </ion-toolbar>
 </ion-header>
 
 <ion-header class="ion-no-border" mode="md">

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ServiceService } from 'src/app/services/service.service';
 
 @Component({
   selector: 'app-listings',
@@ -7,9 +8,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ListingsPage implements OnInit {
 
-  constructor() { }
+  constructor(
+    public serviceService : ServiceService
+  ) { }
 
-  ngOnInit() {
+
+  async fetchListings(){
+    const res = await this.serviceService.getListings();
+    this.serviceService.listings = res.data;
+  }
+
+  async ngOnInit() {
+    await this.fetchListings();
   }
 
 }
