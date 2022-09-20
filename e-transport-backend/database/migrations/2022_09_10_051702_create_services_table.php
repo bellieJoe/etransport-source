@@ -22,10 +22,16 @@ class CreateServicesTable extends Migration
             $table->string('license_number', 500);
             $table->string('plate_number', 500);
             $table->string('vehicle_model', 5000);
-            $table->string('capacity', 5000);
+            $table->integer('capacity');
             $table->json('mode_of_payment');
-            $table->enum('load_type', ['passenger', 'luggage', 'both']);
-            $table->float('fare');
+            $table->enum('service_type', ['passenger', 'luggage', 'both']);
+
+            // new
+            $table->text('terms_and_conditions', 20000)->nullable();
+            $table->dateTime('marinduque_departure_datetime')->nullable();
+            $table->dateTime('manila_departure_datetime')->nullable();
+
+            $table->float('fare')->default(1500);
             $table->softDeletes();
             $table->timestamps();
         });
