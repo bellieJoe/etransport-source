@@ -7,7 +7,9 @@
   </ion-toolbar>
 </ion-header>
 
+
 <ion-content color="background">
+  <ion-progress-bar type="indeterminate"  color="primary" *ngIf="loading"></ion-progress-bar>
   <ng-container *ngFor="let service of serviceService.listings">
     <ion-card>
       <ion-card-header>
