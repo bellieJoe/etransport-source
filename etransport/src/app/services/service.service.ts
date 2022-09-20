@@ -70,9 +70,8 @@ class AddServiceData {
   plate_number : string
   vehicle_model : string
   capacity : string
-  mode_of_payment : string
-  fare : number
-  load_type : string
+  mode_of_payment : any
+  service_type : string
 }
 
 class EditServiceData {

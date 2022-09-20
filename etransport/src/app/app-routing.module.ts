@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { AdminHasServiceGuard } from './guards/admin-has-service.guard';
 import { AuthGuard } from './guards/auth.guard';
 import { GuestGuard } from './guards/guest.guard';
 import { VerifiedAdministratorGuard } from './guards/verified-administrator.guard';
@@ -39,7 +40,8 @@ const routes: Routes = [
     canActivate: [
       AuthGuard,
       VerifiedEmailGuard,
-      VerifiedAdministratorGuard
+      VerifiedAdministratorGuard,
+      AdminHasServiceGuard
     ]
   },
   {
@@ -60,6 +62,17 @@ const routes: Routes = [
   {
     path: 'listings',
     loadChildren: () => import('./pages/listings/listings.module').then( m => m.ListingsPageModule)
+  },
+  {
+    path: 'service',
+    loadChildren: () => import('./pages/service/service.module').then( m => m.ServicePageModule),
+    canActivate: [
+      AdminHasServiceGuard
+    ]
+  },
+  {
+    path: 'setup-service',
+    loadChildren: () => import('./pages/setup-service/setup-service.module').then( m => m.SetupServicePageModule)
   }
 
 

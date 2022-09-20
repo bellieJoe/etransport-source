@@ -68,3 +68,7 @@ Route::prefix('services')->group(function () {
 
     Route::get('listings', [ServiceController::class, 'getListings']);
 });
+
+Route::prefix('administrators')->group(function(){
+    Route::get('get-service-by-user-id/{user_id}', [AdministratorController::class, 'getServiceByUserId']);
+});

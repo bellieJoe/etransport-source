@@ -14,4 +14,8 @@ class Administrator extends Model
     protected $fillable = [
         'user_id', 'verified_at'
     ];
+
+    public function service(){
+        return $this->hasOne(Service::class, 'administrator_id', 'administrator_id');
+    }
 }

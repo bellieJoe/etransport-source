@@ -16,11 +16,10 @@ class ServiceController extends Controller
             'service_name' => ['required', 'max:1000'],
             'license_number' => ['required', 'max:500'],
             'plate_number' => ['required', 'max:500'],
-            'vehicle_model' => ['required', 'max:5000'],
+            'vehicle_model' => ['required'],
             'capacity' => ['required', 'max:5000'],
-            'mode_of_payment' => ['required', 'max:255'],
-            'load_type' => ['required'],
-            'fare' => ['required']
+            'mode_of_payment' => ['required'],
+            'service_type' => ['required']
         ]);
 
         $administrator = Administrator::where([
@@ -36,8 +35,7 @@ class ServiceController extends Controller
             'vehicle_model' => $request->vehicle_model,
             'capacity' => $request->capacity,
             'mode_of_payment' => json_encode($request->mode_of_payment),
-            'load_type' => $request->load_type,
-            'fare' => $request->fare
+            'service_type' => $request->service_type
         ]);
     }
 

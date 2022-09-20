@@ -13,4 +13,8 @@ class Service extends Model
     protected $primaryKey = 'service_id';
 
     protected $guarded = [];
+
+    public function administrator(){
+        return $this->belongsTo(Administrator::class, 'administrator_id', 'administrator_id');
+    }
 }
