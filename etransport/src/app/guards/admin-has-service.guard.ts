@@ -21,6 +21,10 @@ export class AdminHasServiceGuard implements CanActivate {
     const user = this.authService.getAuth();
     const res = await this.administratorService.getServiceByUserId(user.user_id)
 
+    if(this.administratorService.hasService){
+      return true;
+    }
+
     if(user.role_id != 2){
       return true;
     }
@@ -32,7 +36,7 @@ export class AdminHasServiceGuard implements CanActivate {
     if(!res.data){
       return this.router.createUrlTree(['setup-service']);
     }
-    
+    this.administratorService.hasService = true;
     return true;
   }
   

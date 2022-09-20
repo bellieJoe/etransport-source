@@ -15,6 +15,8 @@ export class AdministratorService {
 
   constructor() { }
 
+  hasService : boolean = false;
+
   async getServiceByUserId(user_id){
     const res = await axios.get(`${environment.apiUrl}/api/administrators/get-service-by-user-id/${user_id}`)
     .then(res => res)

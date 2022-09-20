@@ -16,6 +16,7 @@ export class ServiceService {
   constructor() { }
 
   // states
+  public service : any = {};
   public services : any = [];
   public listings : any = [];
 
@@ -26,8 +27,8 @@ export class ServiceService {
     return res;
   }
 
-  async getServicesByUserID(user_id){
-    const res = await axios.get(`${environment.apiUrl}/api/services/get-by-user-id/${user_id}`)
+  async getServiceByUserID(user_id){
+    const res = await axios.get(`${environment.apiUrl}/api/services/get-service-by-user-id/${user_id}`)
     .then(res => res)
     .catch(err => err.response);
     return res;

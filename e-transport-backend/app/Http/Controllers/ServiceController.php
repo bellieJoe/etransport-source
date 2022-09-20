@@ -39,19 +39,16 @@ class ServiceController extends Controller
         ]);
     }
 
-    public function getServicesByUserID($user_id){
+    public function getServiceByUserID($user_id){
         $administrator = Administrator::where(['user_id' => $user_id])->first();
 
-        $services = [];
-
-        foreach (Service::where([
+        $service = Service::where([
             'administrator_id' => $administrator->administrator_id
-        ])->get() as $service) {
-            $service->mode_of_payment = json_decode($service->mode_of_payment);
-            array_push($services, $service);
-        }
-        
-        return $services;
+        ])->first();
+
+        $service->mode_of_payment = json_decode($service->mode_of_payment);
+
+        return $service;
     }
 
     public function destroy($service_id){
