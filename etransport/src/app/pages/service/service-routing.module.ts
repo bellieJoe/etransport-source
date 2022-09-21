@@ -7,6 +7,10 @@ const routes: Routes = [
   {
     path: '',
     component: ServicePage
+  },
+  {
+    path: 'edit-status',
+    loadChildren: () => import('./edit-status/edit-status.module').then( m => m.EditStatusPageModule)
   }
 ];
 

@@ -1,0 +1,44 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content color="background">
+  <ion-card>
+    <ion-card-header color="primary">
+      <ion-card-title>Edit Service Status</ion-card-title>
+      <ion-card-subtitle>Changes from this form will reflect the your service listings.</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item>
+        <ion-label position="floating">Status <ion-note color="danger">*</ion-note></ion-label>
+        <ion-select [(ngModel)]="set_status_form.service_status">
+          <ion-select-option value="open">Open</ion-select-option>
+          <ion-select-option value="close">Close</ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-note color="danger" *ngIf="set_status_form.errors.service_status">{{ set_status_form.errors.service_status }}</ion-note>
+
+      <ion-item>
+        <ion-label position="stacked">Marinduque Departure Datetime <ion-note color="danger">*</ion-note></ion-label>
+        <ion-input type="datetime-local" [(ngModel)]="set_status_form.marinduque_departure_datetime"></ion-input>
+      </ion-item>
+      <ion-note color="danger" *ngIf="set_status_form.errors.marinduque_departure_datetime">{{ set_status_form.errors.marinduque_departure_datetime }}</ion-note>
+
+      <ion-item>
+        <ion-label position="stacked">Manila Departure Datetime <ion-note color="danger">*</ion-note></ion-label>
+        <ion-input type="datetime-local" [(ngModel)]="set_status_form.manila_departure_datetime"></ion-input>
+      </ion-item>
+      <ion-note color="danger" *ngIf="set_status_form.errors.manila_departure_datetime">{{ set_status_form.errors.manila_departure_datetime }}</ion-note>
+
+      <div>
+        <ion-button color="primary" (click)="set_status_form.submit()">
+          Save
+        </ion-button>
+      </div>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

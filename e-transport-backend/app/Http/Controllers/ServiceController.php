@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Service;
 use App\Models\Administrator;
+use App\Rules\DepartureDate;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
@@ -85,13 +86,19 @@ class ServiceController extends Controller
 
     public function setStatus(Request $request, $service_id){
         $request->validate([
-            'service_status' => ['required']
+            'service_status' => ['required', 'in:open,close'],
+            // 'marinduque_departure_datetime' => [new DepartureDate(), 'nullable', 'after:tomorrow'],
+            // 'manila_departure_datetime' => [new DepartureDate(), 'nullable', 'after:tomorrow']
+            // 'marinduque_departure_datetime' => ['required_if:service_status,open', 'required_unless:manila_departure_datetime,null', 'after:tomorrow'],
+            // 'manila_departure_datetime' => ['required_if:service_status,open', 'required_unless:marinduque_departure_datetime,null', 'after:tomorrow']
         ]);
 
         $service = Service::find($service_id);
 
         $service->update([
-            'service_status' => $request->service_status
+            'service_status' => $request->service_status,
+            'marinduque_departure_datetime' => $request->marinduque_departure_datetime,
+            'manila_departure_datetime' => $request->manila_departure_datetime
         ]);
 
         $service->refresh();

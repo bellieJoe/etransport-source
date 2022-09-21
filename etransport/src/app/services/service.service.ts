@@ -48,8 +48,8 @@ export class ServiceService {
     return res;
   }
 
-  async setStatus(service_id, service_status){
-    const res = await axios.patch(`${environment.apiUrl}/api/services/set-status/${service_id}`, {service_status})
+  async setStatus(service_id, data : SetStatusData){
+    const res = await axios.patch(`${environment.apiUrl}/api/services/set-status/${service_id}`, data)
     .then(res => res)
     .catch(err => err.response);
     return res;
@@ -86,4 +86,10 @@ class EditServiceData {
   mode_of_payment : string
   fare : number
   load_type : string
+}
+
+class SetStatusData {
+  service_status: string
+  marinduque_departure_datetime : string
+  manila_departure_datetime : string
 }

@@ -58,6 +58,7 @@ Route::prefix('administrators')->group(function () {
 Route::prefix('services')->group(function () {
     Route::post('', [ServiceController::class, 'store']);
 
+
     Route::get('get-service-by-user-id/{user_id}', [ServiceController::class, 'getServiceByUserID']);
 
     Route::put('{service_id}', [ServiceController::class, 'update']);
