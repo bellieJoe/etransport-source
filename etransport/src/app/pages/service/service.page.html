@@ -10,9 +10,15 @@
 <ion-content color="background">
   <ion-progress-bar type="indeterminate" color="tertiary" *ngIf="loading"></ion-progress-bar>
 
+  <ion-item detail="false" lines="none">
+    <ion-text color="primary" >
+      <h2>{{ serviceService.service.service_name }}</h2>
+    </ion-text>
+  </ion-item>
+  
   <ion-list>
-    <ion-list-header mode="ios">
-      <ion-label color="primary">{{ serviceService.service.service_name }}</ion-label>
+    <ion-list-header >
+      <ion-label >Basic Information</ion-label>
     </ion-list-header>
 
     <ion-item detail="false" >
@@ -49,14 +55,48 @@
       <ion-label >Manila Departure Date & Time </ion-label>
       <ion-label color="medium" slot="end">{{serviceService.service.service_type == 'both' ? 'Passenger & Luggage' : (serviceService.service.service_type | titlecase)}}</ion-label>
     </ion-item>
+  </ion-list>
 
-    <!-- <ion-item detail="false" lines="full" *ngIf="serviceService.service.terms_and_conditions">
-      <ion-label >Terms & Conditions </ion-label>
-      <ion-label color="medium" slot="end">{{serviceService.service.service_type == 'both' ? 'Passenger & Luggage' : (serviceService.service.service_type | titlecase)}}</ion-label>
-    </ion-item> -->
-    <ion-item detail="false" lines="full" button>
-      <ion-label >Marinduque Departure Date & Time</ion-label>
-      <ion-label color="medium" slot="end">{{serviceService.service.service_type == 'both' ? 'Passenger & Luggage' : (serviceService.service.service_type | titlecase)}}</ion-label>
+  <ion-list>
+    <ion-list-header>
+      <ion-label>Status</ion-label>
+      <ion-button>Edit Status</ion-button>
+    </ion-list-header>
+
+    <ion-item detail="true">
+      <ion-label>
+        <ion-text>
+          <h2>Marinduque Departure Datetime</h2>
+        </ion-text>
+        <ion-text color="medium">
+          <h2>Marinduque Departure Datetime</h2>
+        </ion-text>
+      </ion-label>
+    </ion-item>
+
+    <ion-item detail="true" >
+      <ion-label>
+        <ion-text>
+          <h2>Manila Departure Datetime</h2>
+        </ion-text>
+        <ion-text color="medium">
+          <h2>Manila Departure Datetime</h2>
+        </ion-text>
+      </ion-label>
+    </ion-item>
+
+    
+    <ion-item>
+      <ion-label>Status </ion-label>
+      <ion-label slot="end" color="medium">{{ serviceService.service.service_status | titlecase }}</ion-label>
+      <ion-icon name="help-circle-sharp" id="status_info" slot="end" color="tertiary" ></ion-icon>
+      <ion-popover trigger="status_info" >
+        <ng-template>
+            <ion-text class="ion-padding">
+              <h4>Status indicate that your service is accepting reservations or not.</h4>
+            </ion-text>
+        </ng-template>
+      </ion-popover>
     </ion-item>
 
   </ion-list>
