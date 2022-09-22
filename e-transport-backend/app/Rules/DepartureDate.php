@@ -4,8 +4,9 @@ namespace App\Rules;
 
 use Illuminate\Contracts\Validation\DataAwareRule;
 use Illuminate\Contracts\Validation\Rule;
+use Illuminate\Contracts\Validation\ValidatorAwareRule;
 
-class DepartureDate implements Rule, DataAwareRule
+class DepartureDate implements Rule, DataAwareRule, ValidatorAwareRule 
 {
     protected $data = [];
     /**
@@ -61,6 +62,19 @@ class DepartureDate implements Rule, DataAwareRule
     public function setData($data)
     {
         $this->data = $data;
+ 
+        return $this;
+    }
+
+    /**
+     * Set the current validator.
+     *
+     * @param  \Illuminate\Validation\Validator  $validator
+     * @return $this
+     */
+    public function setValidator($validator)
+    {
+        $this->validator = $validator;
  
         return $this;
     }

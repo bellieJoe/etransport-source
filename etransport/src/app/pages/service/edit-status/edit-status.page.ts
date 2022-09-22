@@ -54,6 +54,13 @@ export class EditStatusPage implements OnInit {
         return;
       }
 
+      const toast = await this.toastController.create({
+        message: 'Service status was updated',
+        icon: 'checkmark',
+        duration: 3000
+      });
+  
+      await toast.present();
       this.serviceService.service = res.data;
       await loader.dismiss();
       this.router.navigate(['/service']);

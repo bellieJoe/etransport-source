@@ -87,10 +87,8 @@ class ServiceController extends Controller
     public function setStatus(Request $request, $service_id){
         $request->validate([
             'service_status' => ['required', 'in:open,close'],
-            // 'marinduque_departure_datetime' => [new DepartureDate(), 'nullable', 'after:tomorrow'],
-            // 'manila_departure_datetime' => [new DepartureDate(), 'nullable', 'after:tomorrow']
-            // 'marinduque_departure_datetime' => ['required_if:service_status,open', 'required_unless:manila_departure_datetime,null', 'after:tomorrow'],
-            // 'manila_departure_datetime' => ['required_if:service_status,open', 'required_unless:marinduque_departure_datetime,null', 'after:tomorrow']
+            'marinduque_departure_datetime' => [new DepartureDate(), ($request->marinduque_departure_datetime ? 'after:tomorrow' : null)],
+            'manila_departure_datetime' => [new DepartureDate(), ($request->manila_departure_datetime ? 'after:tomorrow' : null)]
         ]);
 
         $service = Service::find($service_id);
@@ -102,6 +100,8 @@ class ServiceController extends Controller
         ]);
 
         $service->refresh();
+
+        $service->mode_of_payment = json_decode($service->mode_of_payment);
 
         return $service;
     }

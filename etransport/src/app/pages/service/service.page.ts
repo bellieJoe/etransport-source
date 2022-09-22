@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AlertController } from '@ionic/angular';
+import { AlertController, ToastController } from '@ionic/angular';
 import { AuthService } from 'src/app/services/auth.service';
 import { ServiceService } from 'src/app/services/service.service';
 
@@ -13,7 +13,8 @@ export class ServicePage implements OnInit {
   constructor(
     public serviceService : ServiceService,
     private authService : AuthService,
-    private alertController : AlertController
+    private alertController : AlertController,
+    private toastController : ToastController
   ) { }
 
   loading : boolean  = false;
@@ -30,7 +31,7 @@ export class ServicePage implements OnInit {
       this.loading = false;
       return;
     }
-    console.log(res);
+    
     this.serviceService.service = res.data;
     this.loading = false;
   }
