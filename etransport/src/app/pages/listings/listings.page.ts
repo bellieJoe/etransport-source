@@ -37,6 +37,9 @@ export class ListingsPage implements OnInit {
 
   async ngOnInit() {
     await this.fetchListings();
+    console.log('====================================');
+    console.log(this.serviceService.listings);
+    console.log('====================================');
   }
 
 }
