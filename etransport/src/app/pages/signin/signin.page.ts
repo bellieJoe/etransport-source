@@ -45,10 +45,10 @@ export class SigninPage implements OnInit {
         return;
       }
 
-      if(res.status >= 400){
+      if(res.status != 200){
         const alert = await this.alert.create({
           header: 'Sign In failed',
-          message: `${res.status} | ${res.data.message}`,
+          message: `${res.status} | ${res.data.message ? res.data.message : 'Unknown error'}`,
           buttons: ['Ok']
         })
         await loader.dismiss();

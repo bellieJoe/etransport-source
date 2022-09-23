@@ -33,7 +33,6 @@ export class AuthService {
     .then(res => res)
     .catch(err => err.response)
 
-    console.log(res)
     return res;
   }
 

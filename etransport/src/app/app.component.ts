@@ -49,6 +49,7 @@ export class AppComponent implements OnInit{
   }
 
   async ngOnInit(){
+    
     setInterval(() => {
       this.user = this.authService.getAuth();
     }, 1000);
