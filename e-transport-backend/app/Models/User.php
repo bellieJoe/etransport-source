@@ -33,4 +33,8 @@ class User extends Authenticatable
         return $this->hasOne(Role::class, 'role_id', 'role_id');
     }
 
+    public function administrator(){
+        return $this->hasOne(Administrator::class, 'user_id', 'user_id');
+    }
+
 }

@@ -18,4 +18,8 @@ class Administrator extends Model
     public function service(){
         return $this->hasOne(Service::class, 'administrator_id', 'administrator_id');
     }
+
+    public function user(){
+        return $this->belongsTo(User::class, 'user_id', 'user_id');
+    }
 }

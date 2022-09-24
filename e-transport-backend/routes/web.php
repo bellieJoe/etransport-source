@@ -1,6 +1,8 @@
 <?php
 
 use App\Models\User;
+use App\Models\Administrator;
+use App\Models\Service;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 use Faker\Factory;
@@ -16,9 +18,9 @@ use Faker\Factory;
 */
 
 Route::get('/', function () {
-    // return User::find(2);
-    // $faker = Factory::create();
-    // return new App\Mail\VerificationEmail($faker->randomNumber(6));
-    return User::find(2);
+
+    return User::factory()
+    ->has(Administrator::factory()->has(Service::factory()))
+    ->create();
 });
 
