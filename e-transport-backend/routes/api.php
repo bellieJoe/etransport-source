@@ -4,6 +4,8 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\AdministratorController;
+use App\Http\Controllers\LuggagePricingController;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -19,24 +21,19 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::get('token', function(){
-    return "ok";
-})->middleware('auth:sanctum');
 
-Route::post('token', function(Request $request){
-    $request->validate([
-        'name' => 'required'
-    ]);
-    
-    return "ok";
-});
-
+/* 
+Roles
+*/
 Route::prefix('roles')->group(function () {
     Route::resource('', RoleController::class)->only(['index']);
 
     Route::get('clients', [RoleController::class, 'getClientRoles']);
 });
 
+/* 
+Users
+*/
 Route::prefix('users')->group(function () {
     Route::post('login', [UserController::class, 'login']);
 
@@ -47,14 +44,25 @@ Route::prefix('users')->group(function () {
     Route::post('verify-email/{user_id}', [UserController::class, 'verifyEmail']);
 });
 
+/* 
+Emails
+*/
 Route::prefix('emails')->group(function () {
     Route::post('resend-verification-code/{user_id}', [UserController::class, 'resendVerificationCode'])->middleware(['throttle:email-resend']);
 });
 
+/* 
+Administrators
+*/
 Route::prefix('administrators')->group(function () {
     Route::get('get-administrator-by-user-id/{user_id}', [AdministratorController::class, 'getAdministratorByUserID']);
+
+    Route::get('get-service-by-user-id/{user_id}', [AdministratorController::class, 'getServiceByUserId']);
 });
 
+/* 
+Services
+*/
 Route::prefix('services')->group(function () {
     Route::post('', [ServiceController::class, 'store']);
 
@@ -70,6 +78,9 @@ Route::prefix('services')->group(function () {
     Route::get('listings', [ServiceController::class, 'getListings']);
 });
 
-Route::prefix('administrators')->group(function(){
-    Route::get('get-service-by-user-id/{user_id}', [AdministratorController::class, 'getServiceByUserId']);
+/* 
+LuggagePricings
+*/
+Route::prefix('luggage-pricings')->group(function () {
+    Route::get('get-luggage-pricings-by-service-id/{service_id}', [LuggagePricingController::class, 'getLuggagePricingsByServiceId']);
 });

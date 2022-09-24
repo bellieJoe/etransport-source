@@ -12,4 +12,8 @@ class LuggagePricing extends Model
     protected $primaryKey = 'luggage_pricing_id';
 
     protected $guarded = [];
+
+    public function service(){
+        return $this->belongsTo(Service::class, 'service_id', 'service_id');
+    }
 }

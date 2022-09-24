@@ -18,9 +18,9 @@ use Faker\Factory;
 */
 
 Route::get('/', function () {
-
-    return User::factory()
-    ->has(Administrator::factory()->has(Service::factory()))
-    ->create();
+    return "Hey there!";
+    // return User::factory()
+    // ->has(Administrator::factory()->has(Service::factory()))
+    // ->create();
 });
 

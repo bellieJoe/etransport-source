@@ -8,7 +8,7 @@ import { ServiceService } from 'src/app/services/service.service';
   templateUrl: './service.page.html',
   styleUrls: ['./service.page.scss'],
 })
-export class ServicePage implements OnInit {
+export class ServicePage  {
 
   constructor(
     public serviceService : ServiceService,
@@ -18,6 +18,7 @@ export class ServicePage implements OnInit {
   ) { }
 
   loading : boolean  = false;
+
   async fetchService(){
     this.loading = true;
     const res = await this.serviceService.getServiceByUserID(this.authService.getAuth().user_id);
@@ -40,7 +41,7 @@ export class ServicePage implements OnInit {
     console.log('sample')
   }
 
-  async ngOnInit() {
+  async ionViewWillEnter() {
     this.fetchService();
   }
 
