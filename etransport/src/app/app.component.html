@@ -14,31 +14,31 @@
           <!-- for all -->
           <ion-menu-toggle  auto-hide="false">
             <ion-item routerDirection="root" routerLink="/profile" lines="none" detail="false" routerLinkActive="selected">
-              <ion-icon slot="start" ios="person-outline" md="person-sharp"></ion-icon>
+              <ion-icon slot="start" icon="person-outline"></ion-icon>
               <ion-label>Profile</ion-label>
             </ion-item>
           </ion-menu-toggle>
           <ion-menu-toggle  auto-hide="false" *ngIf="user.role_id === 2">
             <ion-item routerDirection="root" routerLink="/service" lines="none" detail="false" routerLinkActive="selected">
-              <ion-icon slot="start" ios="car-outline" md="car-sharp"></ion-icon>
+              <ion-icon slot="start" icon="car-outline"></ion-icon>
               <ion-label>Service</ion-label>
             </ion-item>
           </ion-menu-toggle>
           <ion-menu-toggle  auto-hide="false" *ngIf="user.role_id === 3">
             <ion-item routerDirection="root" routerLink="/listings" lines="none" detail="false" routerLinkActive="selected">
-              <ion-icon slot="start" ios="list-outline" md="list-sharp"></ion-icon>
+              <ion-icon slot="start" icon="list-outline"></ion-icon>
               <ion-label>D2D Listings</ion-label>
             </ion-item>
           </ion-menu-toggle>
           <ion-menu-toggle  auto-hide="false" *ngIf="user.role_id === 3">
             <ion-item routerDirection="root" routerLink="/customerbookings" lines="none" detail="false" routerLinkActive="selected">
-              <ion-icon slot="start" ios="book-outline" md="book-sharp"></ion-icon>
+              <ion-icon slot="start" icon="book-outline"></ion-icon>
               <ion-label>D2D Bookings</ion-label>
             </ion-item>
           </ion-menu-toggle>
           <ion-menu-toggle  auto-hide="false">
-            <ion-item lines="none" detail="false" (click)="logout()">
-              <ion-icon slot="start" ios="log-out-outline" md="log-out-sharp"></ion-icon>
+            <ion-item lines="none" detail="false" (click)="logout()" button>
+              <ion-icon slot="start" icon="log-out-outline" ></ion-icon>
               <ion-label>Logout</ion-label>
             </ion-item>
           </ion-menu-toggle>
