@@ -24,11 +24,13 @@ class UserFactory extends Factory
     public function definition()
     {
         $role_ids = [3,2];
-        $name = $this->faker->name;
+        $firstname = $this->faker->firstname();
+        $lastname = $this->faker->lastname();
+        $name = $firstname." ".$lastname;
         return [
             'name' => $name,
-            'email' => $this->faker->unique()->safeEmail,
-            'username' => $name,
+            'email' => $firstname.$lastname."@hotmail.red", // interact email from generator.email website
+            'username' => $firstname.$lastname,
             'contact_number' => '9865325478',
             'email_verified_at' => now(),
             'role_id' => $this->faker->randomElement($role_ids),
