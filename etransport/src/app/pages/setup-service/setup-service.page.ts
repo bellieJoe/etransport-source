@@ -31,6 +31,10 @@ export class SetupServicePage implements OnInit {
     capacity : null,
     mode_of_payment : null,
     service_type : null,
+    small: null,
+    medium: null,
+    large: null,
+    extra_large: null,
     errors : {},
     submit : async() => {
       const loader = await this.loadingController.create({

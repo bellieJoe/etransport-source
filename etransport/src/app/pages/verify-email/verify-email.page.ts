@@ -61,7 +61,7 @@ export class VerifyEmailPage implements OnInit {
       await loader.dismiss();
 
       localStorage.setItem('user', JSON.stringify(res.data))
-      this.router.navigate(['/profile']);
+      this.router.navigate(['/setup-service']);
     }
   }
 

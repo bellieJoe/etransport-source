@@ -16,10 +16,10 @@ class CreateLuggagePricingsTable extends Migration
         Schema::create('luggage_pricings', function (Blueprint $table) {
             $table->id('luggage_pricing_id');
             $table->foreignId('service_id');
-            $table->float('small');
-            $table->float('medium');
-            $table->float('large');
-            $table->float('extra_large');
+            $table->float('small')->nullable();
+            $table->float('medium')->nullable();
+            $table->float('large')->nullable();
+            $table->float('extra_large')->nullable();
             $table->timestamps();
         });
     }

@@ -73,6 +73,10 @@ class AddServiceData {
   capacity : string
   mode_of_payment : any
   service_type : string
+  small: number
+  medium: number
+  large: number
+  extra_large: number
 }
 
 class EditServiceData {

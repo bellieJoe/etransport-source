@@ -34,6 +34,7 @@ export class ServicePage  {
     }
     
     this.serviceService.service = res.data;
+    console.log(res.data)
     this.loading = false;
   }
 
@@ -42,7 +43,8 @@ export class ServicePage  {
   }
 
   async ionViewWillEnter() {
-    this.fetchService();
+    await this.fetchService();
+    console.log(this.serviceService.service.luggage_pricing.small)
   }
 
 }

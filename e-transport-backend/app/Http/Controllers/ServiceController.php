@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Service;
 use App\Models\Administrator;
+use App\Models\LuggagePricing;
 use App\Rules\DepartureDate;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -20,14 +21,18 @@ class ServiceController extends Controller
             'vehicle_model' => ['required'],
             'capacity' => ['required', 'max:5000'],
             'mode_of_payment' => ['required'],
-            'service_type' => ['required']
+            'service_type' => ['required'],
+            'small' => ['required_if:service_type,both,luggage'],
+            'medium' => ['required_if:service_type,both,luggage'],
+            'large' => ['required_if:service_type,both,luggage'],
+            'extra_large' => ['required_if:service_type,both,luggage']
         ]);
 
         $administrator = Administrator::where([
             'user_id' => $request->user_id
         ])->first();
 
-        Service::create([   
+        $service = Service::create([   
             'administrator_id' => $administrator->administrator_id,
             'driver' => $request->driver,
             'service_name' => $request->service_name,   
@@ -36,7 +41,18 @@ class ServiceController extends Controller
             'vehicle_model' => $request->vehicle_model,
             'capacity' => $request->capacity,
             'mode_of_payment' => json_encode($request->mode_of_payment),
+            'service_status' => 'close',
             'service_type' => $request->service_type
+        ]);
+
+        $service->refresh();
+
+        LuggagePricing::create([
+            'service_id' => $service->service_id,
+            'small' => $request->small,
+            'medium' => $request->medium,
+            'large' => $request->large,
+            'extra_large' => $request->extra_large
         ]);
     }
 
@@ -45,7 +61,9 @@ class ServiceController extends Controller
 
         $service = Service::where([
             'administrator_id' => $administrator->administrator_id
-        ])->first();
+        ])
+        ->with('luggagePricing')
+        ->first();
 
         $service->mode_of_payment = json_decode($service->mode_of_payment);
 
@@ -110,6 +128,8 @@ class ServiceController extends Controller
         return Service::where([
             'service_status' => 'open'
         ])
-        ->with('administrator')->get();
+        ->with('administrator')
+        ->with('luggagePricing')
+        >get();
     }
 }

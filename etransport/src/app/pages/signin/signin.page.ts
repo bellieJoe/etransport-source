@@ -63,7 +63,8 @@ export class SigninPage implements OnInit {
 
       loader.dismiss();
 
-      this.router.navigate(['/profile'])
+      location.href = '/profile';
+      // this.router.navigate(['/profile']);
 
     },
     clear : async () => {

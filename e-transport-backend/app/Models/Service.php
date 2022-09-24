@@ -17,4 +17,8 @@ class Service extends Model
     public function administrator(){
         return $this->belongsTo(Administrator::class, 'administrator_id', 'administrator_id');
     }
+
+    public function luggagePricing(){
+        return $this->hasOne(LuggagePricing::class, 'service_id', 'service_id');
+    }
 }
