@@ -11,7 +11,11 @@ const routes: Routes = [
   {
     path: 'edit-status',
     loadChildren: () => import('./edit-status/edit-status.module').then( m => m.EditStatusPageModule)
+  },  {
+    path: 'edit-service',
+    loadChildren: () => import('./edit-service/edit-service.module').then( m => m.EditServicePageModule)
   }
+
 ];
 
 @NgModule({

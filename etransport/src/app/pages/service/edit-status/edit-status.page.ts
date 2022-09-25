@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { AlertController, LoadingController, ToastController } from '@ionic/angular';
+import { AlertController, IonModal, LoadingController, ModalController, ToastController } from '@ionic/angular';
 import { ServiceService } from 'src/app/services/service.service';
 
 @Component({
@@ -15,7 +15,8 @@ export class EditStatusPage implements OnInit {
     private router : Router,
     private toastController : ToastController,
     private loadingController : LoadingController,
-    private alertController : AlertController
+    private alertController : AlertController,
+    private modalController : ModalController
   ) { }
 
 
@@ -63,8 +64,12 @@ export class EditStatusPage implements OnInit {
       await toast.present();
       this.serviceService.service = res.data;
       await loader.dismiss();
-      this.router.navigate(['/service']);
+      await this.close();
     }
+  }
+
+  async close(){
+    await this.modalController.dismiss(null, 'cancel');
   }
 
 

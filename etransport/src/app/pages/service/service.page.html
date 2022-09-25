@@ -73,7 +73,8 @@
   <ion-list class="mb-3" >
     <ion-list-header>
       <ion-label>Service Status</ion-label>
-      <ion-button routerLink="/service/edit-status">Update</ion-button>
+      <!-- routerLink="/service/edit-status" -->
+      <ion-button (click)="showUpdateStatusForm()">Update</ion-button>
     </ion-list-header>
 
     <ion-item>
@@ -123,22 +124,22 @@
 
     <ion-item>
       <ion-label>Small </ion-label>
-      <ion-label slot="end" color="medium">{{ luggage_pricing.small }}</ion-label>
+      <ion-label slot="end" color="medium">{{ luggage_pricing.small | currency:'Php' }}</ion-label>
     </ion-item>
 
     <ion-item>
       <ion-label>Medium </ion-label>
-      <ion-label slot="end" color="medium">dummy price</ion-label>
+      <ion-label slot="end" color="medium">{{ luggage_pricing.medium | currency:'Php' }}</ion-label>
     </ion-item>
 
     <ion-item>
       <ion-label>Large </ion-label>
-      <ion-label slot="end" color="medium">dummy price</ion-label>
+      <ion-label slot="end" color="medium">{{ luggage_pricing.large | currency:'Php' }}</ion-label>
     </ion-item>
 
     <ion-item>
       <ion-label>Extra Large </ion-label>
-      <ion-label slot="end" color="medium">dummy price</ion-label>
+      <ion-label slot="end" color="medium">{{ luggage_pricing.extra_large | currency:'Php' }}</ion-label>
     </ion-item>
   </ion-list>
 </ion-content>

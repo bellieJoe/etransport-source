@@ -49,10 +49,10 @@ class ServiceController extends Controller
 
         LuggagePricing::create([
             'service_id' => $service->service_id,
-            'small' => $request->small,
-            'medium' => $request->medium,
-            'large' => $request->large,
-            'extra_large' => $request->extra_large
+            'small' => $request->small ? $request->small : null ,
+            'medium' => $request->medium ? $request->medium : null ,
+            'large' => $request->large ? $request->large : null ,
+            'extra_large' => $request->extra_large ? $request->extra_large : null 
         ]);
     }
 
@@ -113,8 +113,8 @@ class ServiceController extends Controller
 
         $service->update([
             'service_status' => $request->service_status,
-            'marinduque_departure_datetime' => $request->marinduque_departure_datetime,
-            'manila_departure_datetime' => $request->manila_departure_datetime
+            'marinduque_departure_datetime' => $request->service_status == 'open' ? $request->marinduque_departure_datetime : null,
+            'manila_departure_datetime' => $request->service_status == 'open' ? $request->manila_departure_datetime : null
         ]);
 
         $service->refresh();

@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { AlertController, ToastController } from '@ionic/angular';
+import { AlertController, ModalController, ToastController } from '@ionic/angular';
 import { AuthService } from 'src/app/services/auth.service';
 import { ServiceService } from 'src/app/services/service.service';
+import { EditStatusPage } from './edit-status/edit-status.page';
 
 @Component({
   selector: 'app-service',
@@ -14,7 +15,8 @@ export class ServicePage  {
     public serviceService : ServiceService,
     private authService : AuthService,
     private alertController : AlertController,
-    private toastController : ToastController
+    private toastController : ToastController,
+    private modalController : ModalController
   ) { }
 
   loading : boolean  = false;
@@ -38,6 +40,16 @@ export class ServicePage  {
     console.log(res.data)
     this.loading = false;
   }
+
+  async showUpdateStatusForm(){
+    const modal = await this.modalController.create({
+      component : EditStatusPage,
+    })
+
+    await modal.present();
+  }
+
+  
 
   sample(){
     console.log('sample')
