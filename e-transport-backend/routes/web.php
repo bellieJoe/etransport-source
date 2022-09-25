@@ -3,6 +3,8 @@
 use App\Models\User;
 use App\Models\Administrator;
 use App\Models\Service;
+use App\Models\LuggagePricing;
+
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 use Faker\Factory;
@@ -19,8 +21,19 @@ use Faker\Factory;
 
 Route::get('/', function () {
     // return "Hey there!";
-    return User::factory()->count(10)
-    ->has(Administrator::factory()->has(Service::factory()))
+    // can be the code for generating admins
+    $users = User::factory()->count(10)
+    ->has(Administrator::factory()->has(Service::factory()->has(LuggagePricing::factory())))
     ->create();
+
+    $users = $users->each(function($user){
+        $user->update([
+            'role_id' => 2
+        ]);
+        $user->refresh();
+        return $user;
+    });
+    
+    return $users;
 });
 

@@ -9,6 +9,16 @@ use Illuminate\Support\Str;
 
 class UserFactory extends Factory
 {
+    protected $role_id = null;
+    // public function __construct($role_id = null){
+    //     $this->role_id = $role_id;
+    // }
+
+    // public function setRole($role_id){
+    //     $this->role_id = $role_id;
+    //     return $this;
+    // }
+
     /**
      * The name of the factory's corresponding model.
      *

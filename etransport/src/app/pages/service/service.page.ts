@@ -18,6 +18,7 @@ export class ServicePage  {
   ) { }
 
   loading : boolean  = false;
+  luggage_pricing : any = {};
 
   async fetchService(){
     this.loading = true;
@@ -44,7 +45,7 @@ export class ServicePage  {
 
   async ionViewWillEnter() {
     await this.fetchService();
-    console.log(this.serviceService.service.luggage_pricing.small)
+    this.luggage_pricing = this.serviceService.service.luggage_pricing;
   }
 
 }

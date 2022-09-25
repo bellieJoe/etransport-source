@@ -128,8 +128,7 @@ class ServiceController extends Controller
         return Service::where([
             'service_status' => 'open'
         ])
-        ->with('administrator')
-        ->with('luggagePricing')
-        >get();
+        ->with(['administrator', 'luggagePricing'])
+        ->get();
     }
 }
