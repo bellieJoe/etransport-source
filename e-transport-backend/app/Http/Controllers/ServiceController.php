@@ -19,7 +19,7 @@ class ServiceController extends Controller
             'license_number' => ['required', 'max:500'],
             'plate_number' => ['required', 'max:500'],
             'vehicle_model' => ['required'],
-            'capacity' => ['required', 'max:5000'],
+            'capacity' => ['required'],
             'mode_of_payment' => ['required'],
             'service_type' => ['required'],
             'small' => ['required_if:service_type,both,luggage'],
@@ -52,7 +52,7 @@ class ServiceController extends Controller
             'small' => $request->small ? $request->small : null ,
             'medium' => $request->medium ? $request->medium : null ,
             'large' => $request->large ? $request->large : null ,
-            'extra_large' => $request->extra_large ? $request->extra_large : null 
+            'extra_large' => $request->extra_large ? $request->extra_large : null
         ]);
     }
 
@@ -74,17 +74,26 @@ class ServiceController extends Controller
         Service::find($service_id)->delete();
     }
 
+    public function getSetviceByServiceId($service_id){
+        $service = Service::where('service_id', $service_id)->with('luggagePricing')->first();
+        $service->mode_of_payment = json_decode($service->mode_of_payment);
+        return $service;
+    }
+
     public function update(Request $request, $service_id){
         $request->validate([
             'driver' => ['required', 'max:1000'],
             'service_name' => ['required', 'max:1000'],
             'license_number' => ['required', 'max:500'],
             'plate_number' => ['required', 'max:500'],
-            'vehicle_model' => ['required', 'max:5000'],
-            'capacity' => ['required', 'max:5000'],
-            'mode_of_payment' => ['required', 'max:255'],
-            'load_type' => ['required'],
-            'fare' => ['required']
+            'vehicle_model' => ['required'],
+            'capacity' => ['required'],
+            'mode_of_payment' => ['required'],
+            'service_type' => ['required'],
+            'small' => ['required_if:service_type,both,luggage'],
+            'medium' => ['required_if:service_type,both,luggage'],
+            'large' => ['required_if:service_type,both,luggage'],
+            'extra_large' => ['required_if:service_type,both,luggage']
         ]);
 
         $service = Service::find($service_id);
@@ -97,9 +106,20 @@ class ServiceController extends Controller
             'vehicle_model' => $request->vehicle_model,
             'capacity' => $request->capacity,
             'mode_of_payment' => json_encode($request->mode_of_payment),
-            'load_type' => $request->load_type,
-            'fare' => $request->fare
+            'service_type' => $request->service_type
         ]);
+
+        LuggagePricing::where([
+            'service_id' => $service_id
+        ])
+        ->update([
+            'small' => $request->small ? $request->small : null ,
+            'medium' => $request->medium ? $request->medium : null ,
+            'large' => $request->large ? $request->large : null ,
+            'extra_large' => $request->extra_large ? $request->extra_large : null
+        ]);
+
+        return $this->getSetviceByServiceId($service_id);
     }
 
     public function setStatus(Request $request, $service_id){

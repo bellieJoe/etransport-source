@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AlertController, ModalController, ToastController } from '@ionic/angular';
 import { AuthService } from 'src/app/services/auth.service';
 import { ServiceService } from 'src/app/services/service.service';
+import { EditServicePage } from './edit-service/edit-service.page';
 import { EditStatusPage } from './edit-status/edit-status.page';
 
 @Component({
@@ -49,7 +50,12 @@ export class ServicePage  {
     await modal.present();
   }
 
-  
+  async showEditServiceForm(){
+    const modal = await this.modalController.create({
+      component: EditServicePage
+    });
+    await modal.present();
+  }
 
   sample(){
     console.log('sample')

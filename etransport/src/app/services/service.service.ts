@@ -80,16 +80,19 @@ class AddServiceData {
 }
 
 class EditServiceData {
-  service_id : any
+  service_id: any
   driver: string
   service_name : string
   license_number : string
   plate_number : string
   vehicle_model : string
   capacity : string
-  mode_of_payment : string
-  fare : number
-  load_type : string
+  mode_of_payment : any
+  service_type : string
+  small: number
+  medium: number
+  large: number
+  extra_large: number
 }
 
 class SetStatusData {

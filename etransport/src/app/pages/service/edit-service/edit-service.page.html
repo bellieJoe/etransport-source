@@ -1,11 +1,110 @@
 <ion-header>
   <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-back-button></ion-back-button>
+    <ion-buttons slot="end">
+      <ion-button (click)="close()">
+        Close
+      </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  this is edit service
+  <ion-card>
+    <ion-card-header color="primary">
+      <ion-card-title>Edit Service</ion-card-title>
+      <ion-card-subtitle>Update details about your service.</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item>
+        <ion-label position="floating">Service Name <ion-note color="danger">*</ion-note></ion-label>
+        <ion-input type="text" [(ngModel)]="update_service_form.service_name"></ion-input>
+      </ion-item>
+      <ion-note color="danger" *ngIf="update_service_form.errors.service_name">{{ set_status_form.errors.service_name }}</ion-note>
+      
+      <ion-item>
+        <ion-label position="floating">Driver <ion-note color="danger">*</ion-note></ion-label>
+        <ion-input type="text" [(ngModel)]="update_service_form.driver"></ion-input>
+      </ion-item>
+      <ion-note color="danger" *ngIf="update_service_form.errors.driver">{{ set_status_form.errors.driver }}</ion-note>
+
+      <ion-item>
+        <ion-label position="floating">License Number <ion-note color="danger">*</ion-note></ion-label>
+        <ion-input type="text" [(ngModel)]="update_service_form.license_number"></ion-input>
+      </ion-item>
+      <ion-note color="danger" *ngIf="update_service_form.errors.license_number">{{ set_status_form.errors.license_number }}</ion-note>
+
+      <ion-item>
+        <ion-label position="floating">Vehicle Model <ion-note color="danger">*</ion-note></ion-label>
+        <ion-input type="text" [(ngModel)]="update_service_form.vehicle_model"></ion-input>
+      </ion-item>
+      <ion-note color="danger" *ngIf="update_service_form.errors.vehicle_model">{{ set_status_form.errors.vehicle_model }}</ion-note>
+
+      <ion-item>
+        <ion-label position="floating">Plate Number <ion-note color="danger">*</ion-note></ion-label>
+        <ion-input type="text" [(ngModel)]="update_service_form.plate_number"></ion-input>
+      </ion-item>
+      <ion-note color="danger" *ngIf="update_service_form.errors.plate_number">{{ set_status_form.errors.plate_number }}</ion-note>
+
+      <ion-item>
+        <ion-label position="floating">Service Type <ion-note color="danger">*</ion-note></ion-label>
+        <ion-select  [(ngModel)]="update_service_form.service_type">
+          <ion-select-option value="passenger">Passenger</ion-select-option>
+          <ion-select-option value="luggage">Luggage</ion-select-option>
+          <ion-select-option value="both">Both</ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-note color="danger" *ngIf="update_service_form.errors.service_type">{{ set_status_form.errors.service_type }}</ion-note>
+
+      <ion-item>
+        <ion-label position="floating">Capacity/Slots <ion-note color="danger">*</ion-note></ion-label>
+        <ion-input type="text" [(ngModel)]="update_service_form.capacity"></ion-input>
+      </ion-item>
+      <ion-note *ngIf="update_service_form.errors.capacity" color="danger">{{ update_service_form.errors.capacity }}</ion-note>
+
+      <ion-item>
+        <ion-label position="floating">Mode of Payment <ion-note color="danger">*</ion-note></ion-label>
+        <ion-select  multiple="true"  [(ngModel)]="update_service_form.mode_of_payment">
+          <ion-select-option value="Cash">Cash</ion-select-option>
+          <ion-select-option value="GCash">GCash</ion-select-option>
+          <ion-select-option value="Paymaya">Paymaya</ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-note *ngIf="update_service_form.errors.mode_of_payment" color="danger">{{ update_service_form.errors.service_name }}</ion-note>
+
+      <ion-list *ngIf="update_service_form.service_type && update_service_form.service_type != 'passenger'">
+        <ion-list-header>
+          <ion-label>Luggage Pricings</ion-label>
+        </ion-list-header>
+  
+        <ion-item>
+          <ion-label >Small <ion-note color="danger">*</ion-note></ion-label>
+          <ion-input slot="end" type="number" [(ngModel)]="update_service_form.small" placeholder="0.00">Php </ion-input>
+        </ion-item>
+        <ion-note *ngIf="update_service_form.errors.small" color="danger">{{ update_service_form.errors.small }}</ion-note>
+  
+        <ion-item>
+          <ion-label >Medium <ion-note color="danger">*</ion-note></ion-label>
+          <ion-input slot="end" type="number" [(ngModel)]="update_service_form.medium" placeholder="0.00">Php </ion-input>
+        </ion-item>
+        <ion-note *ngIf="update_service_form.errors.medium" color="danger">{{ update_service_form.errors.medium }}</ion-note>
+  
+        <ion-item>
+          <ion-label >Large <ion-note color="danger">*</ion-note></ion-label>
+          <ion-input slot="end" type="number" [(ngModel)]="update_service_form.large" placeholder="0.00">Php </ion-input>
+        </ion-item>
+        <ion-note *ngIf="update_service_form.errors.large" color="danger">{{ update_service_form.errors.large }}</ion-note>
+  
+        <ion-item>
+          <ion-label >Extra Large <ion-note color="danger">*</ion-note></ion-label>
+          <ion-input slot="end" type="number" [(ngModel)]="update_service_form.extra_large" placeholder="0.00">Php </ion-input>
+        </ion-item>
+        <ion-note *ngIf="update_service_form.errors.extra_large" color="danger">{{ update_service_form.errors.extra_large }}</ion-note>
+      </ion-list>
+
+      <ion-button   (click)="update_service_form.submit()">
+        <ion-icon name="save-sharp" slot="start"></ion-icon>
+        Save
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
 </ion-content>
