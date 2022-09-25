@@ -12,4 +12,8 @@ class TransportBooking extends Model
     protected $primaryKey = 'transport_booking_id';
 
     protected $guarded = [];
+
+    public function luggageConfigs(){
+        return $this->hasMany(LuggageConfig::class, 'transport_booking_id', 'transport_booking_id');
+    }
 }
