@@ -17,12 +17,12 @@ class CreateTransportBookingsTable extends Migration
             $table->id('transport_booking_id');
             $table->enum('booking_status', ['pending', 'accepted', 'canceled', 'finished']);
             $table->foreignId('user_customer_id');
+            $table->integer('passenger_count');
             $table->foreignId('service_id');
             $table->dateTime('pickup_datetime');
             $table->string('pickup_location');
             $table->string('dropoff_location');
-            $table->enum('service_type', ['passenger', 'luggage']);
-            $table->enum('luggage_size', ['small', 'medium', 'large', 'extra_large'])->nullable();
+            $table->enum('service_type', ['passenger', 'luggage', 'both']);
             $table->timestamps();
         });
     }
