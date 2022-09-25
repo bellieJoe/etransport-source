@@ -16,6 +16,7 @@ export class ServiceService {
   constructor() { }
 
   // states
+  public to_book : any = {};
   public service : any = {};
   public services : any = [];
   public listings : any = [];

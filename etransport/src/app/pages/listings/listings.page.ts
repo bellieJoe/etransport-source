@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { AlertController } from '@ionic/angular';
+import { AlertController, ModalController } from '@ionic/angular';
 import { ServiceService } from 'src/app/services/service.service';
+import { BookServicePage } from './book-service/book-service.page';
 
 @Component({
   selector: 'app-listings',
@@ -11,7 +12,8 @@ export class ListingsPage implements OnInit {
 
   constructor(
     public serviceService : ServiceService,
-    private alertController : AlertController
+    private alertController : AlertController,
+    private modalController : ModalController
   ) { }
 
   loading : boolean = false;
@@ -35,11 +37,16 @@ export class ListingsPage implements OnInit {
     this.loading = false;
   }
 
+  async showBookingForm(service : any){
+    const modal = await this.modalController.create({
+      component: BookServicePage
+    })
+    this.serviceService.to_book = service;
+    await modal.present();
+  }
+
   async ngOnInit() {
     await this.fetchListings();
-    console.log('====================================');
-    console.log(this.serviceService.listings);
-    console.log('====================================');
   }
 
 }
