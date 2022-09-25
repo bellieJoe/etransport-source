@@ -36,7 +36,7 @@ export class EditServicePage implements OnInit {
     submit : async () => {
       const loader = await this.loadingController.create({
         spinner: 'circular',
-        message: "Updateding service",
+        message: "Updating service",
         backdropDismiss: false
       });
       await loader.present();
@@ -58,7 +58,7 @@ export class EditServicePage implements OnInit {
         await alert.present();
         return;
       }
-      
+
       const toast = await this.toastController.create({
         message: "Service successfully updated",
         duration: 3000
