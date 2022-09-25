@@ -74,7 +74,8 @@ export class SignupPage implements OnInit {
 
       loader.dismiss();
 
-      this.router.navigate(['/profile'])
+      this.router.navigate(['/profile']);
+      // location.href = '/profile';
     },
     clear : async () => {
       this.sign_up_form.contact_number = null;

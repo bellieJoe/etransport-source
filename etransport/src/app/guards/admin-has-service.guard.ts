@@ -19,7 +19,7 @@ export class AdminHasServiceGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot){
     const user = this.authService.getAuth();
-
+    
     if(user.role_id != 2){
       return true;
     }

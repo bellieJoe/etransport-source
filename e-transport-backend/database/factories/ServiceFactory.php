@@ -20,7 +20,9 @@ class ServiceFactory extends Factory
         $administrator_ids = Administrator::query()->get()->pluck('administrator_id');
         return [
             // 'administrator_id' => $this->faker->randomElement($administrator_ids),
-            'service_status' => 'close',
+            'service_status' => 'open',
+            'marinduque_departure_datetime' => '2022-10-18 00:00:00',
+            'manila_departure_datetime' => $this->faker->randomElement([null, '2022-10-18 00:00:00']),
             'driver' => $this->faker->name('male'),
             'service_name' => Str::title($this->faker->word()),
             'license_number' => $this->faker->ean8(),

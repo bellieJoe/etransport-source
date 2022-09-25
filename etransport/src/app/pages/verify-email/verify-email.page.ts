@@ -60,8 +60,15 @@ export class VerifyEmailPage implements OnInit {
 
       await loader.dismiss();
 
-      localStorage.setItem('user', JSON.stringify(res.data))
-      this.router.navigate(['/setup-service']);
+      localStorage.setItem('user', JSON.stringify(res.data));
+
+      if(res.data.role_id == 3){
+        this.router.navigate(['/profile']);
+      }
+      if(res.data.role_id == 2){
+        this.router.navigate(['/setup-service']);
+      }
+      
     }
   }
 
