@@ -25,7 +25,11 @@ large
 extra_large
 
 <!-- db refactors 9/25/2022 -->
-add passenger_count to transport_bookings
+add 
+passenger_count,
+time_departure,
+selected_starting_location,
+to transport_bookings;
 
 create luggage_configs table with:
 transport_booking_id: foreign

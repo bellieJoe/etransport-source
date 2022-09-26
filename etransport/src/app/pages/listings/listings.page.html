@@ -34,16 +34,13 @@
               <h2><span class="text-dark ">Plate Number :</span> {{ service.plate_number }}</h2>
               <h2><span class="text-dark ">Vehicle Model :</span> {{ service.vehicle_model }}</h2>
               <h2><span class="text-dark ">Capacity/Slots :</span> {{ service.capacity }}</h2>
-              <h2><span class="text-dark ">Service Type :</span> {{ service.service_type == 'both' ? 'Passenger & Luggage' : service.service_type }}</h2>
+              <h2><span class="text-dark ">Service Type :</span> {{ service.service_type == 'both' ? 'Passenger & Luggage' : (service.service_type | titlecase) }}</h2>
             </div>
           </ion-accordion>
         </ion-accordion-group>
         <ion-button color="primary" (click)="showBookingForm(service)">
           Book Now
         </ion-button>
-        <!-- <ion-button  fill="clear" color="dark">
-          More Info
-        </ion-button> -->
       </ion-card-content>
     </ion-card>
     
