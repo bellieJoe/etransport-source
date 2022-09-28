@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { IonSelectOption, ModalController } from '@ionic/angular';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { IonModal, IonSelectOption, ModalController } from '@ionic/angular';
 import { AuthService } from 'src/app/services/auth.service';
 import { ServiceService } from 'src/app/services/service.service';
 
@@ -16,6 +16,8 @@ export class BookServicePage implements OnInit {
     private authService : AuthService,
     public serviceService : ServiceService,
   ) { }
+
+  @ViewChild(IonModal) modal: IonModal;
 
   routeInterfaceOptions = {
     header: 'Routes', 
@@ -36,6 +38,14 @@ export class BookServicePage implements OnInit {
     submit : async () => {
       console.log(this.book_service_form)
     }
+  }
+
+  async confirmLuggageSpecModal(){
+    await this.modal.dismiss();
+  }
+
+  async closeLuggageSpecModal(){
+    await this.modal.dismiss();
   }
 
   async close(){

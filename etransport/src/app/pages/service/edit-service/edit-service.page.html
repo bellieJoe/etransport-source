@@ -19,31 +19,31 @@
         <ion-label position="floating">Service Name <ion-note color="danger">*</ion-note></ion-label>
         <ion-input type="text" [(ngModel)]="update_service_form.service_name"></ion-input>
       </ion-item>
-      <ion-note color="danger" *ngIf="update_service_form.errors.service_name">{{ set_status_form.errors.service_name }}</ion-note>
+      <ion-note color="danger" *ngIf="update_service_form.errors.service_name">{{ update_service_form.errors.service_name }}</ion-note>
       
       <ion-item>
         <ion-label position="floating">Driver <ion-note color="danger">*</ion-note></ion-label>
         <ion-input type="text" [(ngModel)]="update_service_form.driver"></ion-input>
       </ion-item>
-      <ion-note color="danger" *ngIf="update_service_form.errors.driver">{{ set_status_form.errors.driver }}</ion-note>
+      <ion-note color="danger" *ngIf="update_service_form.errors.driver">{{ update_service_form.errors.driver }}</ion-note>
 
       <ion-item>
         <ion-label position="floating">License Number <ion-note color="danger">*</ion-note></ion-label>
         <ion-input type="text" [(ngModel)]="update_service_form.license_number"></ion-input>
       </ion-item>
-      <ion-note color="danger" *ngIf="update_service_form.errors.license_number">{{ set_status_form.errors.license_number }}</ion-note>
+      <ion-note color="danger" *ngIf="update_service_form.errors.license_number">{{ update_service_form.errors.license_number }}</ion-note>
 
       <ion-item>
         <ion-label position="floating">Vehicle Model <ion-note color="danger">*</ion-note></ion-label>
         <ion-input type="text" [(ngModel)]="update_service_form.vehicle_model"></ion-input>
       </ion-item>
-      <ion-note color="danger" *ngIf="update_service_form.errors.vehicle_model">{{ set_status_form.errors.vehicle_model }}</ion-note>
+      <ion-note color="danger" *ngIf="update_service_form.errors.vehicle_model">{{ update_service_form.errors.vehicle_model }}</ion-note>
 
       <ion-item>
         <ion-label position="floating">Plate Number <ion-note color="danger">*</ion-note></ion-label>
         <ion-input type="text" [(ngModel)]="update_service_form.plate_number"></ion-input>
       </ion-item>
-      <ion-note color="danger" *ngIf="update_service_form.errors.plate_number">{{ set_status_form.errors.plate_number }}</ion-note>
+      <ion-note color="danger" *ngIf="update_service_form.errors.plate_number">{{ update_service_form.errors.plate_number }}</ion-note>
 
       <ion-item>
         <ion-label position="floating">Service Type <ion-note color="danger">*</ion-note></ion-label>
@@ -53,7 +53,7 @@
           <ion-select-option value="both">Both</ion-select-option>
         </ion-select>
       </ion-item>
-      <ion-note color="danger" *ngIf="update_service_form.errors.service_type">{{ set_status_form.errors.service_type }}</ion-note>
+      <ion-note color="danger" *ngIf="update_service_form.errors.service_type">{{ update_service_form.errors.service_type }}</ion-note>
 
       <ion-item>
         <ion-label position="floating">Capacity/Slots <ion-note color="danger">*</ion-note></ion-label>

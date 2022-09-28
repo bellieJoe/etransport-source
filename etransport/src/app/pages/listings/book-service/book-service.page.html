@@ -9,78 +9,133 @@
 </ion-header>
 
 <ion-content>
-  <ion-card>
 
-    <ion-card-header color="primary">
-      <ion-card-title>Book a Service</ion-card-title>
+  <ion-card color="primary">
+    <ion-card-header>
+      <ion-card-title mode="ios">{{ serviceService.to_book.service_name }}</ion-card-title>
+      <h1 class="text-light fw-bold my-0">{{ serviceService.to_book.fare | currency:'PHP' }}</h1>
     </ion-card-header>
-
     <ion-card-content>
-      <div class="card mt-2">
-        <div class="card-body">
-          <h2 class="text-dark fw-bold">{{ serviceService.to_book.service_name }}</h2>
-          <h2 class="text-primary fw-bold">{{ serviceService.to_book.fare | currency:'Php' }}</h2>
-          <p *ngIf="serviceService.to_book.marinduque_departure_datetime">
-            <span class="text-dark">Marinduque Departure Datetime:</span>
-            <br> {{ serviceService.to_book.marinduque_departure_datetime | date:'medium' }}
-          </p>
-          <p *ngIf="serviceService.to_book.manila_departure_datetime">
-            <span class="text-dark">Manila Departure Datetime:</span>
-            <br> {{ serviceService.to_book.manila_departure_datetime | date:'medium' }}
-          </p>
-        </div>
-      </div>
-
-      <ion-item>
-        <ion-label position="floating">Choose Service Type</ion-label>
-        <ion-select [(ngModel)]="book_service_form.service_type">
-          <ion-select-option *ngIf="serviceService.to_book.service_type != 'luggage' " value="passenger">Passenger</ion-select-option>
-          <ion-select-option *ngIf="serviceService.to_book.service_type != 'passenger'" value="luggage">Luggage</ion-select-option>
-          <ion-select-option *ngIf="serviceService.to_book.service_type == 'both'" value="both">Both</ion-select-option>
-        </ion-select>
-      </ion-item>
-      <ion-note color="danger" *ngIf="book_service_form.errors.service_type">{{ book_service_form.errors.service_type }}</ion-note>
-
-      <ion-item>
-        <ion-label position="floating">Choose Route</ion-label>
-        <ion-select [interfaceOptions]="routeInterfaceOptions" [(ngModel)]="book_service_form.route" interface="action-sheet">
-          <ion-select-option *ngIf="serviceService.to_book.marinduque_departure_datetime" value="Marinduque to Manila" >
-            Marinduque to Manila - Departs on {{ serviceService.to_book.marinduque_departure_datetime | date:'mediumDate' }} {{ serviceService.to_book.marinduque_departure_datetime | date:'shortTime' }}
-          </ion-select-option>
-          <ion-select-option *ngIf="serviceService.to_book.manila_departure_datetime" value="Manila to Marinduque">
-            Manila to Marinduque - Departs on {{ serviceService.to_book.manila_departure_datetime | date:'mediumDate' }} {{ serviceService.to_book.manila_departure_datetime | date:'shortTime' }}
-          </ion-select-option>
-        </ion-select>
-      </ion-item>
-      <ion-note color="danger" *ngIf="book_service_form.errors.service_type">{{ book_service_form.errors.service_type }}</ion-note>
-
-      <ion-item *ngIf="book_service_form.service_type != 'luggage'">
-        <ion-label position="floating">How many passenger reservation?</ion-label>
-        <ion-input type="number" [(ngModel)]="book_service_form.passenger_count"></ion-input>
-      </ion-item>
-      <ion-note color="danger" *ngIf="book_service_form.errors.passenger_count">{{ book_service_form.errors.passenger_count }}</ion-note>
-
-      <ion-item >
-        <ion-label position="stacked">Pick-up Time</ion-label>
-        <ion-input type="time" [(ngModel)]="book_service_form.pickup_time"></ion-input>
-      </ion-item>
-      <ion-note color="danger" *ngIf="book_service_form.errors.pickup_datetime">{{ book_service_form.errors.pickup_datetime }}</ion-note>
-
-      <ion-item >
-        <ion-label position="floating">Pick-up Location</ion-label>
-        <ion-input type="text" [(ngModel)]="book_service_form.pickup_location"></ion-input>
-      </ion-item>
-      <ion-note color="danger" *ngIf="book_service_form.errors.pickup_location">{{ book_service_form.errors.pickup_location }}</ion-note>
-
-      <ion-item >
-        <ion-label position="floating">Drop-off Location</ion-label>
-        <ion-input type="text" [(ngModel)]="book_service_form.dropoff_location"></ion-input>
-      </ion-item> 
-      <ion-note color="danger" *ngIf="book_service_form.errors.dropoff_location">{{ book_service_form.errors.dropoff_location }}</ion-note>
-
-      <ion-button >
-        Book Now
-      </ion-button>
+      <ion-accordion-group #accordionGroup expand="inset" class="border-0">
+        <ion-accordion >
+          <ion-item slot="header" color="primary">
+            <ion-label>Details</ion-label>
+          </ion-item>
+          <div class="ion-padding text-dark" slot="content">
+            <h2 class="mb-2" *ngIf="serviceService.to_book.marinduque_departure_datetime">
+              <span class="fw-bold">Marinduque Departure Datetime:</span>
+              <br> {{ serviceService.to_book.marinduque_departure_datetime | date:'medium' }}
+            </h2>
+            <h2 class="mb-2" *ngIf="serviceService.to_book.manila_departure_datetime">
+              <span class="fw-bold">Manila Departure Datetime:</span>
+              <br> {{ serviceService.to_book.manila_departure_datetime | date:'medium' }}
+            </h2>
+            <h2 class="mb-2" ><span>Driver :</span> <span class="opacity-75"> {{ serviceService.to_book.driver }} </span></h2>
+            <h2 class="mb-2" ><span>License Number :</span> <span class="opacity-75"> {{ serviceService.to_book.license_number }} </span></h2>
+            <h2 class="mb-2" ><span>Plate Number :</span> <span class="opacity-75"> {{ serviceService.to_book.plate_number }} </span></h2>
+            <h2 class="mb-2" ><span>Vehicle Model :</span> <span class="opacity-75"> {{ serviceService.to_book.vehicle_model }} </span></h2>
+            <h2 class="mb-2" ><span>Capacity/Slots :</span> <span class="opacity-75"> {{ serviceService.to_book.capacity }} </span></h2>
+            <h2 class="mb-2" ><span>Service Type :</span> <span class="opacity-75"> {{ serviceService.to_book.service_type == 'both' ? 'Passenger & Luggage' : (serviceService.to_book.service_type | titlecase) }}</span></h2>
+          </div>
+        </ion-accordion>
+      </ion-accordion-group>
     </ion-card-content>
   </ion-card>
+
+  <ion-item>
+    <ion-label position="floating">Choose Service Type</ion-label>
+    <ion-select [(ngModel)]="book_service_form.service_type">
+      <ion-select-option *ngIf="serviceService.to_book.service_type != 'luggage' " value="passenger">Passenger</ion-select-option>
+      <ion-select-option *ngIf="serviceService.to_book.service_type != 'passenger'" value="luggage">Luggage</ion-select-option>
+      <ion-select-option *ngIf="serviceService.to_book.service_type == 'both'" value="both">Both</ion-select-option>
+    </ion-select>
+  </ion-item>
+  <ion-note color="danger" *ngIf="book_service_form.errors.service_type">{{ book_service_form.errors.service_type }}</ion-note>
+
+  <ion-item>
+    <ion-label position="floating">Choose Route</ion-label>
+    <ion-select [interfaceOptions]="routeInterfaceOptions" [(ngModel)]="book_service_form.route" interface="action-sheet">
+      <ion-select-option *ngIf="serviceService.to_book.marinduque_departure_datetime" value="Marinduque to Manila" >
+        Marinduque to Manila - Departs on {{ serviceService.to_book.marinduque_departure_datetime | date:'mediumDate' }} {{ serviceService.to_book.marinduque_departure_datetime | date:'shortTime' }}
+      </ion-select-option>
+      <ion-select-option *ngIf="serviceService.to_book.manila_departure_datetime" value="Manila to Marinduque">
+        Manila to Marinduque - Departs on {{ serviceService.to_book.manila_departure_datetime | date:'mediumDate' }} {{ serviceService.to_book.manila_departure_datetime | date:'shortTime' }}
+      </ion-select-option>
+    </ion-select>
+  </ion-item>
+  <ion-note color="danger" *ngIf="book_service_form.errors.service_type">{{ book_service_form.errors.service_type }}</ion-note>
+
+  <ion-item *ngIf="book_service_form.service_type != 'luggage'">
+    <ion-label position="floating">How many passenger reservation?</ion-label>
+    <ion-input type="number" [(ngModel)]="book_service_form.passenger_count"></ion-input>
+  </ion-item>
+  <ion-note color="danger" *ngIf="book_service_form.errors.passenger_count">{{ book_service_form.errors.passenger_count }}</ion-note>
+
+  <ion-item button   id="open-set-luggage-specs" detail="true">
+    <ion-label>Set your luggage specifications</ion-label>
+  </ion-item>
+  <ion-modal trigger="open-set-luggage-specs">
+    <ng-template>
+      <ion-toolbar>
+        <ion-buttons slot="end" color="primary">
+          <ion-button (click)="closeLuggageSpecModal()">Confirm</ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+      <ion-content>
+        <div class="px-3">
+          <h2 class="mb-0">Luggage Specifications</h2>
+          <p >Set only that applies to you.</p>
+        </div>
+        <ion-item>
+          <ion-label>Small</ion-label>
+          <ion-input slot="end" type="number" placeholder="0"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Medium</ion-label>
+          <ion-input slot="end" type="number" placeholder="0"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Large</ion-label>
+          <ion-input slot="end" type="number" placeholder="0"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Extra Large</ion-label>
+          <ion-input slot="end" type="number" placeholder="0"></ion-input>
+        </ion-item>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+  <ion-item >
+    <ion-label position="stacked">Pick-up Time</ion-label>
+    <ion-input type="time" [(ngModel)]="book_service_form.pickup_time"></ion-input>
+  </ion-item>
+  <ion-note color="danger" *ngIf="book_service_form.errors.pickup_datetime">{{ book_service_form.errors.pickup_datetime }}</ion-note>
+
+  <ion-item >
+    <ion-label position="floating">Pick-up Location</ion-label>
+    <ion-input type="text" [(ngModel)]="book_service_form.pickup_location"></ion-input>
+  </ion-item>
+  <ion-note color="danger" *ngIf="book_service_form.errors.pickup_location">{{ book_service_form.errors.pickup_location }}</ion-note>
+
+  <ion-item >
+    <ion-label position="floating">Drop-off Location</ion-label>
+    <ion-input type="text" [(ngModel)]="book_service_form.dropoff_location"></ion-input>
+  </ion-item> 
+  <ion-note color="danger" *ngIf="book_service_form.errors.dropoff_location">{{ book_service_form.errors.dropoff_location }}</ion-note>
+
 </ion-content>
+
+<ion-footer >
+  <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-button color="primary" fill="solid">
+        Submit Booking
+      </ion-button>
+    </ion-buttons>
+    
+  </ion-toolbar>
+</ion-footer>
