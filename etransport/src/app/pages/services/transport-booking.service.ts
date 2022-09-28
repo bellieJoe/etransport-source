@@ -1,0 +1,40 @@
+import { Injectable } from '@angular/core';
+import axios from "axios";
+import { environment } from 'src/environments/environment';
+
+axios.defaults.withCredentials = true;
+axios.defaults.headers.common['Accept'] = 'application/json';
+axios.defaults.headers.common['Access-Control-Allow-Origin'] = "*";
+axios.defaults.headers.common['Access-Control-Allow-Methods'] = '*';
+axios.defaults.headers.common['Access-Control-Allow-Headers'] = '*';
+
+
+@Injectable({
+  providedIn: 'root'
+})
+export class TransportBookingService {
+
+  constructor() { }
+
+  async addBooking(data: AddBookingFormData){
+    const res = await axios.post(`${environment.apiUrl}/api/transport-bookings`, data)
+    .then(res => res)
+    .catch(err => err.response);
+    return res;
+  }
+}
+
+class AddBookingFormData{
+  user_customer_id : any
+  service_id: any
+  passenger_count: number
+  pickup_time: string
+  pickup_location: string
+  dropoff_location: string
+  service_type: string
+  route: string
+  small: number
+  medium : number
+  large: number
+  extra_large: number
+}
