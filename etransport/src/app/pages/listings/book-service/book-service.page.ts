@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { IonSelectOption, ModalController } from '@ionic/angular';
 import { AuthService } from 'src/app/services/auth.service';
 import { ServiceService } from 'src/app/services/service.service';
 
@@ -8,22 +8,30 @@ import { ServiceService } from 'src/app/services/service.service';
   templateUrl: './book-service.page.html',
   styleUrls: ['./book-service.page.scss'],
 })
+
 export class BookServicePage implements OnInit {
 
   constructor(
     private modalController : ModalController,
     private authService : AuthService,
-    public serviceService : ServiceService
+    public serviceService : ServiceService,
   ) { }
+
+  routeInterfaceOptions = {
+    header: 'Routes', 
+    subHeader: 'These are all the available routes provided by the service owner.',
+    cssClass: 'route-select',
+  };
 
   book_service_form : any = {
     user_customer_id : this.authService.getAuth().user_id,
     passenger_count: null,
     service_id: this.serviceService.to_book.service_id,
-    pickup_datetime: null,
+    pickup_time: null,
     pickup_location: null,
     dropoff_location: null,
     service_type: null,
+    route: null,
     errors: {},
     submit : async () => {
       console.log(this.book_service_form)

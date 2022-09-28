@@ -27,7 +27,8 @@ extra_large
 <!-- db refactors 9/25/2022 -->
 add 
 passenger_count,
-time_departure,
+pickup_time,
+route('Manila to Marinduque', 'Marinduque to Manila')
 selected_starting_location,
 to transport_bookings;
 
