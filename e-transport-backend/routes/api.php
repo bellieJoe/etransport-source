@@ -5,7 +5,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\AdministratorController;
 use App\Http\Controllers\LuggagePricingController;
-
+use App\Http\Controllers\TransportBookingController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -66,7 +66,6 @@ Services
 Route::prefix('services')->group(function () {
     Route::post('', [ServiceController::class, 'store']);
 
-
     Route::get('get-service-by-user-id/{user_id}', [ServiceController::class, 'getServiceByUserID']);
 
     Route::put('{service_id}', [ServiceController::class, 'update']);
@@ -83,4 +82,11 @@ LuggagePricings
 */
 Route::prefix('luggage-pricings')->group(function () {
     Route::get('get-luggage-pricings-by-service-id/{service_id}', [LuggagePricingController::class, 'getLuggagePricingsByServiceId']);
+});
+
+/* 
+TransportBookings
+*/
+Route::prefix('transport-bookings')->group(function (){
+    Route::post('', [TransportBookingController::class, 'store']);
 });

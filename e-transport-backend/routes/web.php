@@ -20,6 +20,6 @@ use Faker\Factory;
 */
 
 Route::get('/', function () {
-    return "Hey there!";
+    return response([], 404);
 });
 

@@ -21,8 +21,8 @@ class CreateTransportBookingsTable extends Migration
             $table->foreignId('service_id');
             $table->time('pickup_time');
             $table->enum('route', ['Manila to Marinduque', 'Marinduque to Manila']);
-            $table->string('pickup_location');
-            $table->string('dropoff_location');
+            $table->string('pickup_location', 1000);
+            $table->string('dropoff_location', 1000);
             $table->enum('service_type', ['passenger', 'luggage', 'both']);
             $table->timestamps();
         });

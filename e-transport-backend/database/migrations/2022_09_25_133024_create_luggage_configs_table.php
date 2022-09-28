@@ -16,8 +16,10 @@ class CreateLuggageConfigsTable extends Migration
         Schema::create('luggage_configs', function (Blueprint $table) {
             $table->id('luggage_config_id');
             $table->foreignId('transport_booking_id');
-            $table->enum('luggage_size', ['small', 'medium', 'large', 'extra large']);
-            $table->integer('luggage_count');
+            $table->integer('small')->nullable();
+            $table->integer('medium')->nullable();
+            $table->integer('large')->nullable();
+            $table->integer('extra_large')->nullable();
             $table->timestamps();
         });
     }

@@ -88,23 +88,27 @@
         </div>
         <ion-item>
           <ion-label>Small</ion-label>
-          <ion-input slot="end" type="number" placeholder="0"></ion-input>
+          <ion-input slot="end" type="number" placeholder="0" [(ngModel)]="book_service_form.small"></ion-input>
         </ion-item>
+        <ion-note color="danger" *ngIf="book_service_form.errors.small">{{ book_service_form.errors.small }}</ion-note>
 
         <ion-item>
           <ion-label>Medium</ion-label>
-          <ion-input slot="end" type="number" placeholder="0"></ion-input>
+          <ion-input slot="end" type="number" placeholder="0" [(ngModel)]="book_service_form.medium"></ion-input>
         </ion-item>
+        <ion-note color="danger" *ngIf="book_service_form.errors.medium">{{ book_service_form.errors.small }}</ion-note>
 
         <ion-item>
           <ion-label>Large</ion-label>
-          <ion-input slot="end" type="number" placeholder="0"></ion-input>
+          <ion-input slot="end" type="number" placeholder="0" [(ngModel)]="book_service_form.large"></ion-input>
         </ion-item>
+        <ion-note color="danger" *ngIf="book_service_form.errors.large">{{ book_service_form.errors.large }}</ion-note>
 
         <ion-item>
           <ion-label>Extra Large</ion-label>
-          <ion-input slot="end" type="number" placeholder="0"></ion-input>
+          <ion-input slot="end" type="number" placeholder="0" [(ngModel)]="book_service_form.extra_large"></ion-input>
         </ion-item>
+        <ion-note color="danger" *ngIf="book_service_form.errors.extra_large">{{ book_service_form.errors.extra_large }}</ion-note>
       </ion-content>
     </ng-template>
   </ion-modal>
@@ -126,16 +130,14 @@
     <ion-input type="text" [(ngModel)]="book_service_form.dropoff_location"></ion-input>
   </ion-item> 
   <ion-note color="danger" *ngIf="book_service_form.errors.dropoff_location">{{ book_service_form.errors.dropoff_location }}</ion-note>
-
 </ion-content>
 
 <ion-footer >
   <ion-toolbar>
     <ion-buttons slot="end">
-      <ion-button color="primary" fill="solid">
+      <ion-button color="primary" fill="solid" (click)="book_service_form.submit()">
         Submit Booking
       </ion-button>
     </ion-buttons>
-    
   </ion-toolbar>
 </ion-footer>

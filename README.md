@@ -36,3 +36,11 @@ create luggage_configs table with:
 transport_booking_id: foreign
 luggage_size: enum(small, medium, large, extra large)
 luggage_count: integer
+
+<!-- db refactors 9/28/2022 -->
+update luggage_configs table with:
+transport_booking_id: foreign
+small: integer
+medium: integer
+large: integer
+extra_large: integer

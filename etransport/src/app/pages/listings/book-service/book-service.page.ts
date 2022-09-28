@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { NgModel } from '@angular/forms';
 import { IonModal, IonSelectOption, ModalController } from '@ionic/angular';
 import { AuthService } from 'src/app/services/auth.service';
 import { ServiceService } from 'src/app/services/service.service';
@@ -27,13 +28,17 @@ export class BookServicePage implements OnInit {
 
   book_service_form : any = {
     user_customer_id : this.authService.getAuth().user_id,
-    passenger_count: null,
     service_id: this.serviceService.to_book.service_id,
+    passenger_count: null,
     pickup_time: null,
     pickup_location: null,
     dropoff_location: null,
     service_type: null,
     route: null,
+    small: null,
+    medium : null,
+    large: null,
+    extra_large: null,
     errors: {},
     submit : async () => {
       console.log(this.book_service_form)
