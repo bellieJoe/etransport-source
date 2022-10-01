@@ -87,26 +87,42 @@
           <p >Set only that applies to you.</p>
         </div>
         <ion-item>
-          <ion-label>Small</ion-label>
+          <ion-label slot="start">
+            <h2>Small</h2>
+            <h2>{{ serviceService.to_book.luggage_pricing.small | currency:"PHP" }}</h2>
+          </ion-label>
           <ion-input slot="end" type="number" placeholder="0" [(ngModel)]="book_service_form.small"></ion-input>
+          <ion-label slot="end" color="medium">slot/s</ion-label>
         </ion-item>
         <ion-note color="danger" *ngIf="book_service_form.errors.small">{{ book_service_form.errors.small }}</ion-note>
 
         <ion-item>
-          <ion-label>Medium</ion-label>
+          <ion-label slot="start">
+            <h2>Medium</h2>
+            <h2>{{ serviceService.to_book.luggage_pricing.medium | currency:"PHP" }}</h2>
+          </ion-label>
           <ion-input slot="end" type="number" placeholder="0" [(ngModel)]="book_service_form.medium"></ion-input>
+          <ion-label slot="end" color="medium">slot/s</ion-label>
         </ion-item>
         <ion-note color="danger" *ngIf="book_service_form.errors.medium">{{ book_service_form.errors.small }}</ion-note>
 
         <ion-item>
-          <ion-label>Large</ion-label>
+          <ion-label slot="start">
+            <h2>Large</h2>
+            <h2>{{ serviceService.to_book.luggage_pricing.large | currency:"PHP" }}</h2>
+          </ion-label>
           <ion-input slot="end" type="number" placeholder="0" [(ngModel)]="book_service_form.large"></ion-input>
+          <ion-label slot="end" color="medium">slot/s</ion-label>
         </ion-item>
         <ion-note color="danger" *ngIf="book_service_form.errors.large">{{ book_service_form.errors.large }}</ion-note>
 
         <ion-item>
-          <ion-label>Extra Large</ion-label>
+          <ion-label slot="start">
+            <h2>Extra Large</h2>
+            <h2>{{ serviceService.to_book.luggage_pricing.extra_large | currency:"PHP" }}</h2>
+          </ion-label>
           <ion-input slot="end" type="number" placeholder="0" [(ngModel)]="book_service_form.extra_large"></ion-input>
+          <ion-label slot="end" color="medium">slot/s</ion-label>
         </ion-item>
         <ion-note color="danger" *ngIf="book_service_form.errors.extra_large">{{ book_service_form.errors.extra_large }}</ion-note>
       </ion-content>
