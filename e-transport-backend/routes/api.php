@@ -74,7 +74,7 @@ Route::prefix('services')->group(function () {
 
     Route::delete('{service_id}', [ServiceController::class, 'destroy']);
 
-    Route::get('listings', [ServiceController::class, 'getListings']);
+    Route::get('listings/{user_customer_id}', [ServiceController::class, 'getListingsByUserCustomerId']);
 });
 
 /* 

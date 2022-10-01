@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Service;
 use App\Models\Administrator;
 use App\Models\LuggagePricing;
+use App\Models\TransportBooking;
 use App\Rules\DepartureDate;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -144,10 +145,16 @@ class ServiceController extends Controller
         return $service;
     }
 
-    public function getListings(){
+    public function getListingsByUserCustomerId($user_customer_id){
+        $user_pending_service_booking_ids = TransportBooking::where([
+            'user_customer_id' => $user_customer_id,
+            'booking_status' => 'pending'
+        ])->pluck('service_id');
+
         return Service::where([
             'service_status' => 'open'
         ])
+        ->whereNotIn('service_id', $user_pending_service_booking_ids)
         ->with(['administrator', 'luggagePricing'])
         ->get();
     }

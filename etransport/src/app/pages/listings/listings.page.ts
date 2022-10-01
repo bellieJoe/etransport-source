@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController, ModalController } from '@ionic/angular';
+import { AuthService } from 'src/app/services/auth.service';
 import { ServiceService } from 'src/app/services/service.service';
 import { BookServicePage } from './book-service/book-service.page';
 
@@ -13,14 +14,15 @@ export class ListingsPage implements OnInit {
   constructor(
     public serviceService : ServiceService,
     private alertController : AlertController,
-    private modalController : ModalController
+    private modalController : ModalController,
+    private authService : AuthService
   ) { }
 
   loading : boolean = false;
 
   async fetchListings(){
     this.loading = true;
-    const res = await this.serviceService.getListings();
+    const res = await this.serviceService.getListingsByUserCustomerId(this.authService.getAuth().user_id);
 
     if(res.status != 200){
       const alert = await this.alertController.create({
