@@ -56,8 +56,8 @@ export class ServiceService {
     return res;
   }
 
-  async getListingsByUserCustomerId(userCustomerId :any){
-    const res = await axios.get(`${environment.apiUrl}/api/services/listings/${userCustomerId}`)
+  async getListingsByUserCustomerId(user_customer_id :any){
+    const res = await axios.get(`${environment.apiUrl}/api/services/listings/${user_customer_id}`)
     .then(res => res)
     .catch(err => err.response);
     return res;

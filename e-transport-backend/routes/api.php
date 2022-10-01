@@ -89,4 +89,6 @@ TransportBookings
 */
 Route::prefix('transport-bookings')->group(function (){
     Route::post('', [TransportBookingController::class, 'store']);
+
+    Route::get('get-by-user-customer-id/{user_customer_id}', [TransportBookingController::class, 'getByUserCustomerId']);
 });

@@ -45,6 +45,8 @@ export class ListingsPage implements OnInit {
     })
     this.serviceService.to_book = service;
     await modal.present();
+    await modal.onDidDismiss();
+    await this.fetchListings();
   }
 
   async ngOnInit() {

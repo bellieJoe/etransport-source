@@ -16,4 +16,8 @@ class TransportBooking extends Model
     public function luggageConfigs(){
         return $this->hasMany(LuggageConfig::class, 'transport_booking_id', 'transport_booking_id');
     }
+
+    public function service(){
+        return $this->belongsTo(Service::class, 'service_id', 'service_id');
+    }
 }

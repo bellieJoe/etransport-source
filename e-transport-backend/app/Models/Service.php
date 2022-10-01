@@ -21,4 +21,8 @@ class Service extends Model
     public function luggagePricing(){
         return $this->hasOne(LuggagePricing::class, 'service_id', 'service_id');
     }
+
+    public function transportBookings(){
+        return $this->hasMany(TransportBooking::class, 'service_id', 'service_id');
+    }
 }

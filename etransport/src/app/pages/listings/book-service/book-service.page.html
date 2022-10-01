@@ -63,7 +63,7 @@
       </ion-select-option>
     </ion-select>
   </ion-item>
-  <ion-note color="danger" *ngIf="book_service_form.errors.service_type">{{ book_service_form.errors.service_type }}</ion-note>
+  <ion-note color="danger" *ngIf="book_service_form.errors.route">{{ book_service_form.errors.route }}</ion-note>
 
   <ion-item *ngIf="book_service_form.service_type != 'luggage'">
     <ion-label position="floating">How many passenger reservation?</ion-label>

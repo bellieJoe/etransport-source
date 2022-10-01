@@ -55,4 +55,12 @@ class TransportBookingController extends Controller
             ]);
         }
     }
+
+    public function getByUserCustomerId($user_customer_id){
+        return TransportBooking::where('user_customer_id', $user_customer_id)
+        ->with([
+            'luggageConfigs',
+            'service.administrator.user'
+        ])->get();
+    }
 }

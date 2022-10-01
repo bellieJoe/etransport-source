@@ -16,8 +16,17 @@ export class TransportBookingService {
 
   constructor() { }
 
+  transport_bookings : any[] = [];
+
   async addBooking(data: AddBookingFormData){
     const res = await axios.post(`${environment.apiUrl}/api/transport-bookings`, data)
+    .then(res => res)
+    .catch(err => err.response);
+    return res;
+  }
+
+  async getByUserCustomerId(user_customer_id: any){
+    const res = await axios.get(`${environment.apiUrl}/api/transport-bookings/get-by-user-customer-id/${user_customer_id}`)
     .then(res => res)
     .catch(err => err.response);
     return res;
