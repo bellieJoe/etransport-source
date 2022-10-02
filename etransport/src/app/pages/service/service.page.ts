@@ -23,24 +23,24 @@ export class ServicePage  {
   loading : boolean  = false;
   luggage_pricing : any = {};
 
-  async fetchService(){
-    this.loading = true;
-    const res = await this.serviceService.getServiceByUserID(this.authService.getAuth().user_id);
-    if(res.status != 200){
-      const alert = await this.alertController.create({
-        message: `${res.status} | ${res.data.message}`,
-        header: 'Error fetching the data',
-        buttons: ['Ok']
-      });
-      await alert.present();
-      this.loading = false;
-      return;
-    }
+  // async fetchService(){
+  //   this.loading = true;
+  //   const res = await this.serviceService.getServiceByUserID(this.authService.getAuth().user_id);
+  //   if(res.status != 200){
+  //     const alert = await this.alertController.create({
+  //       message: `${res.status} | ${res.data.message}`,
+  //       header: 'Error fetching the data',
+  //       buttons: ['Ok']
+  //     });
+  //     await alert.present();
+  //     this.loading = false;
+  //     return;
+  //   }
     
-    this.serviceService.service = res.data;
-    console.log(res.data)
-    this.loading = false;
-  }
+  //   this.serviceService.service = res.data;
+  //   console.log(res.data)
+  //   this.loading = false;
+  // }
 
   async showUpdateStatusForm(){
     const modal = await this.modalController.create({
@@ -62,8 +62,10 @@ export class ServicePage  {
   }
 
   async ionViewWillEnter() {
-    await this.fetchService();
+    this.loading = true;
+    await this.serviceService.fetchServiceByUserId();
     this.luggage_pricing = this.serviceService.service.luggage_pricing;
+    this.loading = false;
   }
 
 }

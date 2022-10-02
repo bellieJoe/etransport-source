@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
+import { AlertController } from '@ionic/angular';
 import axios from "axios";
 import { environment } from 'src/environments/environment';
+import { AuthService } from './auth.service';
 
 axios.defaults.withCredentials = true;
 axios.defaults.headers.common['Accept'] = 'application/json';
@@ -13,13 +15,31 @@ axios.defaults.headers.common['Access-Control-Allow-Headers'] = '*';
 })
 export class ServiceService {
 
-  constructor() { }
+  constructor(
+    private authService : AuthService,
+    private alertController : AlertController
+  ) { }
 
   // states
   public to_book : any = {};
   public service : any = {};
   public services : any = [];
   public listings : any = [];
+
+  async fetchServiceByUserId(){
+    const res = await this.getServiceByUserID(this.authService.getAuth().user_id);
+    if(res.status != 200){
+      const alert = await this.alertController.create({
+        message: `${res.status} | ${res.data.message}`,
+        header: 'Error fetching the data',
+        buttons: ['Ok']
+      });
+      await alert.present();
+      return;
+    }
+    this.service = res.data;
+    console.log(res.data)
+  }
 
   async addService(data: AddServiceData){
     const res = await axios.post(`${environment.apiUrl}/api/services`, data)

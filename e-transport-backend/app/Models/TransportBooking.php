@@ -9,6 +9,8 @@ class TransportBooking extends Model
 {
     use HasFactory;
 
+    // protected $with = ['bookingUpdates'];
+
     protected $primaryKey = 'transport_booking_id';
 
     protected $guarded = [];
@@ -19,5 +21,13 @@ class TransportBooking extends Model
 
     public function service(){
         return $this->belongsTo(Service::class, 'service_id', 'service_id');
+    }
+
+    public function userCustomer(){
+        return $this->belongsTo(User::class, 'user_customer_id', 'user_id');
+    }
+
+    function bookingUpdates(){
+        return $this->hasMany(BookingUpdate::class, 'transport_booking_id', 'transport_booking_id');
     }
 }

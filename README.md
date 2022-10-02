@@ -44,3 +44,19 @@ small: integer
 medium: integer
 large: integer
 extra_large: integer
+
+<!-- db refactors 10/2/2022  -->
+create booking_updates table
+booking_update_id pk
+transport_booking_id fk
+booking_status varchar
+message varchar
+timestamps
+<!-- do not implement yet -->
+create booking_messages table
+booking_message_id
+transport_booking_id
+sender_role_id: enum(2:Administrator, 1:Customer)
+message: varchar
+timestamps
+

@@ -1,21 +1,22 @@
-import { Component, OnInit, ViewChild, ViewChildren } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { AlertController, IonModal } from '@ionic/angular';
 import { AuthService } from 'src/app/services/auth.service';
+import { ServiceService } from 'src/app/services/service.service';
 import { TransportBookingService } from '../services/transport-booking.service';
 
 @Component({
-  selector: 'app-customer-bookings',
-  templateUrl: './customer-bookings.page.html',
-  styleUrls: ['./customer-bookings.page.scss'],
+  selector: 'app-service-bookings',
+  templateUrl: './service-bookings.page.html',
+  styleUrls: ['./service-bookings.page.scss'],
 })
-export class CustomerBookingsPage implements OnInit {
+export class ServiceBookingsPage implements OnInit {
 
   constructor(
     public transportBookingService : TransportBookingService,
     private authService : AuthService,
-    private alertController : AlertController
+    private alertController : AlertController,
+    public serviceService : ServiceService
   ) { }
-  @ViewChild(IonModal) modal: IonModal;
 
   filteredBooking : string = 'all'
   isLoading : boolean = false;
@@ -30,9 +31,9 @@ export class CustomerBookingsPage implements OnInit {
     }
     return "medium";
   }
-  
+
   async fetchBookings(){
-    const res = await this.transportBookingService.getByUserCustomerId(this.authService.getAuth().user_id)
+    const res = await this.transportBookingService.getByServiceId(this.serviceService.service.service_id)
     if(res.status != 200){
       const alert = await this.alertController.create({
         header: `Unable to fetch bookings`,
@@ -46,13 +47,9 @@ export class CustomerBookingsPage implements OnInit {
     console.log(this.transportBookingService.transport_bookings[0].service.service_name)
   }
 
-  async closeModal(){
-    await this.modal.dismiss();
-  }
-
-
   async ngOnInit() {
     this.isLoading = true;
+    await this.serviceService.fetchServiceByUserId();
     await this.fetchBookings();
     this.isLoading = false;
     this.transport = this.transportBookingService.transport_bookings

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\LuggageConfig;
 use App\Models\TransportBooking;
+use App\Models\BookingUpdate;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
@@ -61,6 +62,53 @@ class TransportBookingController extends Controller
         ->with([
             'luggageConfig',
             'service.administrator.user'
-        ])->get();
+        ])
+        ->orderBy("updated_at", 'desc')
+        ->get();
+    }
+
+    public function getByServiceId($service_id){
+        return TransportBooking::where('service_id', $service_id)
+        ->with([
+            'luggageConfig',
+            'userCustomer',
+            'bookingUpdates' => function($q){
+                $q->orderBy('created_at', 'desc');
+            }
+        ])
+        ->orderBy("updated_at", 'desc')
+        ->get();
+    }
+
+    public function updateStatus(Request $request, $transport_booking_id){
+        if(!$request->booking_status || !$request->message){
+            return response([
+                'message' => 'An invalid data was detected. Cannot process the request as of now.'
+            ], 422);
+        }
+
+        $transport_booking = TransportBooking::where('transport_booking_id', $transport_booking_id);
+
+        $transport_booking->update([
+            'booking_status' => $request->booking_status
+        ]);
+
+        BookingUpdate::create([
+            'transport_booking_id' => $transport_booking_id,
+            'booking_status' => $request->booking_status,
+            'message' => $request->message,
+            'msg_frm_customer' => $request->msg_frm_customer ? $request->msg_frm_customer : null,
+            'msg_frm_admin' => $request->msg_frm_admin ? $request->msg_frm_admin : null
+        ]);
+
+        $transport_booking->refresh();
+        $transport_booking->with([
+            'luggageConfig',
+            'userCustomer',
+            'bookingUpdates' => function($q){
+                $q->orderBy('created_at', 'desc');
+            }
+        ]);
+        return $transport_booking->first();
     }
 }

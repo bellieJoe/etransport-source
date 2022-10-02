@@ -36,6 +36,12 @@
               <ion-label>My Bookings</ion-label>
             </ion-item>
           </ion-menu-toggle>
+          <ion-menu-toggle  auto-hide="false" *ngIf="user.role_id === 2">
+            <ion-item routerDirection="root" routerLink="/service-bookings" lines="none" detail="false" routerLinkActive="selected">
+              <ion-icon slot="start" icon="book-outline"></ion-icon>
+              <ion-label>Service Bookings</ion-label>
+            </ion-item>
+          </ion-menu-toggle>
           <ion-menu-toggle  auto-hide="false">
             <ion-item lines="none" detail="false" (click)="logout()" button>
               <ion-icon slot="start" icon="log-out-outline" ></ion-icon>

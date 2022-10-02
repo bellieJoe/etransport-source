@@ -1,0 +1,164 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Service Bookings</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content color="background">
+  <ion-progress-bar type="indeterminate" color="primary" *ngIf="isLoading"></ion-progress-bar>
+  <ion-card >
+    <ion-item lines="none">
+      <ion-label>Filter</ion-label>
+      <ion-select value="all" interface="action-sheet" cancelText="Cancel Selection" [(ngModel)]="filteredBooking">
+        <ion-select-option value="all">All</ion-select-option>
+        <ion-select-option value="pending">Pending</ion-select-option>
+        <ion-select-option value="accepted">Accepted</ion-select-option>
+        <ion-select-option value="canceled">Canceled</ion-select-option>
+        <ion-select-option value="declined">Declined</ion-select-option>
+        <ion-select-option value="finished">Finished</ion-select-option>
+      </ion-select>
+    </ion-item>
+  </ion-card>
+  <ng-container *ngFor="let booking of transportBookingService.transport_bookings">
+    <div id="booking-{{ booking.transport_booking_id }}" class="my-3 bg-white pb-3" *ngIf="filteredBooking == 'all' || filteredBooking == booking.booking_status">
+      <div class="px-3 border-bottom">
+        <label class="text-secondary">{{ booking.created_at | date:'mediumDate' }}</label>
+      </div>
+      <ion-item lines="none">
+        <ion-label color="primary">
+          <h2>{{ booking.user_customer.name }} </h2>
+          <h2 class="text-secondary"><i class="fa fa-envelope me-1"></i>{{ booking.user_customer.email }}</h2>
+          <h2 class="text-secondary"><i class="fa-solid fa-phone"></i>+63 {{ booking.user_customer.contact_number }}</h2>
+        </ion-label>
+        <ion-badge slot="end" [color]="setBookingStatusColor(booking.booking_status)" >{{ booking.booking_status | titlecase }}</ion-badge>
+      </ion-item>
+      <ion-item lines="none" *ngIf="booking.pickup_time">
+        <ion-label>
+          <h2>Pickup Time</h2>
+          <label for="">{{ '01-01-01 ' + booking.pickup_time | date:'hh:mm a' }} </label>
+        </ion-label>
+      </ion-item>
+      <ion-item lines="none" *ngIf="booking.pickup_location">
+        <ion-label>
+          <h2>Pickup Location</h2>
+          <label for="">{{ booking.pickup_location }} </label>
+        </ion-label>
+      </ion-item>
+      <ion-item lines="none" *ngIf="booking.dropoff_location">
+        <ion-label>
+          <h2>Drop-off Location</h2>
+          <label for="">{{ booking.dropoff_location }} </label>
+        </ion-label>
+      </ion-item>
+      <div class="px-3">
+        <ion-item color="light" lines="none" detail="true" button id="booking-detail-modal-{{ booking.transport_booking_id }}">
+          <ion-label>Number of reservations</ion-label>
+        </ion-item>
+        <ion-modal trigger="booking-detail-modal-{{ booking.transport_booking_id }}" [initialBreakpoint]="0.75" [breakpoints]="[0, 0.25, 0.5, 1]">
+          <ng-template >
+            <ion-header>
+              <ion-toolbar>
+                <ion-title>
+                  <ion-label>
+                    <h2 class="ion-color-primary">{{ booking.user_customer.name }}</h2>
+                    <h2>Reservation details</h2>
+                  </ion-label>
+                </ion-title>
+              </ion-toolbar>
+            </ion-header>
+            <ion-content color="background">
+              <br>
+              <ion-item lines="full" *ngIf="booking.passenger_count">
+                <ion-label >
+                  <h2>Passenger slots reserved</h2>
+                  <h2>{{ booking.passenger_count }}</h2>
+                </ion-label>
+              </ion-item>
+              <ion-list *ngIf="booking.luggage_config">
+                <ion-list-header>
+                  <ion-label>Luggage Reservations</ion-label>
+                </ion-list-header>
+                <ion-item lines="full" *ngIf="booking.luggage_config.small">
+                  <ion-label >Small {{ booking.service.luggage_pricing.small | currency:'PHP' }}</ion-label>
+                  <ion-label slot="end">{{ booking.luggage_config.small }}</ion-label>
+                </ion-item>
+                <ion-item lines="full" *ngIf="booking.luggage_config.medium">
+                  <ion-label >Medium {{ booking.service.luggage_pricing.medium | currency:'PHP' }}</ion-label>
+                  <ion-label slot="end">{{ booking.luggage_config.medium }}</ion-label>
+                </ion-item>
+                <ion-item lines="full" *ngIf="booking.luggage_config.large">
+                  <ion-label >Large {{ booking.service.luggage_pricing.large | currency:'PHP' }}</ion-label>
+                  <ion-label slot="end">{{ booking.luggage_config.large }}</ion-label>
+                </ion-item>
+                <ion-item lines="full" *ngIf="booking.luggage_config.extra_large">
+                  <ion-label >Extra Large {{ booking.service.luggage_pricing.extra_large | currency:'PHP' }}</ion-label>
+                  <ion-label slot="end">{{ booking.luggage_config.extra_large }}</ion-label>
+                </ion-item>
+              </ion-list>
+            </ion-content>
+          </ng-template>
+        </ion-modal>
+      </div>
+      <div class="px-3"> <!-- not yet implemented-->
+        <ion-item color="light" lines="none" detail="true" button id="booking-updates-modal-{{ booking.transport_booking_id }}">
+          <ion-label>Booking Updates</ion-label>
+        </ion-item>
+        <ion-modal trigger="booking-updates-modal-{{ booking.transport_booking_id }}" [initialBreakpoint]="0.75" [breakpoints]="[0, 0.25, 0.5, 1]">
+          <ng-template >
+            <ion-header>
+              <ion-toolbar>
+                <ion-title>
+                  <ion-label>
+                    <h2 class="ion-color-primary">{{ booking.user_customer.name }}</h2>
+                    <h2>Reservation details</h2>
+                  </ion-label>
+                </ion-title>
+              </ion-toolbar>
+            </ion-header>
+            <ion-content color="background">
+              <br>
+              <ion-item lines="full" *ngIf="booking.passenger_count">
+                <ion-label >
+                  <h2>Passenger slots reserved</h2>
+                  <h2>{{ booking.passenger_count }}</h2>
+                </ion-label>
+              </ion-item>
+              <ion-list *ngIf="booking.luggage_config">
+                <ion-list-header>
+                  <ion-label>Luggage Reservations</ion-label>
+                </ion-list-header>
+                <ion-item lines="full" *ngIf="booking.luggage_config.small">
+                  <ion-label >Small {{ booking.service.luggage_pricing.small | currency:'PHP' }}</ion-label>
+                  <ion-label slot="end">{{ booking.luggage_config.small }}</ion-label>
+                </ion-item>
+                <ion-item lines="full" *ngIf="booking.luggage_config.medium">
+                  <ion-label >Medium {{ booking.service.luggage_pricing.medium | currency:'PHP' }}</ion-label>
+                  <ion-label slot="end">{{ booking.luggage_config.medium }}</ion-label>
+                </ion-item>
+                <ion-item lines="full" *ngIf="booking.luggage_config.large">
+                  <ion-label >Large {{ booking.service.luggage_pricing.large | currency:'PHP' }}</ion-label>
+                  <ion-label slot="end">{{ booking.luggage_config.large }}</ion-label>
+                </ion-item>
+                <ion-item lines="full" *ngIf="booking.luggage_config.extra_large">
+                  <ion-label >Extra Large {{ booking.service.luggage_pricing.extra_large | currency:'PHP' }}</ion-label>
+                  <ion-label slot="end">{{ booking.luggage_config.extra_large }}</ion-label>
+                </ion-item>
+              </ion-list>
+            </ion-content>
+          </ng-template>
+        </ion-modal>
+      </div>
+      <div class="px-3 mt-2">
+        <ion-button color="danger" fill="outline">
+          Decline
+        </ion-button>
+        <ion-button color="success">
+          Accept
+        </ion-button>
+      </div>
+    </div>
+  </ng-container>
+</ion-content>

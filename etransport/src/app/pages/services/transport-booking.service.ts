@@ -25,8 +25,22 @@ export class TransportBookingService {
     return res;
   }
 
+  async updateStatus(data: UpdateStatusData){
+    const res = await axios.post(`${environment.apiUrl}/api/transport-bookings/update-status/${data.transport_booking_id}`, data)
+    .then(res => res)
+    .catch(err => err.response);
+    return res;
+  }
+
   async getByUserCustomerId(user_customer_id: any){
     const res = await axios.get(`${environment.apiUrl}/api/transport-bookings/get-by-user-customer-id/${user_customer_id}`)
+    .then(res => res)
+    .catch(err => err.response);
+    return res;
+  }
+
+  async getByServiceId(service_id: any){
+    const res = await axios.get(`${environment.apiUrl}/api/transport-bookings/get-by-service-id/${service_id}`)
     .then(res => res)
     .catch(err => err.response);
     return res;
@@ -46,4 +60,12 @@ class AddBookingFormData{
   medium : number
   large: number
   extra_large: number
+}
+
+class UpdateStatusData{
+  transport_booking_id : any
+  booking_status: string
+  message: string
+  msg_from_customer? : string
+  msg_from_admin? : string
 }

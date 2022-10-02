@@ -76,6 +76,10 @@ const routes: Routes = [
   },  {
     path: 'customer-bookings',
     loadChildren: () => import('./pages/customer-bookings/customer-bookings.module').then( m => m.CustomerBookingsPageModule)
+  },
+  {
+    path: 'service-bookings',
+    loadChildren: () => import('./pages/service-bookings/service-bookings.module').then( m => m.ServiceBookingsPageModule)
   }
 
 

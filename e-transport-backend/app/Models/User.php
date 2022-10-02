@@ -41,4 +41,8 @@ class User extends Authenticatable
         return $this->hasOne(Customer::class, 'user_id', 'user_id');
     }
 
+    public function transportBookings(){
+        return $this->hasMany(TransportBooking::class, 'user_customer_id', 'user_id');
+    }
+
 }
