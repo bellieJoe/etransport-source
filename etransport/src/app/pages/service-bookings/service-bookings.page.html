@@ -155,10 +155,33 @@
         <ion-button color="danger" fill="outline">
           Decline
         </ion-button>
-        <ion-button color="success">
+        <ion-button color="success"id="accept-booking-modal-{{ booking.transport_booking_id }}" >
           Accept
         </ion-button>
       </div>
+      <ion-modal trigger="accept-booking-modal-{{ booking.transport_booking_id }}" [initialBreakpoint]="0.5" [breakpoints]="[0, 0.5, 1]">
+        <ng-template >
+          <ion-header class="ion-no-border">
+            <ion-toolbar>
+              <ion-title>Accept Booking</ion-title>
+            </ion-toolbar>
+          </ion-header>
+          <ion-content>
+            <div class="px-3">
+              <div class="bg-info p-2">
+                <p class="mb-0"><i class="fa-solid fa-lightbulb text-warning"></i> <span class="fw-bold">Tips:</span>  You can call the customer who set the booking to make sure that it is legitimate.</p>
+              </div>
+              <ion-item class="mb-2">
+                <ion-label position="floating">Any message to {{ booking.user_customer.name }}?</ion-label>
+                <ion-input type="text"></ion-input>
+              </ion-item>
+              <ion-button (click)="acceptBooking(booking.transport_booking_id)" expand="block">
+                Accept Booking
+              </ion-button>
+            </div>
+          </ion-content>
+        </ng-template>
+      </ion-modal>
     </div>
   </ng-container>
 </ion-content>

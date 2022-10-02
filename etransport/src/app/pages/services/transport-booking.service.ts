@@ -62,7 +62,7 @@ class AddBookingFormData{
   extra_large: number
 }
 
-class UpdateStatusData{
+export class UpdateStatusData{
   transport_booking_id : any
   booking_status: string
   message: string

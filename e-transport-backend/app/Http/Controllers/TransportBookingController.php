@@ -71,6 +71,7 @@ class TransportBookingController extends Controller
         return TransportBooking::where('service_id', $service_id)
         ->with([
             'luggageConfig',
+            'service.administrator.user',
             'userCustomer',
             'bookingUpdates' => function($q){
                 $q->orderBy('created_at', 'desc');
@@ -104,6 +105,7 @@ class TransportBookingController extends Controller
         $transport_booking->refresh();
         $transport_booking->with([
             'luggageConfig',
+            'service.administrator.user',
             'userCustomer',
             'bookingUpdates' => function($q){
                 $q->orderBy('created_at', 'desc');
