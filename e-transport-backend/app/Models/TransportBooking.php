@@ -13,8 +13,8 @@ class TransportBooking extends Model
 
     protected $guarded = [];
 
-    public function luggageConfigs(){
-        return $this->hasMany(LuggageConfig::class, 'transport_booking_id', 'transport_booking_id');
+    public function luggageConfig(){
+        return $this->hasOne(LuggageConfig::class, 'transport_booking_id', 'transport_booking_id');
     }
 
     public function service(){

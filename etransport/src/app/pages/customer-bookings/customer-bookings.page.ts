@@ -17,6 +17,7 @@ export class CustomerBookingsPage implements OnInit {
   ) { }
   @ViewChild(IonModal) modal: IonModal;
 
+  filteredBooking : string = 'all'
   isLoading : boolean = false;
   transport = [];
 
@@ -48,10 +49,10 @@ export class CustomerBookingsPage implements OnInit {
     await this.modal.dismiss();
   }
 
-  ngOnInit(){
-  }
+  // ngOnInit(){
+  // }
 
-  async ionViewWillEnter() {
+  async ngOnInit() {
     this.isLoading = true;
     await this.fetchBookings();
     this.isLoading = false;

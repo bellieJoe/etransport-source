@@ -10,6 +10,9 @@ class Service extends Model
 {
     use HasFactory, SoftDeletes;
 
+
+    protected $with = ['luggagePricing'];
+
     protected $primaryKey = 'service_id';
 
     protected $guarded = [];
