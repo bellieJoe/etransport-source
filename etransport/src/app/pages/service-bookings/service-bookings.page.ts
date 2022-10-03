@@ -19,7 +19,7 @@ export class ServiceBookingsPage implements OnInit {
     private loadingController : LoadingController
   ) { }
 
-  filteredBooking : string = 'all'
+  filteredBooking : string = 'all';
   isLoading : boolean = false;
   transport = [];
   msg_from_admin: null;
@@ -65,6 +65,24 @@ export class ServiceBookingsPage implements OnInit {
         msg_from_customer: null
       };
       const res = await this.transportBookingService.updateStatus(data)
+      if(res.status != 200){
+        const alert = await this.alertController.create({
+          header: `Unexpected Error`,
+          message: `${ res.status } | ${ res.data.message }`,
+          buttons: ["Ok"]
+        });
+        await loader.dismiss();
+        await alert.present();
+        return;
+      }
+      this.transportBookingService.transport_bookings.every((val, i)=>{
+        if(val.transport_booking_id == res.data.transport_booking_id){
+          this.transportBookingService.transport_bookings[i] = res.data;
+          return false;
+        }
+        return true;
+      })
+      await loader.dismiss();
     }
 
     const alert = await this.alertController.create({
@@ -93,5 +111,4 @@ export class ServiceBookingsPage implements OnInit {
     this.transport = this.transportBookingService.transport_bookings
     console.log(this.transportBookingService.transport_bookings)
   }
-
 }

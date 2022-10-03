@@ -102,7 +102,7 @@ class TransportBookingController extends Controller
             'msg_frm_admin' => $request->msg_frm_admin ? $request->msg_frm_admin : null
         ]);
 
-        $transport_booking->refresh();
+        // $transport_booking->refresh();
         $transport_booking->with([
             'luggageConfig',
             'service.administrator.user',

@@ -36,6 +36,7 @@ export class TransportBookingService {
     const res = await axios.get(`${environment.apiUrl}/api/transport-bookings/get-by-user-customer-id/${user_customer_id}`)
     .then(res => res)
     .catch(err => err.response);
+    // console.log(res)
     return res;
   }
 

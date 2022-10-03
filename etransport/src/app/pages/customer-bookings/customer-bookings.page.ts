@@ -43,7 +43,7 @@ export class CustomerBookingsPage implements OnInit {
       return;
     }
     this.transportBookingService.transport_bookings = res.data;
-    console.log(this.transportBookingService.transport_bookings[0].service.service_name)
+    // console.log(this.transportBookingService.transport_bookings[0].service.service_name)
   }
 
   async closeModal(){

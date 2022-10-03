@@ -8,6 +8,8 @@ use App\Models\LuggagePricing;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 use Faker\Factory;
+use Illuminate\Support\Facades\Schema;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -20,6 +22,11 @@ use Faker\Factory;
 */
 
 Route::get('/', function () {
-    return response([], 404);
+    if(Schema::hasTable('users')){
+        return "Users table already exist";
+    }
+    return "Users table do not exist";
 });
+
+
 

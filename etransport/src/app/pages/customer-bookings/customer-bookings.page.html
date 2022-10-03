@@ -22,6 +22,9 @@
         </ion-select>
       </ion-item>
     </ion-card>
+    <div class="my-3 px-3" *ngIf="!transportBookingService.transport_bookings[0]">
+      <p class="text-center">No Bookings</p>
+    </div>
     <ng-container *ngFor="let booking of transportBookingService.transport_bookings">
       <div class="my-3 bg-white pb-3" *ngIf="filteredBooking == 'all' || filteredBooking == booking.booking_status">
         <div class="px-3 border-bottom">

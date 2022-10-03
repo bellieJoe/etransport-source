@@ -13,6 +13,7 @@ class CreateTransportBookingsTable extends Migration
      */
     public function up()
     {
+
         Schema::create('transport_bookings', function (Blueprint $table) {
             $table->id('transport_booking_id');
             $table->enum('booking_status', ['pending', 'accepted', 'canceled', 'finished', 'declined']);
