@@ -105,7 +105,7 @@
           </ng-template>
         </ion-modal>
       </div>
-      <div class="px-3"> <!-- not yet implemented-->
+      <div class="px-3"> 
         <ion-item color="light" lines="none" detail="true" button id="booking-updates-modal-{{ booking.transport_booking_id }}">
           <ion-label>Booking Updates</ion-label>
         </ion-item>
@@ -154,13 +154,39 @@
           </ng-template>
         </ion-modal>
       </div>
-      <div class="px-3 mt-2" *ngIf="booking.booking_status == 'pending'">
-        <ion-button color="danger" fill="outline">
+      <div class="px-3 mt-2" >
+        <ion-button color="danger" id="decline-booking-modal-{{ booking.transport_booking_id }}" fill="outline" *ngIf="booking.booking_status == 'pending'">
           Decline
         </ion-button>
-        <ion-button color="success"id="accept-booking-modal-{{ booking.transport_booking_id }}" >
+        <ion-button color="success" id="accept-booking-modal-{{ booking.transport_booking_id }}" *ngIf="booking.booking_status == 'pending'">
           Accept
         </ion-button>
+        <ion-modal trigger="decline-booking-modal-{{ booking.transport_booking_id }}" [initialBreakpoint]="0.5" [breakpoints]="[0, 0.5, 1]">
+          <ng-template >
+            <ion-header class="ion-no-border">
+              <ion-toolbar>
+                <ion-title>Decline Booking</ion-title>
+              </ion-toolbar>
+            </ion-header>
+            <ion-content>
+              <div class="px-3">
+                <div class="bg-info p-2">
+                  <p class="mb-0"><i class="fa-solid fa-lightbulb text-warning"></i> <span class="fw-bold">Tips:</span>  You can call the customer who set the booking to make sure that he/she is formally informed.</p>
+                </div>
+                <ion-item class="mb-2">
+                  <ion-label position="floating">Any message to {{ booking.user_customer.name }}?</ion-label>
+                  <ion-input type="text" [(ngModel)]="msg_from_admin"></ion-input>
+                </ion-item>
+                <!-- <ion-button (click)="sampleClose()" expand="block">
+                  Decline Booking
+                </ion-button> -->
+                <ion-button (click)="declineBooking(booking.transport_booking_id)" expand="block">
+                  Decline Booking
+                </ion-button>
+              </div>
+            </ion-content>
+          </ng-template>
+        </ion-modal>
         <ion-modal trigger="accept-booking-modal-{{ booking.transport_booking_id }}" [initialBreakpoint]="0.5" [breakpoints]="[0, 0.5, 1]">
           <ng-template >
             <ion-header class="ion-no-border">
