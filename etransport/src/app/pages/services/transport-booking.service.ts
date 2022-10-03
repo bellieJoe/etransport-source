@@ -67,6 +67,6 @@ export class UpdateStatusData{
   transport_booking_id : any
   booking_status: string
   message: string
-  msg_from_customer? : string
-  msg_from_admin? : string
+  msg_frm_customer? : string
+  msg_frm_admin? : string
 }
