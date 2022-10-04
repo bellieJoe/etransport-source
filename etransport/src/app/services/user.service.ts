@@ -10,17 +10,6 @@ axios.defaults.headers.common['Access-Control-Allow-Origin'] = "*";
 axios.defaults.headers.common['Access-Control-Allow-Methods'] = '*';
 axios.defaults.headers.common['Access-Control-Allow-Headers'] = '*';
 
-/* form data structure */
-class SignupData {
-  name : string
-  username : string
-  email : string
-  contact_number : string
-  password : string
-  password_confirmation : string
-  role_id : number
-}
-
 @Injectable({
   providedIn: 'root'
 })
@@ -71,8 +60,33 @@ export class UserService {
     return res;
   }
 
+  async updateProfile(data : UpdateProfileData){
+    const res = await axios.post(`${environment.apiUrl}/api/users/update-profile/${data.user_id}`, data)
+    .then(res => res)
+    .catch(err => err.response)
+    return res;
+  }
+
   logout(){
     localStorage.clear()
   }
 
+}
+
+/* form data structure */
+class SignupData {
+  name : string
+  username : string
+  email : string
+  contact_number : string
+  password : string
+  password_confirmation : string
+  role_id : number
+}
+
+class UpdateProfileData {
+  name : string
+  username : string
+  contact_number : string
+  user_id : string
 }

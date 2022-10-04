@@ -1,0 +1,43 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Update Profile</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="closeModal()" color="danger">
+        <ion-icon name="close-outline" slot="start"></ion-icon>
+        Close
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content color="background" >
+
+  <ion-item class="mt-2">
+    <ion-label >Username</ion-label>
+    <ion-input class="ion-text-right" type="text" slot="end" placeholder="write here" [(ngModel)]="update_profile_form.username"></ion-input>
+  </ion-item>
+  <ion-note color="danger" *ngIf="update_profile_form.errors.username">{{ update_profile_form.errors.username }}</ion-note>
+
+  <ion-item >
+    <ion-label >Contact Number</ion-label>
+    <ion-input class="ion-text-right" type="text" slot="end" placeholder="write here" [(ngModel)]="update_profile_form.contact_number"></ion-input>
+  </ion-item>
+  <ion-note color="danger" *ngIf="update_profile_form.errors.contact_number">{{ update_profile_form.errors.contact_number }}</ion-note>
+
+  <ion-item >
+    <ion-label >Name</ion-label>
+    <ion-input class="ion-text-right" type="text" slot="end" placeholder="write here" [(ngModel)]="update_profile_form.name"></ion-input>
+  </ion-item>
+  <ion-note color="danger" *ngIf="update_profile_form.errors.name">{{ update_profile_form.errors.name }}</ion-note>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-buttons slot="end" >
+      <ion-button color="primary" fill="solid" (click)="update_profile_form.submit()">
+        <ion-icon name="save-outline" slot="start"></ion-icon>
+        Save
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

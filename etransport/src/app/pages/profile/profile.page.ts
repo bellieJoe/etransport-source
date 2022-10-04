@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { ModalController } from '@ionic/angular';
 import { AuthService } from 'src/app/services/auth.service';
+import { EditPage } from './edit/edit.page';
 
 @Component({
   selector: 'app-profile',
@@ -9,15 +11,24 @@ import { AuthService } from 'src/app/services/auth.service';
 export class ProfilePage  {
 
   constructor(
-    private authService : AuthService
+    private authService : AuthService,
+    private modalController : ModalController
   ) { }
 
   user : any = {}
-  role = {}
+  role : any = {}
 
-
+  async showEditProfileModal(){
+    const modal = await this.modalController.create({
+      component: EditPage
+    });
+    await modal.present();
+    await modal.onDidDismiss();
+    this.ionViewDidEnter();
+  }
 
   ionViewDidEnter(){
+    console.log(this.authService.getAuth())
     this.user = this.authService.getAuth();
     this.role = this.authService.getAuth().role;
   }

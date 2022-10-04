@@ -11,6 +11,9 @@
   <ion-list>
     <ion-list-header mode="ios">
       <ion-label color="primary">{{ user.name }}</ion-label>
+      <ion-button (click)="showEditProfileModal()" >
+        Update
+      </ion-button>
     </ion-list-header>
 
     <ion-item detail="false">
