@@ -158,6 +158,81 @@
             </ng-template>
           </ion-modal>
         </div>
+
+        <!-- reservation updates -->
+        <div class="px-3"> 
+          <ion-item color="light" lines="none" detail="true" button id="booking-updates-modal-{{ booking.transport_booking_id }}">
+            <ion-label>Booking Updates</ion-label>
+          </ion-item>
+          <ion-modal trigger="booking-updates-modal-{{ booking.transport_booking_id }}" [initialBreakpoint]="0.75" [breakpoints]="[0, 0.25, 0.5, 1]">
+            <ng-template >
+              <ion-header>
+                <ion-toolbar>
+                  <ion-title>
+                    <ion-label>
+                      <h2>Reservation updates</h2>
+                    </ion-label>
+                  </ion-title>
+                </ion-toolbar>
+              </ion-header>
+              <ion-content color="background">
+                <br>
+                <div class="px-3 my-3" *ngIf="!booking.booking_updates[0]">
+                  <p class="text-center">No Updates</p>
+                </div>
+                <div class="row px-3 py-2 my-2 bg-white" *ngFor="let update of booking.booking_updates">
+                  <div class="col-auto">
+                    <p class="mb-0 ion-text-primary">{{ update.created_at | date:'mediumDate' }}</p>
+                    <p class="mb-0 ion-text-primary">{{ update.created_at | date:'h:mm a' }}</p>
+                    <i class="fa-solid fa-share ion-text-medium"></i>
+                  </div>
+                  <div class="col">
+                    <ion-badge [color]="setBookingStatusColor(update.booking_status)">{{ update.booking_status | titlecase }}</ion-badge>
+                    <p>{{ update.message }}</p>
+                    <div *ngIf="update.msg_frm_admin">
+                      <p class="mb-0 ion-text-medium fs-6">Message from Service owner</p>
+                      <p >{{ update.msg_frm_admin }}</p>
+                    </div>
+                    <div *ngIf="update.msg_frm_customer">
+                      <p class="mb-0 ion-text-medium fs-6">Reasons for cancelling</p>
+                      <p >{{ update.msg_frm_customer}}</p>
+                    </div>
+                  </div>
+                </div>
+              </ion-content>
+            </ng-template>
+          </ion-modal>
+        </div>
+
+        <!-- actions -->
+        <div class="px-3 mt-2" >  
+          <ion-button color="medium" id="cancel-booking-modal-{{ booking.transport_booking_id }}" fill="outline" *ngIf="booking.booking_status == 'pending'">
+            Cancel Booking
+          </ion-button>
+          <ion-modal trigger="cancel-booking-modal-{{ booking.transport_booking_id }}" [initialBreakpoint]="0.5" [breakpoints]="[0, 0.5, 1]">
+            <ng-template >
+              <ion-header class="ion-no-border">
+                <ion-toolbar>
+                  <ion-title>Cancel Booking</ion-title>
+                </ion-toolbar>
+              </ion-header>
+              <ion-content>
+                <div class="px-3">
+                  <div class="bg-info p-2">
+                    <p class="mb-0"><i class="fa-solid fa-lightbulb text-warning"></i> <span class="fw-bold">Tips:</span>  You can call the customer who set the booking to make sure that he/she is formally informed.</p>
+                  </div>
+                  <ion-item class="mb-2">
+                    <ion-label position="floating">Any reasons for cancelling this booking?</ion-label>
+                    <ion-input type="text" [(ngModel)]="msg_from_customer"></ion-input>
+                  </ion-item>
+                  <ion-button (click)="cancelBooking(booking.transport_booking_id)" expand="block">
+                    Decline Booking
+                  </ion-button>
+                </div>
+              </ion-content>
+            </ng-template>
+          </ion-modal>
+        </div>
       </div>
     </ng-container>
 </ion-content>

@@ -145,18 +145,12 @@
                   </div>
                 </div>
               </div>
-              <!-- <ion-item lines="none" *ngFor="let update of booking.booking_updates">
-                <i class="fa-solid fa-square-check"></i>
-                <ion-label slot="start">
-                  <p class="text-wrap">Passenger slots reserved</p>
-                  
-                </ion-label>
-              </ion-item> -->
-      
             </ion-content>
           </ng-template>
         </ion-modal>
       </div>
+
+      <!-- actions -->
       <div class="px-3 mt-2" >
         <ion-button color="danger" id="decline-booking-modal-{{ booking.transport_booking_id }}" fill="outline" *ngIf="booking.booking_status == 'pending'">
           Decline
@@ -213,7 +207,7 @@
         </ion-modal>
 
         <ion-button fill="outline" color="medium" id="cancel-booking-modal-{{ booking.transport_booking_id }}" *ngIf="booking.booking_status == 'accepted'">
-          Cancel Booking
+          Cancel
         </ion-button>
         <ion-modal trigger="cancel-booking-modal-{{ booking.transport_booking_id }}" [initialBreakpoint]="0.5" [breakpoints]="[0, 0.5, 1]">
           <ng-template >
@@ -238,6 +232,10 @@
             </ion-content>
           </ng-template>
         </ion-modal>
+
+        <ion-button color="success" *ngIf="booking.booking_status == 'accepted'" (click)="finishBooking(booking.transport_booking_id)">
+          Booking Finish
+        </ion-button>
       </div>
     </div>
   </ng-container>

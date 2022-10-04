@@ -63,6 +63,7 @@ export class ServiceBookingsPage implements OnInit {
         buttons: ['Ok']
       })
       alert.present();
+      
       return;
     }
     this.transportBookingService.transport_bookings = res.data;
@@ -94,6 +95,7 @@ export class ServiceBookingsPage implements OnInit {
         });
         await loader.dismiss();
         await alert.present();
+        this.msg_from_admin = null;
         return;
       }
       this.transportBookingService.transport_bookings.every((val, i)=>{
@@ -104,6 +106,7 @@ export class ServiceBookingsPage implements OnInit {
         return true;
       })
       await loader.dismiss();
+      this.msg_from_admin = null;
     }
 
     const alert = await this.alertController.create({
@@ -151,6 +154,7 @@ export class ServiceBookingsPage implements OnInit {
         });
         await loader.dismiss();
         await alert.present();
+        this.msg_from_admin = null;
         return;
       }
       this.transportBookingService.transport_bookings.every((val, i)=>{
@@ -161,6 +165,7 @@ export class ServiceBookingsPage implements OnInit {
         return true;
       })
       await loader.dismiss();
+      this.msg_from_admin = null;
     }
 
     const alert = await this.alertController.create({
@@ -181,6 +186,62 @@ export class ServiceBookingsPage implements OnInit {
     await alert.present();
     await alert.onDidDismiss();
     this.closeModals();
+  }
+
+  async finishBooking(transport_booking_id : any){
+    const confirmHandler = async () => {
+      const loader = await this.loadingController.create({
+        backdropDismiss: false,
+        message: "Updating booking status.",
+        spinner: "circular"
+      });
+      await loader.present();
+      const data : UpdateStatusData = {
+        booking_status: 'finished',
+        message: 'Service booking has been marked as finished.',
+        transport_booking_id: transport_booking_id,
+        msg_frm_admin: null,
+        msg_frm_customer: null
+      };
+      const res = await this.transportBookingService.updateStatus(data)
+      if(res.status != 200){
+        const alert = await this.alertController.create({
+          header: `Unexpected Error`,
+          message: `${ res.status } | ${ res.data.message }`,
+          buttons: ["Ok"]
+        });
+        await loader.dismiss();
+        await alert.present();
+        this.msg_from_admin = null;
+        return;
+      }
+      this.transportBookingService.transport_bookings.every((val, i)=>{
+        if(val.transport_booking_id == res.data.transport_booking_id){
+          this.transportBookingService.transport_bookings[i] = res.data;
+          return false;
+        }
+        return true;
+      })
+      await loader.dismiss();
+      this.msg_from_admin = null;
+    }
+
+    const alert = await this.alertController.create({
+      header: "Confirm action",
+      message: "This booking will now be mark as finished. Do you want to continue?",
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel'
+        },
+        {
+          text: "Proceed",
+          role: 'ok',
+          handler: confirmHandler
+        }
+      ]
+    })
+    await alert.present();
   }
 
   async cancelBooking(transport_booking_id: any){
@@ -208,6 +269,7 @@ export class ServiceBookingsPage implements OnInit {
         });
         await loader.dismiss();
         await alert.present();
+        this.msg_from_admin = null;
         return;
       }
       this.transportBookingService.transport_bookings.every((val, i)=>{
@@ -218,6 +280,7 @@ export class ServiceBookingsPage implements OnInit {
         return true;
       })
       await loader.dismiss();
+      this.msg_from_admin = null;
     }
 
     const alert = await this.alertController.create({

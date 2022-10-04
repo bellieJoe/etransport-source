@@ -46,6 +46,14 @@ class TransportBookingController extends Controller
 
         $transport_booking->refresh();
 
+        BookingUpdate::create([
+            'transport_booking_id' => $transport_booking->transport_booking_id,
+            'booking_status' => "pending",
+            'message' => "Transport booking has been submitted.",
+            'msg_frm_customer' => null,
+            'msg_frm_admin' => null
+        ]);
+
         if($request->service_type != 'passenger'){
             LuggageConfig::create([
                 'transport_booking_id' => $transport_booking->transport_booking_id,
@@ -61,7 +69,10 @@ class TransportBookingController extends Controller
         return TransportBooking::where('user_customer_id', $user_customer_id)
         ->with([
             'luggageConfig',
-            'service.administrator.user'
+            'service.administrator.user',
+            'bookingUpdates' => function($q){
+                $q->orderBy('created_at', 'desc');
+            }
         ])
         ->orderBy("updated_at", 'desc')
         ->get();
