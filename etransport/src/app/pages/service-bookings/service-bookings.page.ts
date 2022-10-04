@@ -2,7 +2,7 @@ import { AfterViewInit, Component, OnInit, QueryList, ViewChild, ViewChildren } 
 import { AlertController, IonModal, LoadingController } from '@ionic/angular';
 import { AuthService } from 'src/app/services/auth.service';
 import { ServiceService } from 'src/app/services/service.service';
-import { TransportBookingService, UpdateStatusData } from '../services/transport-booking.service';
+import { TransportBookingService, UpdateStatusData } from '../../services/transport-booking.service';
 
 @Component({
   selector: 'app-service-bookings',

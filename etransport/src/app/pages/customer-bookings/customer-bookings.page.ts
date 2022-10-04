@@ -1,7 +1,7 @@
 import { Component, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { AlertController, IonModal, LoadingController } from '@ionic/angular';
 import { AuthService } from 'src/app/services/auth.service';
-import { TransportBookingService, UpdateStatusData } from '../services/transport-booking.service';
+import { TransportBookingService, UpdateStatusData } from '../../services/transport-booking.service';
 
 @Component({
   selector: 'app-customer-bookings',

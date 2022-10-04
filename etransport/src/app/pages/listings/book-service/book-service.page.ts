@@ -3,7 +3,7 @@ import { NgModel } from '@angular/forms';
 import { AlertController, IonModal, IonSelectOption, LoadingController, ModalController, ToastController } from '@ionic/angular';
 import { AuthService } from 'src/app/services/auth.service';
 import { ServiceService } from 'src/app/services/service.service';
-import { TransportBookingService } from '../../services/transport-booking.service';
+import { TransportBookingService } from '../../../services/transport-booking.service';
 
 @Component({
   selector: 'app-book-service',
