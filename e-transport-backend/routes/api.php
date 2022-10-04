@@ -42,6 +42,8 @@ Route::prefix('users')->group(function () {
     Route::get('isVerified/{user_id}', [UserController::class, 'isVerified']);
 
     Route::post('verify-email/{user_id}', [UserController::class, 'verifyEmail']);
+
+    Route::post('update-profile/{user_id}', [UserController::class, 'updateProfile']);
 });
 
 /* 

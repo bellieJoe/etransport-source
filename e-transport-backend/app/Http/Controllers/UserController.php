@@ -147,5 +147,25 @@ class UserController extends Controller
         return $user;
     }
 
+    public function updateProfile(Request $request, $user_id){
+        $user = User::where('user_id', $user_id);
+
+        $request->validate([
+            'name' => ['required', 'max:1000'],
+            'username' => ['required', $user->first()->username == $request->username ? null : 'unique:users,username', 'max:1000'],
+            'contact_number' => ['required', 'digits:10'],
+        ]);
+
+        $user->update([
+            'name' => $request->name,
+            'username' => $request->username,
+            'contact_number' => $request->contact_number
+        ]);
+
+        // $user->refresh();
+        
+        return $user->with(['role'])->first();
+    }
+
  
 }
