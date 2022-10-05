@@ -11,7 +11,9 @@ class Review extends Model
 
     protected $primaryKey = 'review_id';
 
-    protected $fillable = [
-        'rate', 'content', 'user_customer_id', 'user_administrator_id'
-    ];
+    protected $guarded = [];
+
+    public function service(){
+        return $this->belongsTo(Service::class, 'service_id', 'service_id');
+    }
 }

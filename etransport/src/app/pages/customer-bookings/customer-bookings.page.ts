@@ -1,6 +1,8 @@
 import { Component, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { async } from '@angular/core/testing';
 import { AlertController, IonModal, LoadingController } from '@ionic/angular';
 import { AuthService } from 'src/app/services/auth.service';
+import { ReviewService } from 'src/app/services/review.service';
 import { TransportBookingService, UpdateStatusData } from '../../services/transport-booking.service';
 
 @Component({
@@ -15,6 +17,7 @@ export class CustomerBookingsPage implements OnInit {
     private authService : AuthService,
     private alertController : AlertController,
     private loadingController : LoadingController,
+    private reviewService : ReviewService
   ) { }
 
   @ViewChildren(IonModal) ionModals: QueryList<IonModal>;
@@ -23,7 +26,50 @@ export class CustomerBookingsPage implements OnInit {
   isLoading : boolean = false;
   transport = [];
   msg_from_customer = null;
+  ratings : any = {
+    rate: 0,
+    content: null,
+    user_customer_id : this.authService.getAuth().user_id,
+    service_id: null,
+    errors : {},
+    setRating: (value : number) => {
+      this.ratings.rate = value;
+    },
+    clearInputs : () => {
+      this.ratings.content = null;
+      this.ratings.rate = 0;
+    },
+    submit : async(service_id : any) => {
+      this.ratings.errors = {};
+      this.ratings.service_id = service_id;
+      const loader = await this.loadingController.create({
+        message: "Submitting ratings & reviews.",
+        spinner : 'circular',
+        backdropDismiss: false
+      });
+      this.closeModals();
+      await loader.present();
 
+      const res = await this.reviewService.addReview(this.ratings)
+      if(res.status == 422){
+        this.ratings.errors = res.data.errors;
+        await loader.dismiss();
+        return;
+      }
+      if(res.status != 200){
+        const alert = await this.alertController.create({
+          header: "Unexpected Error",
+          message: `${ res.status } | ${ res.data.message }`,
+          buttons: ['Ok']
+        });
+        await alert.present();
+        await loader.dismiss();
+        return;
+      }
+      await loader.dismiss();
+      this.ratings.clearInputs();
+    }
+  }
 
   setBookingStatusColor(status : string){
     if(status == 'accepted' || status == 'finished'){

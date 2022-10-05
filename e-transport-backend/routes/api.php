@@ -5,6 +5,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\AdministratorController;
 use App\Http\Controllers\LuggagePricingController;
+use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\TransportBookingController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -97,4 +98,12 @@ Route::prefix('transport-bookings')->group(function (){
     Route::get('get-by-service-id/{service_id}', [TransportBookingController::class, 'getByServiceId']);
 
     Route::post('update-status/{transport_booking_id}', [TransportBookingController::class, 'updateStatus']);
+});
+
+
+/* 
+Reviews
+*/
+Route::prefix('reviews')->group(function(){
+    Route::post('', [ReviewController::class, 'store']);
 });

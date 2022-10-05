@@ -28,4 +28,9 @@ class Service extends Model
     public function transportBookings(){
         return $this->hasMany(TransportBooking::class, 'service_id', 'service_id');
     }
+
+    public function reviews(){
+        return $this->hasMany(Review::class, 'service_id', 'service_id');
+    }
+
 }

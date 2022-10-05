@@ -219,7 +219,7 @@
               <ion-content>
                 <div class="px-3">
                   <div class="bg-info p-2">
-                    <p class="mb-0"><i class="fa-solid fa-lightbulb text-warning"></i> <span class="fw-bold">Tips:</span>  You can call the customer who set the booking to make sure that he/she is formally informed.</p>
+                    <p class="mb-0"><i class="fa-solid fa-lightbulb text-warning"></i> <span class="fw-bold">Tips:</span>  You can call the administrator who set the booking to make sure that he/she is formally informed.</p>
                   </div>
                   <ion-item class="mb-2">
                     <ion-label position="floating">Any reasons for cancelling this booking?</ion-label>
@@ -227,6 +227,50 @@
                   </ion-item>
                   <ion-button (click)="cancelBooking(booking.transport_booking_id)" expand="block">
                     Decline Booking
+                  </ion-button>
+                </div>
+              </ion-content>
+            </ng-template>
+          </ion-modal>
+
+          <ion-button color="secondary" (click)="ratings.clearInputs()" id="rate-booking-modal-{{ booking.transport_booking_id }}" fill="outline" *ngIf="booking.booking_status == 'finished'">
+            Rate this Booking
+          </ion-button>
+          <ion-modal trigger="rate-booking-modal-{{ booking.transport_booking_id }}" [initialBreakpoint]="0.5" [breakpoints]="[0, 0.5, 1]">
+            <ng-template >
+              <ion-header class="ion-no-border">
+                <ion-toolbar>
+                  <ion-title>Rate Booking</ion-title>
+                </ion-toolbar>
+              </ion-header>
+              <ion-content>
+                <div class="px-3">
+                  <div class="px-3 mb-2">
+                    <ion-item lines="none">
+                      <ion-label>Rate</ion-label>
+                      <ion-button (click)="ratings.setRating(0)"  fill="clear" slot="end">
+                        Clear
+                      </ion-button>
+                    </ion-item>
+                    <div >
+                      <button class="btn btn-clear fs-2 border-0" *ngFor="let i of [1,2,3,4,5]" (click)="ratings.setRating(i)">
+                        <i class="fa-solid fa-star text-warning" *ngIf="ratings.rate >= i" ></i>
+                        <i class="fa-regular fa-star text-warning" *ngIf="ratings.rate < i" ></i>
+                      </button>
+                      <h2 class="px-3 my-0">{{ ratings.rate }} / 5</h2>
+                    </div>
+                    <ion-note *ngIf="ratings.errors.rate">{{ ratings.errors.rate }}</ion-note>
+                  </div>
+
+                  <ion-item class="mb-2">
+                    <ion-label position="floating">Write a review</ion-label>
+                    <ion-textarea [(ngModel)]="ratings.content"></ion-textarea>
+                  </ion-item>
+                  <ion-note *ngIf="ratings.errors.content">{{ ratings.errors.content }}</ion-note>
+
+                  <ion-button (click)="ratings.submit(booking.transport_booking_id)" expand="block">
+                    <ion-icon name="send-outline" slot="start"></ion-icon>
+                    Submit Rating
                   </ion-button>
                 </div>
               </ion-content>
