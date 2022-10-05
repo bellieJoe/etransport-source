@@ -40,7 +40,7 @@ class UserController extends Controller
 
         $token = $user->first()->createToken('sampletoken')->plainTextToken;
 
-        $data = $user->with(['role'])->first();
+        $data = $user->with(['role', 'reviews'])->first();
         $data->token = $token;
 
         return response($data, 200);
@@ -76,7 +76,7 @@ class UserController extends Controller
         ]);
 
         $user->refresh();
-        $user->with(['role']);
+        $user->with(['role', 'reviews']);
 
         // create customer instance
         if($request->role_id == 3){
