@@ -166,6 +166,4 @@ class UserController extends Controller
         
         return $user->with(['role'])->first();
     }
-
- 
 }
