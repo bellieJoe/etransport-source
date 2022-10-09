@@ -4,6 +4,7 @@ use App\Models\User;
 use App\Models\Administrator;
 use App\Models\Service;
 use App\Models\LuggagePricing;
+use App\Models\TransportBooking;
 
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
@@ -22,10 +23,11 @@ use Illuminate\Support\Facades\Schema;
 */
 
 Route::get('/', function () {
-    if(Schema::hasTable('users')){
-        return "Users table already exist";
-    }
-    return "Users table do not exist";
+    return TransportBooking::where([
+        'user_customer_id' => 21
+    ])
+    ->whereIn('booking_status', ['pending', 'accepted'])
+    ->pluck('service_id');
 });
 
 
