@@ -147,16 +147,18 @@ class ServiceController extends Controller
 
     public function getListingsByUserCustomerId($user_customer_id){
         $user_can_book_ids = TransportBooking::where([
-            'user_customer_id' => $user_customer_id
+            'user_customer_id' => $user_customer_id 
         ])
         ->whereIn('booking_status', ['pending', 'accepted'])
         ->pluck('service_id');
 
-        return Service::where([
+        $services =  Service::where([
             'service_status' => 'open'
         ])
         ->whereNotIn('service_id', $user_can_book_ids)
-        ->with(['administrator', 'luggagePricing'])
+        ->with(['administrator', 'luggagePricing', 'reviews'])
         ->get();
+
+        return $services;
     }
 }

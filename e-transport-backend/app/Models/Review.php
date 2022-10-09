@@ -16,4 +16,8 @@ class Review extends Model
     public function service(){
         return $this->belongsTo(Service::class, 'service_id', 'service_id');
     }
+
+    public function transportBooking(){
+        return $this->belongsTo();
+    }
 }

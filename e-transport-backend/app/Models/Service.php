@@ -10,6 +10,7 @@ class Service extends Model
 {
     use HasFactory, SoftDeletes;
 
+    public $review_summary = "ok oke";
 
     protected $with = ['luggagePricing'];
 
@@ -32,5 +33,6 @@ class Service extends Model
     public function reviews(){
         return $this->hasMany(Review::class, 'service_id', 'service_id');
     }
+
 
 }

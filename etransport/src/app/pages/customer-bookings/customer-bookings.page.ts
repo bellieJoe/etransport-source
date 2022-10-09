@@ -157,14 +157,13 @@ export class CustomerBookingsPage implements OnInit {
       return;
     }
     this.transportBookingService.transport_bookings = res.data;
-    // console.log(this.transportBookingService.transport_bookings[0].service.service_name)
   }
 
   async ngOnInit() {
     this.isLoading = true;
     await this.fetchBookings();
     this.isLoading = false;
-    this.transport = this.transportBookingService.transport_bookings
+    this.transport = this.transportBookingService.transport_bookings;
     console.log(this.transportBookingService.transport_bookings)
   }
 

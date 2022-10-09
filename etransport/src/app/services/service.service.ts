@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AlertController } from '@ionic/angular';
 import axios from "axios";
+import { setErrorHandler } from 'ionicons/dist/types/stencil-public-runtime';
 import { environment } from 'src/environments/environment';
 import { AuthService } from './auth.service';
 
@@ -81,6 +82,23 @@ export class ServiceService {
     .then(res => res)
     .catch(err => err.response);
     return res;
+  }
+
+  async computeListingsRating(){
+    this.listings = this.listings.map(service => {
+      service.review_summary = {
+        average_ratings : 0,
+        total_ratings : 0
+      }
+      if(service.reviews.length > 0){
+        service.reviews.forEach(review => {
+          service.review_summary.average_ratings += review.rate;
+          service.review_summary.total_ratings++;
+        });
+        service.review_summary.average_ratings /= service.review_summary.total_ratings;
+      }
+      return service;
+    });
   }
 }
 

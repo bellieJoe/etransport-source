@@ -23,11 +23,7 @@ use Illuminate\Support\Facades\Schema;
 */
 
 Route::get('/', function () {
-    return TransportBooking::where([
-        'user_customer_id' => 21
-    ])
-    ->whereIn('booking_status', ['pending', 'accepted'])
-    ->pluck('service_id');
+    return \App\Http\Controllers\ServiceController::getListingsByUserCustomerId(21);
 });
 
 
