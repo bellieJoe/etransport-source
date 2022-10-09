@@ -15,7 +15,7 @@
       <ion-card-header>
         <ion-card-title><strong>{{ service.service_name }}</strong></ion-card-title>
         <ion-card-title color="tertiary"><strong>{{ service.fare | currency : 'PHP' }}</strong></ion-card-title>
-        <div>
+        <div button>
           <h6 class="mb-0 mt-0"  *ngIf="service.reviews.length > 0">
             {{ service.review_summary.average_ratings | number:'1.1-1' }}
             <span class="text-warning">
@@ -30,7 +30,7 @@
               <i class="fa{{ service.review_summary.average_ratings < 5 ? '-regular' : '' }} fa-star"></i>
             </span>
           </h6 >
-          {{ service.review_summary.total_ratings }} Rating/s
+          <h6 class="mb-0 mt-0">{{ service.review_summary.total_ratings }} Rating/s <ion-badge color="secondary" mode="md" button *ngIf="service.reviews.length > 0">See all reviews</ion-badge></h6>
         </div>
       </ion-card-header>
       <ion-card-content>

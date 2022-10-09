@@ -268,7 +268,7 @@
                   </ion-item>
                   <ion-note *ngIf="ratings.errors.content">{{ ratings.errors.content }}</ion-note>
 
-                  <ion-button (click)="ratings.submit(booking.transport_booking_id)" expand="block">
+                  <ion-button (click)="ratings.submit(booking.service_id)" expand="block">
                     <ion-icon name="send-outline" slot="start"></ion-icon>
                     Submit Rating
                   </ion-button>

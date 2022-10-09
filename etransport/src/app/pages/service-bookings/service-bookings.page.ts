@@ -34,14 +34,6 @@ export class ServiceBookingsPage implements OnInit {
     this.ionModals.map(async (ionModal : IonModal) => {
       await ionModal.dismiss();
     });
-    // await new Promise((resolve => {
-    //   this.ionModals.forEach(async(ionModal) => {
-    //     await ionModal.dismiss();
-    //     if(this.ionModals[this.ionModals.length - 1].trigger === ionModal.trigger){
-    //       resolve(null);
-    //     }
-    //   })
-    // }))
   }
 
   setBookingStatusColor(status : string){
