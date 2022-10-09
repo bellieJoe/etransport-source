@@ -52,8 +52,7 @@ export class ListingsPage implements OnInit {
 
   async ngOnInit() {
     await this.fetchListings();
-    await this.serviceService.computeListingsRating();
-    console.log(this.serviceService.listings)
+    console.log(this.serviceService.listings);
   }
 
 }

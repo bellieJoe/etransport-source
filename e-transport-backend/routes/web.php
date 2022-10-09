@@ -23,7 +23,8 @@ use Illuminate\Support\Facades\Schema;
 */
 
 Route::get('/', function () {
-    return \App\Http\Controllers\ServiceController::getListingsByUserCustomerId(21);
+    return \App\Models\Service::all();
+    // return \App\Http\Controllers\ServiceController::getListingsByUserCustomerId(21);
 });
 
 

@@ -18,6 +18,28 @@ class Service extends Model
 
     protected $guarded = [];
 
+    protected $appends = [
+        'review_summary'
+    ];
+
+    // accessors
+    public function getReviewSummaryAttribute(){
+        $reviews = $this->reviews;
+        $review_summary = [
+            'average_ratings' => 0,
+            'total_ratings' => 0
+        ];
+        foreach($reviews as $review){
+            $review_summary['average_ratings'] += $review->rate;
+            $review_summary['total_ratings']++;
+        }
+        if($review_summary['total_ratings'] > 0){
+            $review_summary['average_ratings'] /= $review_summary['total_ratings'];
+        }
+        return (object)$review_summary;
+    }
+
+    // relationships
     public function administrator(){
         return $this->belongsTo(Administrator::class, 'administrator_id', 'administrator_id');
     }

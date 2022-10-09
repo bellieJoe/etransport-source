@@ -84,22 +84,6 @@ export class ServiceService {
     return res;
   }
 
-  async computeListingsRating(){
-    this.listings = this.listings.map(service => {
-      service.review_summary = {
-        average_ratings : 0,
-        total_ratings : 0
-      }
-      if(service.reviews.length > 0){
-        service.reviews.forEach(review => {
-          service.review_summary.average_ratings += review.rate;
-          service.review_summary.total_ratings++;
-        });
-        service.review_summary.average_ratings /= service.review_summary.total_ratings;
-      }
-      return service;
-    });
-  }
 }
 
 class AddServiceData {
