@@ -67,6 +67,7 @@ export class CustomerBookingsPage implements OnInit {
         return;
       }
       await loader.dismiss();
+      this.ngOnInit();
       this.ratings.clearInputs();
     },
     init : (booking) => {
