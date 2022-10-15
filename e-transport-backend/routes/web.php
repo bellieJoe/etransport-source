@@ -27,7 +27,7 @@ use Illuminate\Http\Request;
 */
 
 Route::get('/', function () {
-    return view('pages.master');
+    return redirect(route('announcements.index'));
 })->name('home')->middleware('auth');
 
 Route::get('logout', function (Request $request){
@@ -43,6 +43,12 @@ Route::prefix('signin')->group(function () {
     })->name('login');
 
     Route::post('', [MainAdministratorController::class, 'login'])->name('signin');
+});
+
+Route::group(['prefix' => 'announcements','as' => 'announcements.'], function(){
+    Route::view('', 'pages.announcements.index')->name('index')->middleware('auth');
+
+    Route::view('create', 'pages.announcements.create')->name('create')->middleware('auth');
 });
 
 
