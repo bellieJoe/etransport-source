@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 use Faker\Factory;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,7 +24,17 @@ use Illuminate\Support\Facades\Schema;
 */
 
 Route::get('/', function () {
-    return view('index');
+    return view('pages.master');
+})->middleware('auth');
+
+Route::prefix('signin')->group(function () {
+    Route::get('', function () {
+        return view('pages.signin');
+    })->name('login');
+
+    Route::post('', function (Request $request) {
+      return $request;
+    })->name('signin');
 });
 
 

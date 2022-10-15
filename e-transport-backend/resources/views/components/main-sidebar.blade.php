@@ -16,7 +16,7 @@
         <nav class="mt-2 ">
             <ul class="nav nav-pills nav-sidebar flex-column" >
                 <li class="nav-item ">
-                    <a href="#" class="nav-link ">
+                    <a href="#" class="nav-link active">
                         <i class="nav-icon fa-solid fa-bullhorn"></i>
                         <p>Announcements</p>
                     </a>
