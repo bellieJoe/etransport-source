@@ -28,10 +28,10 @@
 </head>
 
 <body>
-    <div class="wrapper">
+    <div class="wrapper ">
         @include('components.main-header')
         @include('components.main-sidebar')
-        <div class="content-wrapper bg-gray-200">this is the content</div>
+        <div class="content-wrapper bg-gray-200 p-2">this is the content</div>
     </div>
 
     {{-- BS 5 JS --}}

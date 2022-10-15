@@ -1,6 +1,6 @@
-<aside class="main-sidebar sidebar-dark-primary elevation-4 vh-100">
+<aside class="main-sidebar sidebar-light-primary elevation-4 vh-100 layout-fixed ">
     <div class="brand-link d-flex justify-content-between align-items-center">
-        <a class="brand-link" href="index3.html">
+        <a class="brand-link fw-bold" href="index3.html">
             ETransport Admin
         </a>
     </div>
@@ -16,10 +16,33 @@
         <nav class="mt-2 ">
             <ul class="nav nav-pills nav-sidebar flex-column" >
                 <li class="nav-item ">
-                    <a href="#" class="nav-link active">
-                        <i class="nav-icon fas fa-th"></i>
-                        <p>Simple Link</p>
+                    <a href="#" class="nav-link ">
+                        <i class="nav-icon fa-solid fa-bullhorn"></i>
+                        <p>Announcements</p>
                     </a>
+                </li>
+                <li class="nav-item" data-widget="treeview">
+                    <a href="#" class="nav-link ">
+                        <i class="nav-icon far fa-user"></i>
+                        <p>
+                            User Accounts
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link ">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Administrator</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Passenger</p>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
             </ul>
         </nav>

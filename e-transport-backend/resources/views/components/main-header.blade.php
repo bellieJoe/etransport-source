@@ -1,7 +1,7 @@
 <nav class="main-header navbar navbar-expand navbar-white navbar-light ">
     <ul class="navbar-nav">
         <li class="nav-item">
-            <button class="pushmenu" data-widget="pushmenu" role="button"><i class="fas fa-bars"></i></button>
+            <button class="pushmenu btn" data-widget="pushmenu" role="button"><i class="fas fa-bars"></i></button>
         </li>
     </ul>
     <!-- Left navbar links -->
