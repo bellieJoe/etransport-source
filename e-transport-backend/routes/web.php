@@ -6,10 +6,13 @@ use App\Models\Service;
 use App\Models\LuggagePricing;
 use App\Models\TransportBooking;
 
+use App\Http\Controllers\MainAdministratorController;
+
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 use Faker\Factory;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 /*
@@ -25,17 +28,24 @@ use Illuminate\Http\Request;
 
 Route::get('/', function () {
     return view('pages.master');
-})->middleware('auth');
+})->name('home')->middleware('auth');
+
+Route::get('logout', function (Request $request){
+    Auth::logout();
+    $request->session()->invalidate();
+    $request->session()->regenerateToken();
+    return redirect('/');
+})->name('logout');
 
 Route::prefix('signin')->group(function () {
     Route::get('', function () {
         return view('pages.signin');
     })->name('login');
 
-    Route::post('', function (Request $request) {
-      return $request;
-    })->name('signin');
+    Route::post('', [MainAdministratorController::class, 'login'])->name('signin');
 });
+
+
 
 
 
