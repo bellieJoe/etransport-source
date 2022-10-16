@@ -18,6 +18,7 @@ class CreateAnnouncementsTable extends Migration
             $table->foreignId('user_id');
             $table->string('announcement_content', 10000);
             $table->string('announcement_title', 100);
+            $table->enum('viewer_role', ['All','Administrator', 'Customer']);
             $table->timestamps();
         });
     }
