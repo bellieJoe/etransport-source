@@ -70,6 +70,7 @@ class TransportBookingController extends Controller
         ->with([
             'luggageConfig',
             'service.administrator.user',
+            'service.reviews',
             'bookingUpdates' => function($q){
                 $q->orderBy('created_at', 'desc');
             }

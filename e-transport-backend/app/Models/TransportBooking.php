@@ -27,7 +27,8 @@ class TransportBooking extends Model
         return $this->belongsTo(User::class, 'user_customer_id', 'user_id');
     }
 
-    function bookingUpdates(){
+    public function bookingUpdates(){
         return $this->hasMany(BookingUpdate::class, 'transport_booking_id', 'transport_booking_id');
     }
+
 }

@@ -15,7 +15,23 @@
       <ion-card-header>
         <ion-card-title><strong>{{ service.service_name }}</strong></ion-card-title>
         <ion-card-title color="tertiary"><strong>{{ service.fare | currency : 'PHP' }}</strong></ion-card-title>
-        <!-- <ion-card-title color="tertiary"><strong>{{ service.fare | currency : 'PHP' }}</strong></ion-card-title> -->
+        <div button>
+          <h6 class="mb-0 mt-0"  *ngIf="service.reviews.length > 0">
+            {{ service.review_summary.average_ratings | number:'1.1-1' }}
+            <span class="text-warning">
+              <i class="fa{{ service.review_summary.average_ratings < 1 ? '-regular' : '' }} 
+                        fa-star{{ service.review_summary.average_ratings >= 1.5 && service.review_summary.average_ratings < 2 ? '-half-stroke' : '' }}"></i>
+              <i class="fa{{ service.review_summary.average_ratings < 2 ? '-regular' : '' }} 
+                        fa-star{{ service.review_summary.average_ratings >= 2.5 && service.review_summary.average_ratings < 3 ? '-half-stroke' : '' }}"></i>
+              <i class="fa{{ service.review_summary.average_ratings < 3 ? '-regular' : '' }} 
+                        fa-star{{ service.review_summary.average_ratings >= 3.5 && service.review_summary.average_ratings < 4 ? '-half-stroke' : '' }}"></i>
+              <i class="fa{{ service.review_summary.average_ratings < 4 ? '-regular' : '' }} 
+                        fa-star{{ service.review_summary.average_ratings >= 4.5 && service.review_summary.average_ratings < 5 ? '-half-stroke' : '' }}"></i>
+              <i class="fa{{ service.review_summary.average_ratings < 5 ? '-regular' : '' }} fa-star"></i>
+            </span>
+          </h6 >
+          <h6 class="mb-0 mt-0">{{ service.review_summary.total_ratings }} Rating/s <ion-badge color="secondary" mode="md" button *ngIf="service.reviews.length > 0">See all reviews</ion-badge></h6>
+        </div>
       </ion-card-header>
       <ion-card-content>
         <div class="mb-2">

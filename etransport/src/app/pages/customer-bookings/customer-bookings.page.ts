@@ -67,7 +67,17 @@ export class CustomerBookingsPage implements OnInit {
         return;
       }
       await loader.dismiss();
+      this.ngOnInit();
       this.ratings.clearInputs();
+    },
+    init : (booking) => {
+      this.ratings.clearInputs();
+      booking.service.reviews.map(review => {
+        if(review.user_customer_id == this.authService.getAuth().user_id){
+          this.ratings.rate = review.rate;
+          this.ratings.content = review.content;
+        }
+      })
     }
   }
 
@@ -157,14 +167,23 @@ export class CustomerBookingsPage implements OnInit {
       return;
     }
     this.transportBookingService.transport_bookings = res.data;
-    // console.log(this.transportBookingService.transport_bookings[0].service.service_name)
+  }
+
+  hasReviewed(transport_booking : any) : boolean{
+    let user_id = this.authService.getAuth().user_id;
+    for(let i = 0; i<transport_booking.service.reviews.length; i++){
+      if (transport_booking.service.reviews[i].user_customer_id == user_id) {
+        return true;
+      }
+    }
+    return false;
   }
 
   async ngOnInit() {
     this.isLoading = true;
     await this.fetchBookings();
     this.isLoading = false;
-    this.transport = this.transportBookingService.transport_bookings
+    this.transport = this.transportBookingService.transport_bookings;
     console.log(this.transportBookingService.transport_bookings)
   }
 

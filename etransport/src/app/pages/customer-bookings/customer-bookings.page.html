@@ -233,8 +233,8 @@
             </ng-template>
           </ion-modal>
 
-          <ion-button color="secondary" (click)="ratings.clearInputs()" id="rate-booking-modal-{{ booking.transport_booking_id }}" fill="outline" *ngIf="booking.booking_status == 'finished'">
-            Rate this Booking
+          <ion-button color="secondary" (click)="ratings.init(booking)" id="rate-booking-modal-{{ booking.transport_booking_id }}" fill="outline" *ngIf="booking.booking_status == 'finished'">
+            {{ hasReviewed(booking) ? 'Change Rating' : 'Rate this Booking' }} 
           </ion-button>
           <ion-modal trigger="rate-booking-modal-{{ booking.transport_booking_id }}" [initialBreakpoint]="0.5" [breakpoints]="[0, 0.5, 1]">
             <ng-template >
@@ -268,7 +268,7 @@
                   </ion-item>
                   <ion-note *ngIf="ratings.errors.content">{{ ratings.errors.content }}</ion-note>
 
-                  <ion-button (click)="ratings.submit(booking.transport_booking_id)" expand="block">
+                  <ion-button (click)="ratings.submit(booking.service_id)" expand="block">
                     <ion-icon name="send-outline" slot="start"></ion-icon>
                     Submit Rating
                   </ion-button>

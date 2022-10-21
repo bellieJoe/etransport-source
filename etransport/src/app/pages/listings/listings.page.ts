@@ -15,7 +15,8 @@ export class ListingsPage implements OnInit {
     public serviceService : ServiceService,
     private alertController : AlertController,
     private modalController : ModalController,
-    private authService : AuthService
+    private authService : AuthService,
+
   ) { }
 
   loading : boolean = false;
@@ -51,6 +52,7 @@ export class ListingsPage implements OnInit {
 
   async ngOnInit() {
     await this.fetchListings();
+    console.log(this.serviceService.listings);
   }
 
 }

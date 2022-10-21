@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AlertController } from '@ionic/angular';
 import axios from "axios";
+import { setErrorHandler } from 'ionicons/dist/types/stencil-public-runtime';
 import { environment } from 'src/environments/environment';
 import { AuthService } from './auth.service';
 
@@ -82,6 +83,7 @@ export class ServiceService {
     .catch(err => err.response);
     return res;
   }
+
 }
 
 class AddServiceData {
