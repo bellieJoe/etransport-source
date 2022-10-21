@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AnnouncementController;
 use App\Models\User;
 use App\Models\Administrator;
 use App\Models\Service;
@@ -46,9 +47,12 @@ Route::prefix('signin')->group(function () {
 });
 
 Route::group(['prefix' => 'announcements','as' => 'announcements.'], function(){
-    Route::view('', 'pages.announcements.index')->name('index')->middleware('auth');
+    Route::get('', [AnnouncementController::class, 'index'])->name('index')->middleware('auth');
 
     Route::view('create', 'pages.announcements.create')->name('create')->middleware('auth');
+
+    Route::post('', [AnnouncementController::class, 'store'])->name('store')->middleware('auth');
+
 });
 
 

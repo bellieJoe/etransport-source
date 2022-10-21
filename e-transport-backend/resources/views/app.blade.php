@@ -24,6 +24,9 @@
     {{-- JQuery --}}
     <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
 
+    {{-- Vue 2 --}}
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.13/dist/vue.js"></script>
+
     <title>ETransport Admin</title>
 </head>
 
@@ -35,7 +38,6 @@
     {{-- adminlte --}}
     <script src="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/js/adminlte.min.js"></script>
 
-    
 </body>
 
 </html>
