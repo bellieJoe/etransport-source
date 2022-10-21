@@ -1,10 +1,10 @@
 @php
     $path = explode('/', Request::path());
 @endphp
-<aside class="main-sidebar sidebar-light-primary elevation-4 vh-100 layout-fixed ">
+<aside class="main-sidebar sidebar-light-primary elevation-4 vh-100 layout-fixed sidebar-mini">
     <div class="brand-link d-flex justify-content-between align-items-center">
-        <a class="brand-link fw-bold" href="index3.html">
-            ETransport Admin
+        <a class="brand-link fw-bold text-center" href="index3.html">
+            <span class="brand-text">ETransport</span>
         </a>
     </div>
     <!-- Sidebar -->
