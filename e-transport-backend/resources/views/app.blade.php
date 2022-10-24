@@ -27,6 +27,9 @@
     {{-- Vue 2 --}}
     <script src="https://cdn.jsdelivr.net/npm/vue@2.7.13/dist/vue.js"></script>
 
+    {{-- momeny js --}}
+    <script src="https://cdn.jsdelivr.net/npm/moment@2.29.4/moment.min.js" ></script>
+
     <title>ETransport Admin</title>
 </head>
 
