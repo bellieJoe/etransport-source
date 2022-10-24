@@ -18,31 +18,35 @@
                     </h1>
                 </div>
             </div>
-            <div class="card">
-                <div class="card-body">
-                    <h5>Announcement List</h5>
+            {{-- <div class="card"> --}}
+                <div class="bg-white rounded-md">
+                    {{-- <h5>Announcement List</h5> --}}
                     <table class="table table-sm table-borderless table-hover">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th>Title</th>
+                        <thead class="thead-dark ">
+                            <tr >
+                                <th class="rounded-tl-md">Title</th>
                                 <th>Viewers</th>
                                 <th>Posted By</th>
-                                <th>Posted On</th>
+                                <th class="rounded-tr-md">Posted On</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($announcements as $announcement)
-                            <tr class="cursor-pointer" data-bs-toggle="modal" data-bs-target="#announcement-view-modal" @click="announcementViewInit({{ $announcement }})" >
-                                <td class="max-w-xs">{{ $announcement->announcement_title }}</td>
+                            @forelse ($announcements as $announcement)
+                            <tr class="cursor-pointer rounded-md" data-bs-toggle="modal" data-bs-target="#announcement-view-modal" @click="announcementViewInit({{ $announcement }})" >
+                                <td class="max-w-xs {{ $loop->last ? 'rounded-bl-md' : '' }}">{{ $announcement->announcement_title }}</td>
                                 <td>{{ $announcement->viewer_role }}</td>
                                 <td>Viewers</td>
-                                <td>{{ $announcement->created_at->diffForHumans() }}</td>
+                                <td class="{{ $loop->last ? 'rounded-br-md' : '' }}">{{ $announcement->created_at->format("F d, Y m:h A") }}</td>
                             </tr>
-                            @endforeach                            
+                            @empty
+                            <tr>
+                                <td colspan="4" class="rounded-b-md">No Announcements</td>
+                            </tr >
+                            @endforelse                     
                         </tbody>
                     </table>
                 </div>
-            </div>
+            {{-- </div> --}}
             <div class="modal fade" id="announcement-view-modal">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
