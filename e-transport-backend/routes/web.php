@@ -26,6 +26,9 @@ use Illuminate\Http\Request;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('testing', function(){
+    return route('announcements.edit', ['announcement' => 1]);
+});
 
 Route::get('/', function () {
     return redirect(route('announcements.index'));
@@ -48,10 +51,10 @@ Route::prefix('signin')->group(function () {
 
 Route::group(['prefix' => 'announcements','as' => 'announcements.'], function(){
     Route::get('', [AnnouncementController::class, 'index'])->name('index')->middleware('auth');
-
+    Route::get('/{announcement}/edit', [AnnouncementController::class, 'edit'])->name('edit')->middleware('auth');
     Route::view('create', 'pages.announcements.create')->name('create')->middleware('auth');
-
     Route::post('', [AnnouncementController::class, 'store'])->name('store')->middleware('auth');
+    Route::put('{announcement}/update', [AnnouncementController::class, 'update'])->name('update')->middleware('auth');
 
 });
 

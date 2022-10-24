@@ -17,6 +17,29 @@ class AnnouncementController extends Controller
         ]);
     }
 
+    public function edit($announcement){
+        $announcement = Announcement::find($announcement);
+        return view('pages.announcements.edit', [
+            'announcement' => $announcement
+        ]);
+    }
+
+    public function update(Request $request, $announcement){
+        $request->validate([
+            'announcement_title' => ['required', 'max:100'],
+            'announcement_content' => ['required', 'max:10000'],
+            'viewer_role' => ['required', Rule::in(['All', 'Customer', 'Administrator'])]
+        ]);
+        DB::transaction(function () use ($request, $announcement) {
+            Announcement::where('announcement_id', $announcement)->update([
+                'announcement_title' => $request->announcement_title,
+                'announcement_content' => $request->announcement_content,
+                'viewer_role' => $request->viewer_role
+            ]);
+        });
+        return redirect(route('announcements.index'));
+    }
+
     public function store(Request $request){
         $request->validate([
             'announcement_title' => ['required', 'max:100'],
