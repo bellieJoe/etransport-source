@@ -55,7 +55,7 @@ Route::group(['prefix' => 'announcements','as' => 'announcements.'], function(){
     Route::view('create', 'pages.announcements.create')->name('create')->middleware('auth');
     Route::post('', [AnnouncementController::class, 'store'])->name('store')->middleware('auth');
     Route::put('{announcement}/update', [AnnouncementController::class, 'update'])->name('update')->middleware('auth');
-
+    Route::delete('{announcement}', [AnnouncementController::class, 'delete'])->name('delete')->middleware('auth');
 });
 
 

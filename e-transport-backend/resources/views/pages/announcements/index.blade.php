@@ -40,7 +40,7 @@
                                 <div class="btn-group" style="opacity: 0%" id="announcement_actions_{{ $announcement->announcement_id }}">
                                     <button type="button" class="btn btn-light btn-sm" data-bs-toggle="modal" data-bs-target="#announcement-view-modal" @click="announcementViewInit({{ $announcement }})"> <i class="fa-solid fa-eye"></i></button>
                                     <a href="{{ route('announcements.edit', ['announcement' => $announcement->announcement_id]) }}" type="button" class="btn btn-primary btn-sm"><i class="fa-regular fa-pen-to-square"></i></a href="#">
-                                    <button type="button" class="btn btn-danger btn-sm"><i class="fa-regular fa-trash-can"></i></button>
+                                    <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#delete_announcement_modal" @click="initDeleteAnnouncementModal({{ $announcement->announcement_id }})"><i class="fa-regular fa-trash-can"></i></button>
                                 </div>
                             </td>
                         </tr>
@@ -73,6 +73,26 @@
                     </div>
                 </div>
             </div>
+            {{-- delete announcement modal --}}
+            <div class="modal fade" id="delete_announcement_modal">
+                <div class="modal-dialog modal-dialog-centered">
+                    <form method="POST" :action="'/announcements/' + announcementToDelete" class="modal-content">
+                        @csrf
+                        @method('DELETE')
+                        <div class="modal-header">
+                            <h3 class="modal-title text-danger">Delete Confirmation</h3>
+                        </div>
+                        <div class="modal-body">
+                            <p>Are you sure you want to delete this announcement?</p>
+                            <p>Users won't see this annoucement again.</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" data-bs-dismiss="modal" class="btn btn-secondary">Cancel</button>
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 </section>
@@ -81,6 +101,7 @@
         el: "#announcement-index",
         data: {
             announcement: {},
+            announcementToDelete : null,
         },
         methods: {
             announcementViewInit(announcement){
@@ -94,6 +115,9 @@
             hideAnnouncementActions(announcement_id){
                 
                 $(`#announcement_actions_${announcement_id}`).css('opacity', '0%');
+            },
+            initDeleteAnnouncementModal(announcement_id){
+                this.announcementToDelete = announcement_id
             }
         },
     })

@@ -19,6 +19,7 @@ class CreateAnnouncementsTable extends Migration
             $table->string('announcement_content', 10000);
             $table->string('announcement_title', 100);
             $table->enum('viewer_role', ['All','Administrator', 'Customer']);
+            $table->softDeletes();
             $table->timestamps();
         });
     }

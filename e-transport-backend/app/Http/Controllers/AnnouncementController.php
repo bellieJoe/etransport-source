@@ -58,4 +58,9 @@ class AnnouncementController extends Controller
 
         return redirect(route('announcements.index'));
     }
+
+    public function delete($announcement){
+        Announcement::destroy($announcement);
+        return redirect()->back();
+    }
 }
