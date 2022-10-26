@@ -112,5 +112,5 @@ Route::prefix('reviews')->group(function(){
 Announcements
 */
 Route::prefix('announcements')->group(function(){
-    Route::get('get-announcements-by-user/{user_id}', [AnnouncementController::class, 'getAnnouncementsByUser']);
+    Route::get('get-announcements-by-user-id/{user_id}', [AnnouncementController::class, 'getAnnouncementsByUserId']);
 });
