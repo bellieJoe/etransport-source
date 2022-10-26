@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Announcement;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -62,5 +63,11 @@ class AnnouncementController extends Controller
     public function delete($announcement){
         Announcement::destroy($announcement);
         return redirect()->back();
+    }
+
+    public function getAnnouncementsByUser($user_id){
+        $user = User::find($user_id);
+        $announcements = Announcement::where('viewer_role', $user->role->role_description)->orWhere('viewer_role', 'All')->get();
+        return $announcements;
     }
 }

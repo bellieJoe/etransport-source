@@ -7,6 +7,7 @@ use App\Http\Controllers\AdministratorController;
 use App\Http\Controllers\LuggagePricingController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\TransportBookingController;
+use App\Http\Controllers\AnnouncementController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -100,10 +101,16 @@ Route::prefix('transport-bookings')->group(function (){
     Route::post('update-status/{transport_booking_id}', [TransportBookingController::class, 'updateStatus']);
 });
 
-
 /* 
 Reviews
 */
 Route::prefix('reviews')->group(function(){
     Route::post('', [ReviewController::class, 'store']);
+});
+
+/* 
+Announcements
+*/
+Route::prefix('announcements')->group(function(){
+    Route::get('get-announcements-by-user/{user_id}', [AnnouncementController::class, 'getAnnouncementsByUser']);
 });
