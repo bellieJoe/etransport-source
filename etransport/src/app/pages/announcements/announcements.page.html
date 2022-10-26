@@ -8,5 +8,18 @@
 </ion-header>
 
 <ion-content>
-
+  <ion-progress-bar *ngIf="loading" type="indeterminate"></ion-progress-bar>
+  <ng-container *ngFor="let announcement of announcementService.announcements">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>{{ announcement.announcement_title }}</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+       {{ announcement.announcement_content }}
+       <div class="mt-2">
+          <p>Posted on {{ announcement.created_at | date:'mediumDate' }}</p>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </ng-container>
 </ion-content>
