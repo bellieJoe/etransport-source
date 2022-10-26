@@ -9,7 +9,7 @@ import { VerifiedEmailGuard } from './guards/verified-email.guard';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'folder/Inbox',
+    redirectTo: 'profile',
     pathMatch: 'full',
   },
   {
@@ -73,14 +73,19 @@ const routes: Routes = [
   {
     path: 'setup-service',
     loadChildren: () => import('./pages/setup-service/setup-service.module').then( m => m.SetupServicePageModule)
-  },  {
+  },
+  {
     path: 'customer-bookings',
     loadChildren: () => import('./pages/customer-bookings/customer-bookings.module').then( m => m.CustomerBookingsPageModule)
   },
   {
     path: 'service-bookings',
     loadChildren: () => import('./pages/service-bookings/service-bookings.module').then( m => m.ServiceBookingsPageModule)
+  },  {
+    path: 'announcements',
+    loadChildren: () => import('./pages/announcements/announcements.module').then( m => m.AnnouncementsPageModule)
   }
+
 
 
 

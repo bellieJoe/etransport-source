@@ -42,6 +42,12 @@
               <ion-label>Service Bookings</ion-label>
             </ion-item>
           </ion-menu-toggle>
+          <ion-menu-toggle  auto-hide="false" >
+            <ion-item routerDirection="root" routerLink="/announcements" lines="none" detail="false" routerLinkActive="selected">
+              <ion-icon slot="start" icon="megaphone-outline"></ion-icon>
+              <ion-label>Announcements</ion-label>
+            </ion-item>
+          </ion-menu-toggle>
           <ion-menu-toggle  auto-hide="false">
             <ion-item lines="none" detail="false" (click)="logout()" button>
               <ion-icon slot="start" icon="log-out-outline" ></ion-icon>
