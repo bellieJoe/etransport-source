@@ -7,7 +7,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content color="background">
   <ion-progress-bar *ngIf="loading" type="indeterminate"></ion-progress-bar>
   <ng-container *ngFor="let announcement of announcementService.announcements">
     <ion-card>
@@ -23,4 +23,9 @@
       </ion-card-content>
     </ion-card>
   </ng-container>
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" *ngIf="authService.getAuth().role_id == 2">
+    <ion-fab-button [routerLink]="['/announcements/create']" routerLinkActive="router-link-active" >
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>

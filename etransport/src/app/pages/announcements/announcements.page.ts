@@ -12,7 +12,7 @@ export class AnnouncementsPage   {
 
   constructor(
     public announcementService  : AnnouncementService,
-    private authService : AuthService,
+    public authService : AuthService,
     private alertController : AlertController,
   ) { }
 
