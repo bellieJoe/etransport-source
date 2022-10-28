@@ -67,7 +67,7 @@ class AnnouncementController extends Controller
 
     public function getAnnouncementsByUserId($user_id){
         $user = User::find($user_id);
-        $announcements = Announcement::where('viewer_role', $user->role->role_description)->orWhere('viewer_role', 'All')->orderBy('updated_at', 'desc')->get();
+        $announcements = Announcement::where('viewer_role', $user->role->role_description)->orWhere('viewer_role', 'All')->orderBy('updated_at', 'desc')->with('user.role')->get();
         return $announcements;
     }
 }

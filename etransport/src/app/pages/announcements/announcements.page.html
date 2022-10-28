@@ -13,11 +13,12 @@
     <ion-card>
       <ion-card-header>
         <ion-card-title>{{ announcement.announcement_title }}</ion-card-title>
+        <ion-card-subtitle>From <span class="text-primary">{{ announcement.user.email }}</span> - {{ announcement.user.role.role_description }} </ion-card-subtitle>
       </ion-card-header>
       <ion-card-content>
-       {{ announcement.announcement_content }}
+        <p class="text-black">{{ announcement.announcement_content }}</p>
        <div class="mt-2">
-          <p>Posted on {{ announcement.created_at | date:'mediumDate' }}</p>
+          <p >Posted on {{ announcement.created_at | date:'mediumDate' }}</p>
         </div>
       </ion-card-content>
     </ion-card>
