@@ -113,4 +113,5 @@ Announcements
 */
 Route::prefix('announcements')->group(function(){
     Route::get('get-announcements-by-user-id/{user_id}', [AnnouncementController::class, 'getAnnouncementsByUserId']);
+    Route::post('', [AnnouncementController::class, 'apiStore']);
 });

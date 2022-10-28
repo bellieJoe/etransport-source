@@ -61,6 +61,23 @@ class AnnouncementController extends Controller
         return redirect(route('announcements.index'));
     }
 
+    public function apiStore(Request $request){
+        $request->validate([
+            'announcement_title' => ['required', 'max:100'],
+            'announcement_content' => ['required', 'max:10000'],
+            'viewer_role' => ['required', Rule::in(['All', 'Customer', 'Administrator'])]
+        ]);
+
+        DB::transaction(function () use ($request) {
+            Announcement::create([
+                'user_id' => $request->user_id,
+                'announcement_title' => $request->announcement_title,
+                'announcement_content' => $request->announcement_content,
+                'viewer_role' => $request->viewer_role
+            ]);
+        });
+    }
+
     public function delete($announcement){
         Announcement::destroy($announcement);
         return redirect()->back();
