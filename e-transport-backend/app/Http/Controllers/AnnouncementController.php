@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Announcement;
+use App\Models\TransportBooking;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -67,7 +68,22 @@ class AnnouncementController extends Controller
 
     public function getAnnouncementsByUserId($user_id){
         $user = User::find($user_id);
-        $announcements = Announcement::where('viewer_role', $user->role->role_description)->orWhere('viewer_role', 'All')->orderBy('updated_at', 'desc')->with('user.role')->get();
+        $announcements = [];
+        if($user->role->role_description == 'Customer'){
+            $user_bookings = TransportBooking::where('user_customer_id', $user_id)->with(['service.administrator.user'])->get();
+            $userIds = [];
+            foreach($user_bookings as $booking){
+                array_push($userIds, $booking->service->administrator->user->user_id);
+            }
+            $userIds = [...User::where('role_id', 1)->pluck('user_id'), ...$userIds];
+            $announcements = Announcement::where('viewer_role', $user->role->role_description)->whereIn('user_id', $userIds)->orderBy('updated_at', 'desc')->with('user.role')->get();
+        }
+        elseif($user->role->role_description == 'Administrator'){
+            $announcements = Announcement::where('viewer_role', $user->role->role_description)->orderBy('updated_at', 'desc')->with('user.role')->get();
+        }
+        else{
+            $announcements = Announcement::where('viewer_role', $user->role->role_description)->orderBy('updated_at', 'desc')->with('user.role')->get();
+        }
         return $announcements;
     }
 }
