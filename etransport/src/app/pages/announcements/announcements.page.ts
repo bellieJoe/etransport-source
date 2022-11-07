@@ -17,6 +17,11 @@ export class AnnouncementsPage   {
   ) { }
 
   loading : boolean = false;
+  filter : string = "stream";
+
+  filterAnnouncements(filter){
+    this.filter = filter;
+  }
 
   async fetchAnnouncements(){
     this.loading = true;

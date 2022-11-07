@@ -7,13 +7,29 @@
   </ion-toolbar>
 </ion-header>
 
+<ion-header *ngIf="authService.getAuth().role_id == 2">
+  <ion-toolbar>
+    <ion-segment value="stream">
+      <ion-segment-button value="stream" (click)="filterAnnouncements('stream')">
+        <ion-label>Stream</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="mine" (click)="filterAnnouncements('mine')">
+        <ion-label>My Announcements</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-header>
+
 <ion-content color="background">
   <ion-progress-bar *ngIf="loading" type="indeterminate"></ion-progress-bar>
+
+  
+
   <ng-container *ngFor="let announcement of announcementService.announcements">
-    <ion-card>
+    <ion-card *ngIf="filter == 'stream' ? true : (announcement.user_id == authService.getAuth().user_id && true)">
       <ion-card-header>
         <ion-card-title>{{ announcement.announcement_title }}</ion-card-title>
-        <ion-card-subtitle>From <span class="text-primary">{{ announcement.user.email }}</span> - {{ announcement.user.role.role_description }} </ion-card-subtitle>
+        <ion-card-subtitle>From <span class="text-primary">{{ announcement.user.email }}</span> <br> Posteb By {{ announcement.user_id == authService.getAuth().user_id ? 'You' : announcement.user.role.role_description }} </ion-card-subtitle>
       </ion-card-header>
       <ion-card-content>
         <p class="text-black">{{ announcement.announcement_content }}</p>
