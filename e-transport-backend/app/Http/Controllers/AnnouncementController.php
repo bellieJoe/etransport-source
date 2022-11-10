@@ -42,6 +42,19 @@ class AnnouncementController extends Controller
         return redirect(route('announcements.index'));
     }
 
+    public function apiUpdate(Request $request, $announcement){
+        $request->validate([
+            'announcement_title' => ['required', 'max:100'],
+            'announcement_content' => ['required', 'max:10000']
+        ]);
+        DB::transaction(function () use ($request, $announcement) {
+            Announcement::where('announcement_id', $announcement)->update([
+                'announcement_title' => $request->announcement_title,
+                'announcement_content' => $request->announcement_content
+            ]);
+        });
+    }
+
     public function store(Request $request){
         $request->validate([
             'announcement_title' => ['required', 'max:100'],
@@ -78,9 +91,14 @@ class AnnouncementController extends Controller
         });
     }
 
+
     public function delete($announcement){
         Announcement::destroy($announcement);
         return redirect()->back();
+    }
+
+    public function apiDelete($announcement){
+        Announcement::destroy($announcement);
     }
 
     public function getAnnouncementsByUserId($user_id){

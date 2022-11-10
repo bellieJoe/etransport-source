@@ -1,9 +1,37 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>edit</ion-title>
+    <ion-buttons slot="start">
+      <ion-button [routerLink]="['/announcements']" routerLinkActive="router-link-active"  expand="block" fill="clear" shape="round">
+        <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Edit Announcement</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-
+<ion-content color="background">
+  <div class="bg-white">
+    <div class="mb-2 px-3 py-3">
+      <h3 class="my-0">Create Announcement Form</h3>
+    </div>
+    <div class="mb-2">
+      <ion-item>
+        <ion-label position="floating">Announcement Title</ion-label>
+        <ion-input type="text" [(ngModel)]="edit_announcement_form.announcement_title"></ion-input>
+      </ion-item>
+      <ion-note color="danger" *ngIf="edit_announcement_form.errors.announcement_title">{{ edit_announcement_form.errors.announcement_title }}</ion-note>
+    </div>
+    <div class="mb-2">
+      <ion-item>
+        <ion-label position="floating">Content</ion-label>
+        <ion-textarea [autoGrow]="true" [(ngModel)]="edit_announcement_form.announcement_content"></ion-textarea>
+      </ion-item>
+      <ion-note color="danger" *ngIf="edit_announcement_form.errors.announcement_content">{{ edit_announcement_form.errors.announcement_content }}</ion-note>
+    </div>
+    <ion-button class="mb-6 ms-auto me-0 d-block" style="width: fit-content;" (click)="edit_announcement_form.submit()">
+      <ion-icon name="save-outline" slot="start"></ion-icon>
+      Update
+    </ion-button>
+    <br>
+  </div>
 </ion-content>

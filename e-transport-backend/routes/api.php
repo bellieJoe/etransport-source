@@ -114,4 +114,6 @@ Announcements
 Route::prefix('announcements')->group(function(){
     Route::get('get-announcements-by-user-id/{user_id}', [AnnouncementController::class, 'getAnnouncementsByUserId']);
     Route::post('', [AnnouncementController::class, 'apiStore']);
+    Route::put('{announcement}', [AnnouncementController::class, 'apiUpdate']);
+    Route::delete('{announcement}', [AnnouncementController::class, 'apiDelete']);
 });

@@ -31,9 +31,24 @@ export class AnnouncementService {
     return res;
   }
 
+  async updateAnnouncement(data : PostAnnouncementData){
+    const res = await axios.put(`${environment.apiUrl}/api/announcements/${data.announcement_id}`, data)
+    .then(res => res)
+    .catch(err => err.response);
+    return res;
+  }
+
+  async deleteAnnouncement(announcement_id){
+    const res = await axios.delete(`${environment.apiUrl}/api/announcements/${announcement_id}`)
+    .then(res => res)
+    .catch(err => err.response);
+    return res;
+  }
+
 }
 
 class PostAnnouncementData {
+  announcement_id? : any
   announcement_title : string
   announcement_content : string
   viewer_role : string

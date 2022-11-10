@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AlertController } from '@ionic/angular';
+import { Router } from '@angular/router';
+import { AlertController, LoadingController, ToastController } from '@ionic/angular';
 import { AnnouncementService } from 'src/app/services/announcement.service';
 import { AuthService } from 'src/app/services/auth.service';
 
@@ -14,6 +15,9 @@ export class AnnouncementsPage   {
     public announcementService  : AnnouncementService,
     public authService : AuthService,
     private alertController : AlertController,
+    private loadingController : LoadingController,
+    private toastController : ToastController,
+    private router : Router
   ) { }
 
   loading : boolean = false;
@@ -38,11 +42,61 @@ export class AnnouncementsPage   {
     }
     
     this.announcementService.announcements = res.data;
-    console.log(res.data)
     this.loading = false;
   }
+
+  async deleteAnnouncement(announcement_id){
+    const deleteHandler = async () => {
+      
+      const loader = await this.loadingController.create({
+        spinner: 'circular',
+        backdropDismiss: false,
+        message: 'Deleting Announcement'
+      });
+      await loader.present();
+      const res = await this.announcementService.deleteAnnouncement(announcement_id);
+      if(res.status != 200){
+        await loader.dismiss();
+        const alert = await this.alertController.create({
+          header: 'Error deleting Announcement',
+          message: `${res.status} | ${res.data.message}`,
+          buttons: ['Cancel']
+        })
+        await alert.present();
+        return;
+      }
+      const toast = await this.toastController.create({
+        message: "Announcement successfully deleted",
+        duration: 1500
+      });
+      this.fetchAnnouncements();
+      await toast.present();
+      await loader.dismiss();
+      await toast.onDidDismiss();
+    }
+    const deleteAlert  = await this.alertController.create({
+      message: "Are you sure you want to delete this announcement?",
+      buttons: [
+        {
+          text: "Cancel"
+        },
+        {
+          text: "Delete",
+          handler: deleteHandler
+        }
+      ]
+    });
+    await deleteAlert.present();
+  }
+
   async ionViewDidEnter(){
     this.fetchAnnouncements()
+  }
+
+  async editAnnouncement(announcement){
+    this.router.navigate(['/announcements/edit'], {
+      queryParams: announcement
+    });
   }
 
 }

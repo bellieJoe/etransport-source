@@ -32,13 +32,13 @@
           <ion-card-title>{{ announcement.announcement_title }}</ion-card-title>
           <ion-card-subtitle>From <span class="text-primary">{{ announcement.user.email }}</span> <br> Posteb By {{ announcement.user_id == authService.getAuth().user_id ? 'You' : announcement.user.role.role_description }} </ion-card-subtitle>
         </div>
-        <div class="dropdown col-auto"  >
+        <div class="dropdown col-auto"  *ngIf="authService.getAuth().user_id == announcement.user_id">
           <button class="btn  dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
             <i class="fa-solid fa-ellipsis"></i>
           </button>
           <ul class="dropdown-menu">
-            <li><button class="dropdown-item text-danger" >Delete</button></li>
-            <li><button class="dropdown-item" [routerLink]="['/announcements/edit']" >Edit</button></li>
+            <li><button class="dropdown-item text-danger" (click)="deleteAnnouncement(announcement.announcement_id)">Delete</button></li>
+            <li><button class="dropdown-item" (click)="editAnnouncement(announcement)" >Edit</button></li>
           </ul>
         </div>
       </ion-card-header>
