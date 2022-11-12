@@ -58,6 +58,10 @@ Route::group(['prefix' => 'announcements','as' => 'announcements.'], function(){
     Route::delete('{announcement}', [AnnouncementController::class, 'delete'])->name('delete')->middleware('auth');
 });
 
+Route::group(['prefix' => 'terms_and_conditions', 'as' => 'terms_and_conditions.'], function(){
+    Route::view('', 'pages.terms_and_conditions.terms_and_conditions');
+});
+
 
 
 

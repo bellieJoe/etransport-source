@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             AdministratorSeeder::class,
             CustomerSeeder::class,
+            TermsAndConditionSeeder::class
         ]);
     }
 }
