@@ -14,9 +14,6 @@ class TermsAndConditionSeeder extends Seeder
      */
     public function run()
     {
-        TermsAndCondition::create([
-            'status' => 1,
-            'content' => ""
-        ]);
+  
     }
 }

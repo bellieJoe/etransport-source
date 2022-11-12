@@ -8,6 +8,7 @@ use App\Http\Controllers\LuggagePricingController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\TransportBookingController;
 use App\Http\Controllers\AnnouncementController;
+use App\Http\Controllers\TermsAndConditionController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -116,4 +117,11 @@ Route::prefix('announcements')->group(function(){
     Route::post('', [AnnouncementController::class, 'apiStore']);
     Route::put('{announcement}', [AnnouncementController::class, 'apiUpdate']);
     Route::delete('{announcement}', [AnnouncementController::class, 'apiDelete']);
+});
+
+/* 
+Terms and Conditions
+*/
+Route::prefix('terms-and-conditions')->group(function(){
+    Route::post("agree/{user}", [TermsAndConditionController::class, 'agree']);
 });

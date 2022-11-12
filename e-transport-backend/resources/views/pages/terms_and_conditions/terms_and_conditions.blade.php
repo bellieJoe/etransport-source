@@ -1,3 +1,12 @@
+<style>
+    *{
+        font-family: 'calibri';
+    }
+    div{
+        padding: 1rem;
+    }
+</style>
+<div>
 <br>Please read carefully the guidelines about terms and conditions of reservation. You must not make any booking and reservation unless you understand and agree with the following terms and conditions
 <br><br>TERMS AND CONDITION 
 <br><br>The reservation is validated only if have you received a confirmation from the system. Online payment is applicable once you link your GCASH account from the system.
@@ -43,4 +52,5 @@
         </ul> 
     </li>
 </ul>
+</div>
 

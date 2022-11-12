@@ -1,0 +1,20 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Terms & Conditions</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-progress-bar type="indeterminate" color="primary" *ngIf="loading"></ion-progress-bar>
+  <iframe src="http://localhost:8000/terms_and_conditions" frameborder="0"></iframe>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-button color="primary" (click)="agree(authService.getAuth().user_id)">
+        I Agree
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

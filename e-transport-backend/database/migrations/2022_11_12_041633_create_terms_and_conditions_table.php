@@ -15,9 +15,9 @@ class CreateTermsAndConditionsTable extends Migration
     {
         Schema::create('terms_and_conditions', function (Blueprint $table) {
             $table->id('terms_and_condition_id');
-            $table->string("content", 50000);
+            $table->longText("content", 50000);
             $table->enum('status', [0, 1]);
-            $table->sofDeletes();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

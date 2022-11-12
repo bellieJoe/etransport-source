@@ -23,6 +23,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->foreignId('role_id');
             $table->string('verification_code')->nullable();
+            $table->enum('terms_and_condition', [0,1])->default(0);
             $table->rememberToken();
             $table->timestamps();
         });
