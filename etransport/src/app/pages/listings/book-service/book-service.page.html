@@ -146,6 +146,23 @@
     <ion-input type="text" [(ngModel)]="book_service_form.dropoff_location"></ion-input>
   </ion-item> 
   <ion-note color="danger" *ngIf="book_service_form.errors.dropoff_location">{{ book_service_form.errors.dropoff_location }}</ion-note>
+
+
+  <p class="p-3">By submitting this reservation means you agree to the <span id="terms_and_conditions_modal" class="text-primary">Terms and Conditions</span> regarding the reservation</p>
+  <ion-modal trigger="terms_and_conditions_modal" >
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-buttons slot="end">
+            <ion-button (click)="close()">Cancel</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <iframe src="http://localhost:8000/terms_and_conditions" frameborder="0" style="height: 100%; width: 100%;"></iframe>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
 </ion-content>
 
 <ion-footer >

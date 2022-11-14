@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { AuthService } from 'src/app/services/auth.service';
 import { TermsAndConditionsService } from 'src/app/services/terms-and-conditions.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-terms-and-conditions',
@@ -19,8 +20,12 @@ export class TermsAndConditionsPage implements OnInit {
   ) { }
 
   loading : boolean = false;
+  tacLink : any  = `${environment.apiUrl}/terms_and_conditions`;
 
   ngOnInit() {
+    console.log('====================================');
+    console.log(this.tacLink);
+    console.log('====================================');
   }
 
   async agree(user_id){
