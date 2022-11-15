@@ -111,7 +111,14 @@ class AnnouncementController extends Controller
                 array_push($userIds, $booking->service->administrator->user->user_id);
             }
             $userIds = [...User::where('role_id', 1)->pluck('user_id'), ...$userIds];
-            $announcements = Announcement::whereIn('viewer_role', [$user->role->role_description, 'All'])->whereIn('user_id', $userIds)->orderBy('updated_at', 'desc')->with('user.role')->get();
+            $announcements = Announcement::whereIn('viewer_role', [$user->role->role_description, 'All'])
+            ->whereIn('user_id', $userIds)
+            ->orderBy('updated_at', 'desc')
+            ->with(['user.role',  'comments' => function($query){
+                $query->orderBy('created_at', 'desc');
+            }])
+            ->withCount(['comments'])
+            ->get();
         }
         else{
             $announcements = Announcement::whereIn('viewer_role', [$user->role->role_description, 'All'])->orderBy('updated_at', 'desc')->with('user.role')->get();

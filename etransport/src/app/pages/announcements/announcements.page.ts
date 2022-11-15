@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AlertController, LoadingController, ToastController } from '@ionic/angular';
+import { AlertController, IonGrid, LoadingController, ToastController } from '@ionic/angular';
 import { AnnouncementService } from 'src/app/services/announcement.service';
 import { AuthService } from 'src/app/services/auth.service';
 
@@ -22,6 +22,7 @@ export class AnnouncementsPage   {
 
   loading : boolean = false;
   filter : string = "stream";
+  announcementComment : any[] = [];
 
   filterAnnouncements(filter){
     this.filter = filter;
@@ -42,6 +43,7 @@ export class AnnouncementsPage   {
     }
     
     this.announcementService.announcements = res.data;
+    console.log(this.announcementService.announcements)
     this.loading = false;
   }
 
@@ -97,6 +99,49 @@ export class AnnouncementsPage   {
     this.router.navigate(['/announcements/edit'], {
       queryParams: announcement
     });
+  }
+
+  async postComment(announcement_id){
+    const user_id = this.authService.getAuth().user_id;
+    const reset = async () => {
+      this.announcementComment[announcement_id] = '';
+      await loader.dismiss();
+    }
+    const loader = await this.loadingController.create({
+      message : 'Submitting comment',
+      spinner : 'circular',
+      backdropDismiss: false 
+    });
+    await loader.present();
+    const data = {
+      user_id,
+      announcement_id,
+      comment : this.announcementComment[announcement_id]
+    }
+    const res = await this.announcementService.posComment(data);
+    if(res.status < 200 || res.status > 299){
+      const alert =  await this.alertController.create({
+        header: "Unexpected Error",
+        message: `${res.data.message}`,
+        buttons: ['Ok']
+      });
+      await alert.present();
+      await reset();
+      return;
+    }
+    await reset();
+    const toast = await this.toastController.create({
+      duration: 3000,
+      message: "Comment successfully submitted",
+    })
+    this.announcementService.announcements = this.announcementService.announcements.map((announcement, i)=>{
+      if(announcement_id == announcement.announcement_id){
+        announcement.comments_count++;
+        announcement.comments.splice(0, 0, res.data);
+      }
+      return announcement;
+    })
+    await toast.present();
   }
 
 }

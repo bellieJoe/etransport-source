@@ -45,6 +45,13 @@ export class AnnouncementService {
     return res;
   }
 
+  async posComment(data : PostCommentData){
+    const res = await axios.post(`${environment.apiUrl}/api/announcements/comments`, data)
+    .then(res => res)
+    .catch(err => err.response);
+    return res;
+  }
+
 }
 
 class PostAnnouncementData {
@@ -53,4 +60,10 @@ class PostAnnouncementData {
   announcement_content : string
   viewer_role : string
   user_id : any
+}
+
+class PostCommentData {
+  announcement_id : any
+  user_id : any
+  comment : any
 }

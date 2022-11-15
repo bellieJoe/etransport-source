@@ -11,5 +11,5 @@ class AnnouncementComment extends Model
 
     protected $primaryKey = 'comment_id';
 
-    protected $guarderd = [];
+    protected $guarded = [];
 }
