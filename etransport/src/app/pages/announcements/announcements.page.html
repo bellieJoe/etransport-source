@@ -45,7 +45,7 @@
         <p class="text-black fs-6 mt-4" style="white-space: pre-wrap;">{{ announcement.announcement_content }}</p>
        <div class="mt-4">
           <p >Posted on {{ announcement.created_at | date:'mediumDate' }}</p>
-          <p class="text-primary"><i class="fa-regular fa-comments fs-5"></i> View {{ announcement.comments_count }} Comment/s</p>
+          <p class="text-primary" (click)="viewComments(announcement)"><i class="fa-regular fa-comments fs-5"></i> View {{ announcement.comments_count }} Comment/s</p>
           <div class="row g-0">
             <ion-textarea [(ngModel)]="announcementComment[announcement.announcement_id]" placeholder="Write a comment" class="col me-2 rounded" rows="1" auto-grow style="background-color: rgb(246, 246, 246);"></ion-textarea>
             <button class="btn btn-outline-primary  col-auto align-self-start " (click)="postComment(announcement.announcement_id)">Post</button>

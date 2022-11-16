@@ -1,0 +1,21 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="close()">
+        <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Comments</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ng-container *ngFor="let comment of announcement.comments">
+    <div class="p-2">
+      <h6 class="fw-bold small mb-0">{{ comment.user.name }}</h6>
+      <p class="small text-secondary">{{ timeService.displayForHumans(comment.created_at) }}</p>
+      <p class="small">{{ comment.comment }}</p>
+    </div>
+  </ng-container>
+  
+</ion-content>

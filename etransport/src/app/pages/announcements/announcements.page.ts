@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AlertController, IonGrid, LoadingController, ToastController } from '@ionic/angular';
+import { AlertController, IonGrid, LoadingController, ModalController, ToastController } from '@ionic/angular';
 import { AnnouncementService } from 'src/app/services/announcement.service';
 import { AuthService } from 'src/app/services/auth.service';
+import { CommentsPage } from './comments/comments.page';
 
 @Component({
   selector: 'app-announcements',
@@ -17,7 +18,8 @@ export class AnnouncementsPage   {
     private alertController : AlertController,
     private loadingController : LoadingController,
     private toastController : ToastController,
-    private router : Router
+    private router : Router,
+    private modalController : ModalController
   ) { }
 
   loading : boolean = false;
@@ -142,6 +144,16 @@ export class AnnouncementsPage   {
       return announcement;
     })
     await toast.present();
+  }
+
+  async viewComments(announcement){
+    const modal = await this.modalController.create({
+      component: CommentsPage,
+      componentProps: {
+        announcement : announcement
+      }
+    });
+    await modal.present();
   }
 
 }

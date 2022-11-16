@@ -114,8 +114,12 @@ class AnnouncementController extends Controller
             $announcements = Announcement::whereIn('viewer_role', [$user->role->role_description, 'All'])
             ->whereIn('user_id', $userIds)
             ->orderBy('updated_at', 'desc')
-            ->with(['user.role',  'comments' => function($query){
-                $query->orderBy('created_at', 'desc');
+            ->with([
+            'user'=> function($query){
+                $query->with('role');
+            },  
+            'comments' => function($query){
+                $query->with('user')->orderBy('created_at', 'desc');
             }])
             ->withCount(['comments'])
             ->get();
