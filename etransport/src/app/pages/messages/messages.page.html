@@ -1,0 +1,51 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>-Name Here-</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content color="background">
+  <div class="chat">
+    <div class="chat-container" >
+      <div class="chat-message chat-me">
+        <p> Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis vel sint doloribus? Magni ullam eum nam iusto maxime necessitatibus blanditiis?</p>
+        <small>October 18, 2022 10:03 PM</small>
+      </div>
+      <div class="chat-message chat-other">
+        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Amet vitae error suscipit repudiandae aut.</p>
+        <small>October 18, 2022 10:03 PM</small>
+      </div>
+      <div class="chat-message chat-other">
+        <p>Lorem</p>
+        <small>October 18, 2022 10:03 PM</small>
+      </div>
+      <div class="chat-message chat-other">
+        <p>Lorem</p>
+        <small>October 18, 2022 10:03 PM</small>
+      </div>
+      <div class="chat-message chat-me">
+        <p> Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis vel sint doloribus? Magni ullam eum nam iusto maxime necessitatibus blanditiis?</p>
+        <small>October 18, 2022 10:03 PM</small>
+      </div>
+      <div class="chat-message chat-me">
+        <p> Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis vel sint doloribus? Magni ullam eum nam iusto maxime necessitatibus blanditiis?</p>
+        <small>October 18, 2022 10:03 PM</small>
+      </div>
+      <div id="latest" class="p-2"></div>
+    </div>
+  </div>
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" *ngIf="btnGoToLatest_visible">
+    <ion-fab-button color="tertiary" (click)="goToLatest()">
+      <ion-icon name="arrow-down-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-title>Footer</ion-title>
+  </ion-toolbar>
+</ion-footer>

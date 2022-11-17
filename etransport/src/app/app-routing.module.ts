@@ -123,7 +123,11 @@ const routes: Routes = [
     canActivate: [
       AuthGuard
     ]
+  },  {
+    path: 'messages',
+    loadChildren: () => import('./pages/messages/messages.module').then( m => m.MessagesPageModule)
   }
+
 
 
 

@@ -152,6 +152,10 @@
 
       <!-- actions -->
       <div class="px-3 mt-2" >
+        <ion-button color="tertiary" routerLink="/messages">
+          <ion-icon slot="icon-only" name="chatbubbles-outline"></ion-icon>
+        </ion-button>
+
         <ion-button color="danger" id="decline-booking-modal-{{ booking.transport_booking_id }}" fill="outline" *ngIf="booking.booking_status == 'pending'">
           Decline
         </ion-button>
@@ -234,8 +238,9 @@
         </ion-modal>
 
         <ion-button color="success" *ngIf="booking.booking_status == 'accepted'" (click)="finishBooking(booking.transport_booking_id)">
-          Booking Finish
+          Completed
         </ion-button>
+
       </div>
     </div>
   </ng-container>
