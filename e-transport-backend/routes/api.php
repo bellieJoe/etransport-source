@@ -10,6 +10,7 @@ use App\Http\Controllers\TransportBookingController;
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\TermsAndConditionController;
 use App\Http\Controllers\AnnouncementCommentController;
+use App\Http\Controllers\MessageController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -129,5 +130,12 @@ Terms and Conditions
 */
 Route::prefix('terms-and-conditions')->group(function(){
     Route::post("agree/{user}", [TermsAndConditionController::class, 'agree']);
+});
+
+/* 
+Messages
+*/
+Route::prefix('messages')->group(function(){
+    Route::post("", [MessageController::class, 'store']);
 });
 

@@ -1,4 +1,5 @@
 import { AfterViewInit, Component, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { Router } from '@angular/router';
 import { AlertController, IonModal, LoadingController } from '@ionic/angular';
 import { AuthService } from 'src/app/services/auth.service';
 import { ServiceService } from 'src/app/services/service.service';
@@ -16,7 +17,8 @@ export class ServiceBookingsPage implements OnInit {
     private authService : AuthService,
     private alertController : AlertController,
     public serviceService : ServiceService,
-    private loadingController : LoadingController
+    private loadingController : LoadingController,
+    private router : Router
   ) { }
 
   @ViewChildren(IonModal) ionModals : QueryList<IonModal>;
@@ -59,7 +61,6 @@ export class ServiceBookingsPage implements OnInit {
       return;
     }
     this.transportBookingService.transport_bookings = res.data;
-    console.log(this.transportBookingService.transport_bookings[0].service.service_name)
   }
 
   async acceptBooking(transport_booking_id: any){
@@ -301,6 +302,14 @@ export class ServiceBookingsPage implements OnInit {
     await this.fetchBookings();
     this.isLoading = false;
     this.transport = this.transportBookingService.transport_bookings;
-    console.log(this.transportBookingService.transport_bookings)
+  }
+
+  async viewMessages(serviceBooking){
+    this.router.navigate(['/messages'], {
+      state : {
+        serviceBooking,
+        receiver : serviceBooking.user_customer_id
+      }
+    })
   }
 }

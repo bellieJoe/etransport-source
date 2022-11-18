@@ -44,8 +44,15 @@
   </ion-fab>
 </ion-content>
 
-<ion-footer>
-  <ion-toolbar>
-    <ion-title>Footer</ion-title>
-  </ion-toolbar>
+<ion-footer >
+  <div class=" row align-items-center p-3 pt-0">
+    <ion-item class="col">
+      <ion-label position="floating" color="tertiary">Write message | <span class="text-secondary">{{ messageCounter.remaining }} left</span></ion-label>
+      <ion-textarea maxlength="5000" [(ngModel)]="message" class="text-black" rows="1" color="tertiary" (keyup)="messageCounter.onInput()"></ion-textarea>
+    </ion-item>
+    <ion-button class="col-auto m-0 p-0" fill="clear"  color="tertiary" (click)="sendMessage()" [disabled]="isSending ? 'disabled' : false">
+      <ion-icon name="send" slot="icon-only" *ngIf="!isSending"></ion-icon>
+      <ion-spinner name="lines-small" color="tertiary" *ngIf="isSending"></ion-spinner>
+    </ion-button>
+  </div>
 </ion-footer>

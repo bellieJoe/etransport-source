@@ -1,3 +1,6 @@
+*{
+    scroll-behavior: smooth;
+}
 .chat{
     display: grid;
     grid-template-columns: 1fr;
@@ -41,14 +44,22 @@
             small{
                 margin: 0rem 0rem 0rem auto;
             }
-            
         }
         .chat-other{
             p{
                 background-color: white;
                 border-bottom-left-radius: 0rem;
             }
-            
         }
+    }
+}
+
+ion-footer{
+    // background: gray;
+    text-area{
+
+    }
+    button{
+
     }
 }
