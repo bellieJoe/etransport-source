@@ -36,6 +36,8 @@ export class MessagesPage implements OnInit {
       location.href = "/";
     }
     this.navState = this.router.getCurrentNavigation().extras.state;
+    console.log(this.navState);
+    
     setInterval(()=>{
       location.hash = "";
       try {
@@ -65,10 +67,14 @@ export class MessagesPage implements OnInit {
         transport_booking_id : navState.serviceBooking ? navState.serviceBooking.transport_booking_id : null 
       }
       const res = await this.messageService.addMessage(data);
-      console.log(res)
+      
+      /* 
+      logic here after sending
+      */
 
       this.message = "";
       this.isSending = false;
+      this.messageCounter.remaining = 5000;
 
     } catch (error) {
       const alert = await this.alertController.create({
@@ -86,8 +92,8 @@ export class MessagesPage implements OnInit {
         alert.message = error.response.data.errors.message
       }
       this.isSending = false;
+      this.messageCounter.remaining = 5000;
       await alert.present();
-      console.log(error);
       
     }
   }
