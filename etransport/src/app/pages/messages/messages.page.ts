@@ -30,14 +30,33 @@ export class MessagesPage implements OnInit {
       this.messageCounter.remaining =  5000 - this.message.length;
     }
   }
+  messages : any = [];
 
   async ngOnInit() {
     if(!this.router.getCurrentNavigation().extras.state ){
       location.href = "/";
     }
     this.navState = this.router.getCurrentNavigation().extras.state;
-    console.log(this.navState);
+    this.scrollListener();
+    await this.fetchMessages();
+    this.goToLatest();
+  }
+
+  ionViewDidEnter(){
     
+  }
+
+  async fetchMessages(){
+    try {
+      const res = await this.messageService.getMessagesByMembers([this.authService.getAuth().user_id, this.navState.receiver]);
+      this.messages = res.data;
+    } catch (error) {
+      await this.errorHandler(error);
+    }
+
+  }
+
+  scrollListener(){
     setInterval(()=>{
       location.hash = "";
       try {
@@ -54,7 +73,6 @@ export class MessagesPage implements OnInit {
       } catch (error) { }
       
     }, 500)
-    
   }
 
   async sendMessage(){
@@ -64,49 +82,43 @@ export class MessagesPage implements OnInit {
       const data = {
         message: this.message,
         members : [navState.receiver, this.authService.getAuth().user_id],
-        transport_booking_id : navState.serviceBooking ? navState.serviceBooking.transport_booking_id : null 
+        transport_booking_id : navState.serviceBooking ? navState.serviceBooking.transport_booking_id : null,
+        user_id : this.authService.getAuth().user_id
       }
       const res = await this.messageService.addMessage(data);
-      
-      /* 
-      logic here after sending
-      */
-
+      this.messages.push(res.data);
+      this.goToLatest();
       this.message = "";
       this.isSending = false;
       this.messageCounter.remaining = 5000;
 
     } catch (error) {
-      const alert = await this.alertController.create({
-        message: error.message,
-        header: "Unexpected Error",
-        buttons: ['Ok']
-      });
-      if(error.response.message){
-        alert.message = error.response.message
-      }
-      if(error.response.data.message){
-        alert.message = error.response.data.message
-      }
-      if(error.response.status == 422){
-        alert.message = error.response.data.errors.message
-      }
-      this.isSending = false;
-      this.messageCounter.remaining = 5000;
-      await alert.present();
-      
+     this.errorHandler(error);
     }
-  }
-
-
-
-  ionViewDidEnter(){
-    this.goToLatest();
-    
   }
 
   goToLatest(){
     location.hash =   "#latest";
+  }
+
+  async errorHandler(error : any){
+    const alert = await this.alertController.create({
+      message: error.message,
+      header: "Unexpected Error",
+      buttons: ['Ok']
+    });
+    if(error.response && error.response.message){
+      alert.message = error.response.message
+    }
+    if(error.response && error.response.data.message){
+      alert.message = error.response.data.message
+    }
+    if(error.response && error.response.status == 422){
+      alert.message = error.response.data.errors.message
+    }
+    this.isSending = false;
+    this.messageCounter.remaining = 5000;
+    await alert.present();
   }
 
 }

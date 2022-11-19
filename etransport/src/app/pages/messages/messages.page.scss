@@ -12,23 +12,25 @@
         grid-template-columns: 1fr;
         padding: 1rem;
         .chat-message{
+            margin: .3rem 0rem;
             &:hover{
                 small{
                     opacity: 100%;
                     transition: .4s;
+                    height: fit-content;
                 }
             }
-            margin: .5rem 0rem;
             p{
                 padding: 1rem;
                 max-width: 300px;
                 border-radius: 1.2rem;
                 width: fit-content;
-                margin: 0rem;
+                
             }
             small{
                 display: block;
                 width: fit-content;
+                height: 0px;
                 color: gray;
                 opacity: 0%;
                 font-size: .8rem;
@@ -40,6 +42,7 @@
                 border-bottom-right-radius: 0rem;
                 background: var(--ion-color-tertiary);
                 color: white;
+                margin: 0rem 0rem 0rem auto;
             }
             small{
                 margin: 0rem 0rem 0rem auto;
@@ -49,6 +52,7 @@
             p{
                 background-color: white;
                 border-bottom-left-radius: 0rem;
+                margin: 0px;
             }
         }
     }

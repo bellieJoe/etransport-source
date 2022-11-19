@@ -10,30 +10,12 @@
 <ion-content color="background">
   <div class="chat">
     <div class="chat-container" >
-      <div class="chat-message chat-me">
-        <p> Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis vel sint doloribus? Magni ullam eum nam iusto maxime necessitatibus blanditiis?</p>
-        <small>October 18, 2022 10:03 PM</small>
-      </div>
-      <div class="chat-message chat-other">
-        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Amet vitae error suscipit repudiandae aut.</p>
-        <small>October 18, 2022 10:03 PM</small>
-      </div>
-      <div class="chat-message chat-other">
-        <p>Lorem</p>
-        <small>October 18, 2022 10:03 PM</small>
-      </div>
-      <div class="chat-message chat-other">
-        <p>Lorem</p>
-        <small>October 18, 2022 10:03 PM</small>
-      </div>
-      <div class="chat-message chat-me">
-        <p> Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis vel sint doloribus? Magni ullam eum nam iusto maxime necessitatibus blanditiis?</p>
-        <small>October 18, 2022 10:03 PM</small>
-      </div>
-      <div class="chat-message chat-me">
-        <p> Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis vel sint doloribus? Magni ullam eum nam iusto maxime necessitatibus blanditiis?</p>
-        <small>October 18, 2022 10:03 PM</small>
-      </div>
+      <ng-container *ngFor="let message of messages">
+        <div [class]="message.user_id == authService.getAuth().user_id ? 'chat-message chat-me' : 'chat-message chat-other'">
+          <p>{{ message.message }}</p>
+          <small>October 18, 2022 10:03 PM</small>
+        </div>
+      </ng-container>
       <div id="latest" class="p-2"></div>
     </div>
   </div>
