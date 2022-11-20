@@ -34,7 +34,7 @@ class MessageController extends Controller
         ->get();
     }
 
-    public function getConversationsByUserId($user_id){
+    public function getConversationsByUserId(Request $request, $user_id){
         $userIds = Message::whereJsonContains('members', (int)$user_id)
         ->orderBy('created_at', 'desc')
         ->pluck('members')
@@ -48,7 +48,7 @@ class MessageController extends Controller
         ->unique()
         ->values();
 
-        $users = User::whereIn('user_id', $userIds)->get();
+        $users = User::whereIn('user_id', $userIds)->paginate(100);
         $users = $users->map(function($user) use ($user_id) {
             $user->lastMessage = Message::whereJsonContains('members', [$user->user_id, (int)$user_id])->orderBy('created_at', 'desc')->first();
             return $user;

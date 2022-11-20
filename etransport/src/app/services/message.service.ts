@@ -26,6 +26,7 @@ export class MessageService {
     private router : Router
   ) { }
 
+  conversations : any[] = [];
   async addMessage(data: AddMessageData){
     return await axios.post(`${environment.apiUrl}/api/messages`, data)
   }
@@ -37,8 +38,8 @@ export class MessageService {
     return await axios.get(`${environment.apiUrl}/api/messages/get-messages-by-members`, {params: data});
   }
 
-  async getConversationsByUserId(user_id){
-    return await axios.get(`${environment.apiUrl}/api/messages/get-conversations-by-user-id/${user_id}`); 
+  async getConversationsByUserId(user_id, page){
+    return await axios.get(`${environment.apiUrl}/api/messages/get-conversations-by-user-id/${user_id}?page=${page}`); 
   }
 
   async openConversation(receiver, transport_booking_id){

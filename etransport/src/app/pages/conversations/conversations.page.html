@@ -7,20 +7,23 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content color="background">
+<ion-content color="background" >
   <ion-progress-bar *ngIf="loading" type="indeterminate" color="primary"></ion-progress-bar>
+
   <ion-list>
     <ion-item *ngFor="let convo of conversations" (click)="messageService.openConversation(convo.user_id, null)" button lines="full">
       <ion-avatar slot="start">
-        <img [src]="'https://ui-avatars.com/api/?background=random&bold=true&name='+convo.name" />
+        <img [src]="'https:/avatars.dicebear.com/api/initials/'+convo.name+'.svg'" />
       </ion-avatar>
       <div class="py-2">
         <ion-label class="fw-bold">{{ convo.name }}</ion-label>
         <p class="message py-2">{{  convo.lastMessage.message }}  </p>
         <p class="small text-secondary mb-0">{{ convo.lastMessage.created_at | date:'medium' }}</p>
       </div>
-      
     </ion-item>
     <p class="text-center p-3 text-secondary" *ngIf="conversations.length < 1" lines="none">No Messages</p>
   </ion-list>
+  <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)" treshold="0%">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 </ion-content>

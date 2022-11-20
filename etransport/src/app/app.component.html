@@ -5,17 +5,13 @@
         <ion-list id="inbox-list">
           <ion-list-header ><i class="fa-solid fa-truck"></i>ETransport</ion-list-header>
           <br>
-          <!-- <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages; let i = index" >
-            <ion-item routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false" routerLinkActive="selected">
-              <ion-icon slot="start" [ios]="p.icon + '-outline'" [md]="p.icon + '-sharp'"></ion-icon>
-              <ion-label>{{ p.title }}</ion-label>
-            </ion-item> 
-          </ion-menu-toggle> -->
-          <!-- for all -->
           <ion-menu-toggle  auto-hide="false">
             <ion-item routerDirection="root" routerLink="/profile" lines="none" detail="false" routerLinkActive="selected">
-              <ion-icon slot="start" icon="person-outline"></ion-icon>
-              <ion-label>Profile</ion-label>
+              <!-- <ion-icon slot="start" icon="person-outline"></ion-icon> -->
+              <ion-avatar slot="start">
+                <img [src]="'https:/avatars.dicebear.com/api/initials/'+user.name+'.svg'" />
+              </ion-avatar>
+              <ion-label>{{ user.name }}</ion-label>
             </ion-item>
           </ion-menu-toggle>
           <ion-menu-toggle  auto-hide="false" *ngIf="user.role_id === 2">
