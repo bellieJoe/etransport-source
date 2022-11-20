@@ -166,4 +166,8 @@ class UserController extends Controller
         
         return $user->with(['role'])->first();
     }
+
+    public function getUserByUserId($user_id){
+        return User::find($user_id);
+    }
 }

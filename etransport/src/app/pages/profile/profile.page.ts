@@ -28,7 +28,6 @@ export class ProfilePage  {
   }
 
   ionViewDidEnter(){
-    console.log(this.authService.getAuth())
     this.user = this.authService.getAuth();
     this.role = this.authService.getAuth().role;
   }

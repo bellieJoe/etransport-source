@@ -3,11 +3,25 @@
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title>-Name Here-</ion-title>
+    <ion-item lines="none">
+      <ion-avatar slot="start" *ngIf="receiverDetails.name">
+        <img [src]="'https:/avatars.dicebear.com/api/initials/'+receiverDetails.name+'.svg'">
+      </ion-avatar>
+      <ion-label>{{ receiverDetails.name }}</ion-label>
+    </ion-item>
   </ion-toolbar>
 </ion-header>
 
 <ion-content color="background">
+
+  <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)" >
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
   <div class="chat">
     <div class="chat-container" >
       <ng-container *ngFor="let message of messages">
@@ -19,6 +33,7 @@
       <div id="latest" class="p-2"></div>
     </div>
   </div>
+
   <ion-fab vertical="bottom" horizontal="end" slot="fixed" *ngIf="btnGoToLatest_visible">
     <ion-fab-button color="tertiary" (click)="goToLatest()">
       <ion-icon name="arrow-down-outline"></ion-icon>

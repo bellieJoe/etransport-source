@@ -31,9 +31,10 @@ export class MessageService {
     return await axios.post(`${environment.apiUrl}/api/messages`, data)
   }
 
-  async getMessagesByMembers(members: number[]){
+  async getMessagesByMembers(members: number[], page){
     const data = {
-      members : members
+      members : members,
+      page: page
     }
     return await axios.get(`${environment.apiUrl}/api/messages/get-messages-by-members`, {params: data});
   }

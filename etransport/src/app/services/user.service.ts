@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { ErrorHandler, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import axios from 'axios';
 import { environment } from 'src/environments/environment';
@@ -10,6 +10,24 @@ axios.defaults.headers.common['Access-Control-Allow-Origin'] = "*";
 axios.defaults.headers.common['Access-Control-Allow-Methods'] = '*';
 axios.defaults.headers.common['Access-Control-Allow-Headers'] = '*';
 
+/* form data structure */
+class SignupData {
+  name : string
+  username : string
+  email : string
+  contact_number : string
+  password : string
+  password_confirmation : string
+  role_id : number
+}
+
+class UpdateProfileData {
+  name : string
+  username : string
+  contact_number : string
+  user_id : string
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -17,7 +35,8 @@ export class UserService {
 
   constructor(
     private router : Router,
-    private authService : AuthService
+    private authService : AuthService,
+    private errorHandler : ErrorHandler,
   ) { }
 
   user = JSON.parse(localStorage.getItem('user'));
@@ -67,26 +86,20 @@ export class UserService {
     return res;
   }
 
+  async getUserByUserId(user_id){
+    try {
+      const res = await axios.get(`${environment.apiUrl}/api/users/${user_id}`);
+      return res.data;
+    } catch (error) {
+      this.errorHandler.handleError(error)
+    }
+    
+  }
+
   logout(){
     localStorage.clear()
   }
 
 }
 
-/* form data structure */
-class SignupData {
-  name : string
-  username : string
-  email : string
-  contact_number : string
-  password : string
-  password_confirmation : string
-  role_id : number
-}
 
-class UpdateProfileData {
-  name : string
-  username : string
-  contact_number : string
-  user_id : string
-}

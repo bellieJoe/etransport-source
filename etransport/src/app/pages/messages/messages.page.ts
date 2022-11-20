@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AlertController } from '@ionic/angular';
+import { AlertController, InfiniteScrollCustomEvent } from '@ionic/angular';
 import { AuthService } from 'src/app/services/auth.service';
 import { MessageService } from 'src/app/services/message.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-messages',
@@ -16,21 +17,24 @@ export class MessagesPage implements OnInit {
     private activatedRoute : ActivatedRoute,
     private router : Router,
     public authService : AuthService,
-    private alertController : AlertController
+    private alertController : AlertController,
+    public userService : UserService
   ) {}
 
+  page: number = 1;
   loader : boolean =  false;
   btnGoToLatest_visible : boolean = false;
   message : string = "";
   navState : any;
   isSending : boolean = false;
+  messages : any = [];
+  receiverDetails : any = {};
   messageCounter : any = {
     remaining : 5000,
     onInput : () => {
       this.messageCounter.remaining =  5000 - this.message.length;
     }
   }
-  messages : any = [];
 
   async ngOnInit() {
     if(!this.router.getCurrentNavigation().extras.state ){
@@ -41,20 +45,31 @@ export class MessagesPage implements OnInit {
     await this.fetchMessages();
     this.goToLatest();
     this.messageService.getNewMessage();
+    this.receiverDetails = await this.userService.getUserByUserId(this.navState.receiver);
   }
 
-  ionViewDidEnter(){
-    
+  async onIonInfinite(ev){
+    await this.fetchMessages();
+    setTimeout(() => {
+      (ev as InfiniteScrollCustomEvent).target.complete();
+    }, 500);
   }
+  async handleRefresh(event){
+    await this.fetchMessages();
+    event.target.complete();
+  }
+
 
   async fetchMessages(){
     try {
-      const res = await this.messageService.getMessagesByMembers([this.authService.getAuth().user_id, this.navState.receiver]);
-      this.messages = res.data;
+      const res = await this.messageService.getMessagesByMembers([this.authService.getAuth().user_id, this.navState.receiver], this.page);
+      this.messages = [...res.data.reverse(), ...this.messages];
+      if(res.data.length > 0){
+        this.page++;
+      }
     } catch (error) {
       await this.errorHandler(error);
     }
-
   }
 
   scrollListener(){

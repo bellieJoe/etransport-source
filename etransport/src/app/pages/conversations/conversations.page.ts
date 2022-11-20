@@ -47,7 +47,6 @@ export class ConversationsPage implements OnInit {
     try {
       console.log(this.page);
       const res = await this.messageService.getConversationsByUserId(this.authService.getAuth().user_id, this.page);
-      console.log(res.data)
       this.conversations = [...this.conversations, ...res.data];
       if(res.data.length > 0){
         this.page++;
