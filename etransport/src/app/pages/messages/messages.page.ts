@@ -40,6 +40,7 @@ export class MessagesPage implements OnInit {
     this.scrollListener();
     await this.fetchMessages();
     this.goToLatest();
+    this.messageService.getNewMessage();
   }
 
   ionViewDidEnter(){
@@ -87,6 +88,7 @@ export class MessagesPage implements OnInit {
       }
       const res = await this.messageService.addMessage(data);
       this.messages.push(res.data);
+      this.messageService.sendMessage(res.data);
       this.goToLatest();
       this.message = "";
       this.isSending = false;

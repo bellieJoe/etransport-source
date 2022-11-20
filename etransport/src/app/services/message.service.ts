@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import axios from 'axios';
 import { environment } from 'src/environments/environment';
-
+import { io } from "socket.io-client";
 
 axios.defaults.withCredentials = true;
 axios.defaults.headers.common['Accept'] = 'application/json';
@@ -26,6 +26,18 @@ export class MessageService {
     }
     return await axios.get(`${environment.apiUrl}/api/messages/get-messages-by-members`, {params: data});
   }
+
+  socket = io('http://localhost:3000');
+
+  public sendMessage(message) {
+    this.socket.emit('message', message);
+  }
+
+  public getNewMessage = () => {
+    this.socket.on('message', (message) =>{
+      console.log(message);
+    });
+  };
 }
 
 class AddMessageData {
