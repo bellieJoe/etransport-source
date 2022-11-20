@@ -22,13 +22,12 @@ export class ConversationsPage implements OnInit {
   conversations : any = [];
 
   async ngOnInit() {
-    
-    // await this.ionViewDidEnter();
-    
+
   }
 
   async ionViewDidEnter(){
     this.loading = true;
+    this.page = 1;
     this.conversations = this.messageService.conversations
     await this.fetchConversations();
     this.loading = false;
@@ -48,6 +47,9 @@ export class ConversationsPage implements OnInit {
       console.log(this.page);
       const res = await this.messageService.getConversationsByUserId(this.authService.getAuth().user_id, this.page);
       this.conversations = [...this.conversations, ...res.data];
+      if(this.page == 1){
+        this.conversations = res.data;
+      }
       if(res.data.length > 0){
         this.page++;
       }

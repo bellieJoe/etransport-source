@@ -32,7 +32,7 @@ class MessageController extends Controller
     public function getMessagesByMembers(Request $request){
         return Message::whereJsonContains('members', array_map('intval', $request->members))
         ->orderBy('created_at', 'desc')
-        ->paginate(3)->map(function($item){
+        ->paginate(50)->map(function($item){
             return $item;
         });
     }

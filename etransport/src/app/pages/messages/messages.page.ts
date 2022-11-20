@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController, InfiniteScrollCustomEvent } from '@ionic/angular';
 import { AuthService } from 'src/app/services/auth.service';
 import { MessageService } from 'src/app/services/message.service';
+import { SocketServerService } from 'src/app/services/socket-server.service';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
@@ -18,7 +19,8 @@ export class MessagesPage implements OnInit {
     private router : Router,
     public authService : AuthService,
     private alertController : AlertController,
-    public userService : UserService
+    public userService : UserService,
+    private socketService : SocketServerService
   ) {}
 
   page: number = 1;
@@ -44,8 +46,18 @@ export class MessagesPage implements OnInit {
     this.scrollListener();
     await this.fetchMessages();
     this.goToLatest();
-    this.messageService.getNewMessage();
+    this.watchMessage();
     this.receiverDetails = await this.userService.getUserByUserId(this.navState.receiver);
+  }
+
+  async watchMessage(){
+    this.messageService.getNewMessage().subscribe(message => {
+      if(message && message.user_id != this.authService.getAuth().user_id && message.user_id == this.navState.receiver){
+        this.messages = [...this.messages, message];
+        this.goToLatest();
+      }
+    })
+    
   }
 
   async onIonInfinite(ev){
@@ -54,11 +66,11 @@ export class MessagesPage implements OnInit {
       (ev as InfiniteScrollCustomEvent).target.complete();
     }, 500);
   }
+
   async handleRefresh(event){
     await this.fetchMessages();
     event.target.complete();
   }
-
 
   async fetchMessages(){
     try {

@@ -27,7 +27,7 @@
       <ng-container *ngFor="let message of messages">
         <div [class]="message.user_id == authService.getAuth().user_id ? 'chat-message chat-me' : 'chat-message chat-other'">
           <p>{{ message.message }}</p>
-          <small>October 18, 2022 10:03 PM</small>
+          <small>{{ message.created_at | date:'medium' }}</small>
         </div>
       </ng-container>
       <div id="latest" class="p-2"></div>

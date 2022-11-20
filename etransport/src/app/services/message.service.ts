@@ -3,6 +3,8 @@ import axios from 'axios';
 import { environment } from 'src/environments/environment';
 import { io } from "socket.io-client";
 import { Router } from '@angular/router';
+import { SocketServerService } from './socket-server.service';
+import { Observable } from 'rxjs';
 
 axios.defaults.withCredentials = true;
 axios.defaults.headers.common['Accept'] = 'application/json';
@@ -23,7 +25,8 @@ class AddMessageData {
 export class MessageService {
 
   constructor(
-    private router : Router
+    private router : Router,
+    private socketService : SocketServerService
   ) { }
 
   conversations : any[] = [];
@@ -46,7 +49,7 @@ export class MessageService {
   async openConversation(receiver, transport_booking_id){
     this.router.navigate(['/messages'], {
       state : {
-        serviceBooking : null,
+        serviceBooking : transport_booking_id,
         receiver : receiver
       }
     })
@@ -55,16 +58,19 @@ export class MessageService {
   /* 
   socket.io emmiters and listeners
   */
-  socket = io('http://localhost:3000');
 
   public sendMessage(message) {
-    this.socket.emit('message', message);
+    this.socketService.socket.emit('message', message);
   }
 
-  public getNewMessage = () => {
-    this.socket.on('message', (message) =>{
-      console.log(message);
-    });
+  public getNewMessage () : Observable<any>  {
+    return new Observable((subscriber => {
+      this.socketService.socket.on('message', (message) =>{
+        subscriber.next(message);
+      });
+      
+    }));
+    
   };
 }
 
