@@ -24,6 +24,12 @@
               <ion-label>Service</ion-label>
             </ion-item>
           </ion-menu-toggle>
+          <ion-menu-toggle  auto-hide="false">
+            <ion-item routerDirection="root" routerLink="/conversation-list" lines="none" detail="false" routerLinkActive="selected">
+              <ion-icon name="chatbubbles-outline" slot="start"></ion-icon>
+              <ion-label>Messages</ion-label>
+            </ion-item>
+          </ion-menu-toggle>
           <ion-menu-toggle  auto-hide="false" *ngIf="user.role_id === 3">
             <ion-item routerDirection="root" routerLink="/listings" lines="none" detail="false" routerLinkActive="selected">
               <ion-icon slot="start" icon="list-outline"></ion-icon>
@@ -48,14 +54,14 @@
               <ion-label>Announcements</ion-label>
             </ion-item>
           </ion-menu-toggle>
-          <ion-menu-toggle  auto-hide="false">
-            <ion-item lines="none" detail="false" (click)="logout()" button>
-              <ion-icon slot="start" icon="log-out-outline" ></ion-icon>
-              <ion-label>Logout</ion-label>
-            </ion-item>
-          </ion-menu-toggle>
         </ion-list>
 
+        <ion-menu-toggle  auto-hide="false">
+          <ion-item lines="none" detail="false" (click)="logout()" button>
+            <ion-icon slot="start" icon="log-out-outline" ></ion-icon>
+            <ion-label>Logout</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
       </ion-content>
     </ion-menu>
     <ion-router-outlet id="main-content"></ion-router-outlet>

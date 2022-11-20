@@ -126,6 +126,10 @@ const routes: Routes = [
   },  {
     path: 'messages',
     loadChildren: () => import('./pages/messages/messages.module').then( m => m.MessagesPageModule)
+  },
+  {
+    path: 'conversation-list',
+    loadChildren: () => import('./pages/conversation-list/conversation-list.module').then( m => m.ConversationListPageModule)
   }
 
 
