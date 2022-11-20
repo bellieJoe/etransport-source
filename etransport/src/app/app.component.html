@@ -7,7 +7,6 @@
           <br>
           <ion-menu-toggle  auto-hide="false">
             <ion-item routerDirection="root" routerLink="/profile" lines="none" detail="false" routerLinkActive="selected">
-              <!-- <ion-icon slot="start" icon="person-outline"></ion-icon> -->
               <ion-avatar slot="start">
                 <img [src]="'https:/avatars.dicebear.com/api/initials/'+user.name+'.svg'" />
               </ion-avatar>
@@ -24,6 +23,12 @@
             <ion-item routerDirection="root" routerLink="/conversations" lines="none" detail="false" routerLinkActive="selected">
               <ion-icon name="chatbubbles-outline" slot="start"></ion-icon>
               <ion-label>Messages</ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+          <ion-menu-toggle  auto-hide="false">
+            <ion-item routerDirection="root" routerLink="/notifications" lines="none" detail="false" routerLinkActive="selected">
+              <ion-icon slot="start" name="notifications-outline"></ion-icon>
+              <ion-label>Notifications</ion-label>
             </ion-item>
           </ion-menu-toggle>
           <ion-menu-toggle  auto-hide="false" *ngIf="user.role_id === 3">

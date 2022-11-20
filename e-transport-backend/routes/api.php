@@ -11,6 +11,7 @@ use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\TermsAndConditionController;
 use App\Http\Controllers\AnnouncementCommentController;
 use App\Http\Controllers\MessageController;
+use App\Http\Controllers\NotificationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -138,3 +139,10 @@ Route::prefix('messages')->group(function(){
     Route::get("get-conversations-by-user-id/{user_id}", [MessageController::class, 'getConversationsByUserId']);
 });
 
+
+/* 
+Notifications
+*/
+Route::prefix('notifications')->group(function(){
+    Route::post('', [NotificationController::class, 'store']); 
+});

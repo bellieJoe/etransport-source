@@ -39,7 +39,6 @@ export class ServiceService {
       return;
     }
     this.service = res.data;
-    console.log(res.data)
   }
 
   async addService(data: AddServiceData){

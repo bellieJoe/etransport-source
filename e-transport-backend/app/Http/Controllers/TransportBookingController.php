@@ -31,38 +31,43 @@ class TransportBookingController extends Controller
             ], 400);
         }
 
-
-        $transport_booking = TransportBooking::create([
-            'booking_status' => 'pending',
-            'user_customer_id' => $request->user_customer_id,
-            'service_id' => $request->service_id,
-            'passenger_count' => $request->passenger_count ? $request->passenger_count : 0,
-            'pickup_time' => $request->pickup_time,
-            'route' => $request->route,
-            'pickup_location' => $request->pickup_location,
-            'dropoff_location' => $request->dropoff_location,
-            'service_type' => $request->service_type
-        ]);
-
-        $transport_booking->refresh();
-
-        BookingUpdate::create([
-            'transport_booking_id' => $transport_booking->transport_booking_id,
-            'booking_status' => "pending",
-            'message' => "Transport booking has been submitted.",
-            'msg_frm_customer' => null,
-            'msg_frm_admin' => null
-        ]);
-
-        if($request->service_type != 'passenger'){
-            LuggageConfig::create([
-                'transport_booking_id' => $transport_booking->transport_booking_id,
-                'small' => $request->small,
-                'medium' => $request->medium,
-                'large' => $request->large,
-                'extra_large' => $request->extra_large,
+        return \DB::transaction(function () use ($request) {
+            $transport_booking = TransportBooking::create([
+                'booking_status' => 'pending',
+                'user_customer_id' => $request->user_customer_id,
+                'service_id' => $request->service_id,
+                'passenger_count' => $request->passenger_count ? $request->passenger_count : 0,
+                'pickup_time' => $request->pickup_time,
+                'route' => $request->route,
+                'pickup_location' => $request->pickup_location,
+                'dropoff_location' => $request->dropoff_location,
+                'service_type' => $request->service_type
             ]);
-        }
+    
+            $transport_booking->refresh();
+    
+            BookingUpdate::create([
+                'transport_booking_id' => $transport_booking->transport_booking_id,
+                'booking_status' => "pending",
+                'message' => "Transport booking has been submitted.",
+                'msg_frm_customer' => null,
+                'msg_frm_admin' => null
+            ]);
+    
+            if($request->service_type != 'passenger'){
+                LuggageConfig::create([
+                    'transport_booking_id' => $transport_booking->transport_booking_id,
+                    'small' => $request->small,
+                    'medium' => $request->medium,
+                    'large' => $request->large,
+                    'extra_large' => $request->extra_large,
+                ]);
+            }
+
+            $transport_booking->user = $transport_booking->service->administrator->user;
+            return $transport_booking;
+        });
+
     }
 
     public function getByUserCustomerId($user_customer_id){

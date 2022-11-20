@@ -26,7 +26,7 @@
       <p class="text-center">No Bookings</p>
     </div>
     <ng-container *ngFor="let booking of transportBookingService.transport_bookings">
-      <div class="my-3 bg-white pb-3" *ngIf="filteredBooking == 'all' || filteredBooking == booking.booking_status">
+      <div class="my-3 bg-white pb-3" [id]="'booking-' + booking.transport_booking_id" *ngIf="filteredBooking == 'all' || filteredBooking == booking.booking_status">
         <div class="px-3 border-bottom">
           <label class="text-secondary">{{ booking.created_at | date:'mediumDate' }}</label>
         </div>

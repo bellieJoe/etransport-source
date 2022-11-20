@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgModel } from '@angular/forms';
 import { AlertController, IonModal, IonSelectOption, LoadingController, ModalController, ToastController } from '@ionic/angular';
 import { AuthService } from 'src/app/services/auth.service';
+import { NotificationService } from 'src/app/services/notification.service';
 import { ServiceService } from 'src/app/services/service.service';
 import { TransportBookingService } from '../../../services/transport-booking.service';
 
@@ -20,7 +21,8 @@ export class BookServicePage implements OnInit {
     private transporBookingService : TransportBookingService,
     private loadingController : LoadingController,
     private alertController : AlertController,
-    private toastController : ToastController
+    private toastController : ToastController,
+    private notificationService : NotificationService
   ) { }
 
   @ViewChild(IonModal) modal: IonModal;
@@ -56,12 +58,13 @@ export class BookServicePage implements OnInit {
       await loader.present();
 
       const res = await this.transporBookingService.addBooking(this.book_service_form);
+
       if(res.status == 422){
         await loader.dismiss();
         this.book_service_form.errors = res.data.errors;
         return;
       }
-      if(res.status != 200){
+      if(res.status < 200 || res.status > 299){
         await loader.dismiss();
         const alert = await this.alertController.create({
           header: 'Error saving data',
@@ -77,6 +80,17 @@ export class BookServicePage implements OnInit {
         header: 'Booking Successful',
         buttons: ['Ok']
       });
+
+      // send notification
+      console.log(res.data);
+      
+      this.notificationService.addNotification({
+        link : `/customer-bookings#booking-${res.data.transport_booking_id}`,
+        notification_message : 'Your Door to door service has new booking.',
+        notification_title : 'Booking',
+        user_id : res.data.user.user_id
+      });
+
       await alert.present();
       await loader.dismiss();
       await alert.onDidDismiss();

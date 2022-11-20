@@ -10,7 +10,7 @@ export class ErrorHandlerService {
     private alertController : AlertController
   ) { }
 
-  async errorHandler(error : any){
+  async handleError(error : any){
     const alert = await this.alertController.create({
       message: error.message,
       header: "Unexpected Error",

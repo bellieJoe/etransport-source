@@ -131,7 +131,11 @@ const routes: Routes = [
   {
     path: 'conversations',
     loadChildren: () => import('./pages/conversations/conversations.module').then( m => m.ConversationsPageModule)
+  },  {
+    path: 'notifications',
+    loadChildren: () => import('./pages/notifications/notifications.module').then( m => m.NotificationsPageModule)
   }
+
 
 
 

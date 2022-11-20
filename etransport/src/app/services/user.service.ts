@@ -44,7 +44,6 @@ export class UserService {
   async isVerified(user_id){
 
     const res = this.authService.getAuth();
-    console.log(res)
     
     if(!res.email_verified_at){
       return false;
