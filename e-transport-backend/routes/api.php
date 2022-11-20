@@ -138,5 +138,6 @@ Messages
 Route::prefix('messages')->group(function(){
     Route::post("", [MessageController::class, 'store']);
     Route::get("get-messages-by-members", [MessageController::class, 'getMessagesByMembers']);
+    Route::get("get-conversations-by-user-id/{user_id}", [MessageController::class, 'getConversationsByUserId']);
 });
 

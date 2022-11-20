@@ -123,13 +123,14 @@ const routes: Routes = [
     canActivate: [
       AuthGuard
     ]
-  },  {
+  },
+  {
     path: 'messages',
     loadChildren: () => import('./pages/messages/messages.module').then( m => m.MessagesPageModule)
   },
   {
-    path: 'conversation-list',
-    loadChildren: () => import('./pages/conversation-list/conversation-list.module').then( m => m.ConversationListPageModule)
+    path: 'conversations',
+    loadChildren: () => import('./pages/conversations/conversations.module').then( m => m.ConversationsPageModule)
   }
 
 

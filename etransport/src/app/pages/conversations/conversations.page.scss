@@ -1,0 +1,7 @@
+.message{
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap; /* Don't forget this one */
+    text-overflow: ellipsis;
+    margin-bottom: 0px;
+}
