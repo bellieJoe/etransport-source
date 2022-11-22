@@ -5,6 +5,7 @@ import { io } from "socket.io-client";
 import { Router } from '@angular/router';
 import { SocketServerService } from './socket-server.service';
 import { Observable } from 'rxjs';
+import { AuthService } from './auth.service';
 
 axios.defaults.withCredentials = true;
 axios.defaults.headers.common['Accept'] = 'application/json';
@@ -26,7 +27,8 @@ export class MessageService {
 
   constructor(
     private router : Router,
-    private socketService : SocketServerService
+    private socketService : SocketServerService,
+    private authService : AuthService
   ) { }
 
   conversations : any[] = [];
@@ -63,9 +65,22 @@ export class MessageService {
     this.socketService.socket.emit('message', message);
   }
 
-  public getNewMessage () : Observable<any>  {
+  public sendUpdatedConversation(receiver){
+    this.socketService.socket.emit('conversation', receiver);
+  }
+
+  public getUpdatedConversation(receiver){
     return new Observable((subscriber => {
-      this.socketService.socket.on('message', (message) =>{
+      this.socketService.socket.on(`conversation${this.authService.getAuth().user_id}`, (receiver) =>{
+        subscriber.next(receiver);
+      });
+      
+    }));
+  }
+
+  public getNewMessage (sender) : Observable<any>  {
+    return new Observable((subscriber => {
+      this.socketService.socket.on(`message${sender}${this.authService.getAuth().user_id}`, (message) =>{
         subscriber.next(message);
       });
       

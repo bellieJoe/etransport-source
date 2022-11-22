@@ -51,11 +51,8 @@ export class MessagesPage implements OnInit {
   }
 
   async watchMessage(){
-    this.messageService.getNewMessage().subscribe(message => {
-      if(message && message.user_id != this.authService.getAuth().user_id && message.user_id == this.navState.receiver){
-        this.messages = [...this.messages, message];
-        this.goToLatest();
-      }
+    this.messageService.getNewMessage(this.navState.receiver).subscribe(message => {
+      this.messages = [...this.messages, message];           
     })
     
   }
@@ -116,6 +113,7 @@ export class MessagesPage implements OnInit {
       const res = await this.messageService.addMessage(data);
       this.messages.push(res.data);
       this.messageService.sendMessage(res.data);
+      this.messageService.sendUpdatedConversation(this.navState.receiver);
       this.goToLatest();
       this.message = "";
       this.isSending = false;

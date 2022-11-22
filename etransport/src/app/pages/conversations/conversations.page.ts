@@ -22,7 +22,9 @@ export class ConversationsPage implements OnInit {
   conversations : any = [];
 
   async ngOnInit() {
-
+    this.messageService.getUpdatedConversation(this.authService.getAuth().user_id).subscribe((receiver)=>{
+      this.ionViewDidEnter();
+    })
   }
 
   async ionViewDidEnter(){

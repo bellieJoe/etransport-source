@@ -12,7 +12,14 @@ io.on('connection', (socket) => {
   console.log('a user connected');
   
   socket.on('message', (message) => {
-    io.emit('message', message);
+    const members = JSON.parse(message.members);
+    const receiver = members[0] == message.user_id ? members[1] : members[0]
+    const event = `message${message.user_id}${receiver}`;
+    io.emit(event, message);
+  });
+
+  socket.on('conversation', (receiver) => {
+    io.emit(`conversation${receiver}`, receiver);
   });
 
   socket.on('notification', (notification) => {

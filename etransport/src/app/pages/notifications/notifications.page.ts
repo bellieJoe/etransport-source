@@ -35,7 +35,7 @@ export class NotificationsPage implements OnInit {
   }
 
   async fetchNotifications(){
-    this.page = 0;
+    this.page = 1;
     this.notifications = await this.notificationService.getNotificationsByUserId(this.authService.getAuth().user_id, this.page);
     this.page++;
   }
