@@ -16,6 +16,7 @@ class AddNotificationData{
   notification_message : string
   notification_title : string
   link : string
+  link_fragment : string
   user_id : any
 }
 
@@ -29,6 +30,15 @@ export class NotificationService {
     private socketService : SocketServerService,
     private errorHandlerService : ErrorHandlerService
   ) { }
+
+  async getNotificationsByUserId(user_id, page){
+    try {
+      const res = await axios.get(`${environment.apiUrl}/api/notifications/get-notifications-by-user-id/${user_id}?page=${page}`);
+      return res.data.data;
+    } catch (error) {
+      this.errorHandlerService.handleError(error)
+    }
+  }
 
   async addNotification(data : AddNotificationData){
     try {

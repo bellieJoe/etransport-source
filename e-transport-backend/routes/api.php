@@ -145,4 +145,5 @@ Notifications
 */
 Route::prefix('notifications')->group(function(){
     Route::post('', [NotificationController::class, 'store']); 
+    Route::get('/get-notifications-by-user-id/{user_id}', [NotificationController::class, 'getNotificationsByUserId']); 
 });

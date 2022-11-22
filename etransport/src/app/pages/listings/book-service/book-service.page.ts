@@ -85,7 +85,8 @@ export class BookServicePage implements OnInit {
       console.log(res.data);
       
       this.notificationService.addNotification({
-        link : `/customer-bookings#booking-${res.data.transport_booking_id}`,
+        link : `/service-bookings`,
+        link_fragment : `booking-${res.data.transport_booking_id}`,
         notification_message : 'Your Door to door service has new booking.',
         notification_title : 'Booking',
         user_id : res.data.user.user_id

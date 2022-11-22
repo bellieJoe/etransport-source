@@ -19,6 +19,7 @@ class CreateNotificationsTable extends Migration
             $table->string('notification_title', 100);
             $table->string('notification_message', 5000);
             $table->string('link', 5000);
+            $table->string('link_fragment', 5000);
             $table->boolean('isRead')->default(false);
             $table->timestamps();
         });

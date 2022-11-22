@@ -8,9 +8,26 @@
 </ion-header>
 
 <ion-content color="background">
+  <ion-progress-bar type="indeterminate" color="primary" *ngIf="loading"></ion-progress-bar>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)" pullFactor="0.8" pullMin="60" pullMax="120">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
   <ion-list>
-    <ion-item>
-      <ion-label>Awesome Label</ion-label>
-    </ion-item>
+    <ng-container *ngFor="let notification of notifications" >
+      <ion-item [routerLink]="notification.link" [fragment]="notification.link_fragment" lines="full">
+        <div class="py-2">
+          <p class="mb-0">
+            <span class="text-primary fw-bold"><i class="fa-solid fa-bell me-2"></i>{{ notification.notification_title }}</span>
+             - 
+             <span [class]="notification.isRead == 0 ? 'fw-semibold' : ''">{{ notification.notification_message }}</span>
+          </p>
+          <label class="text-secondary">{{ notification.created_at | date:'medium' }}</label>
+        </div>
+      </ion-item>
+    </ng-container>
   </ion-list>
+  <ion-infinite-scroll threshold="25%" position="bottom" (ionInfinite)="loadData($event)">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 </ion-content>

@@ -1,5 +1,5 @@
-import { AfterViewInit, Component, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
-import { Router } from '@angular/router';
+import { AfterViewChecked, AfterViewInit, Component, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController, IonModal, LoadingController } from '@ionic/angular';
 import { AuthService } from 'src/app/services/auth.service';
 import { ServiceService } from 'src/app/services/service.service';
@@ -18,7 +18,8 @@ export class ServiceBookingsPage implements OnInit {
     private alertController : AlertController,
     public serviceService : ServiceService,
     private loadingController : LoadingController,
-    private router : Router
+    private router : Router,
+    private activatedRoute : ActivatedRoute
   ) { }
 
   @ViewChildren(IonModal) ionModals : QueryList<IonModal>;
@@ -28,9 +29,28 @@ export class ServiceBookingsPage implements OnInit {
   transport = [];
   msg_from_admin: null;
 
-  sampleClose(){
-    this.closeModals()
+  async ngOnInit() {
+    this.isLoading = true;
+    await this.serviceService.fetchServiceByUserId();
+    await this.fetchBookings();
+    this.isLoading = false;
+    this.transport = this.transportBookingService.transport_bookings;
+    const fragment : string = await new Promise((resolve, reject) =>{
+      this.activatedRoute.fragment.subscribe(fragment => {
+        resolve(fragment);
+      })
+    });
+    location.hash = ""
+     setTimeout((fr = fragment) => {
+      location.hash = fr
+    }, 1000);
+    
+  
   }
+
+
+
+
 
   closeModals(){
     this.ionModals.map(async (ionModal : IonModal) => {
@@ -296,13 +316,7 @@ export class ServiceBookingsPage implements OnInit {
     this.closeModals();
   }
 
-  async ngOnInit() {
-    this.isLoading = true;
-    await this.serviceService.fetchServiceByUserId();
-    await this.fetchBookings();
-    this.isLoading = false;
-    this.transport = this.transportBookingService.transport_bookings;
-  }
+
 
   async viewMessages(serviceBooking){
     this.router.navigate(['/messages'], {

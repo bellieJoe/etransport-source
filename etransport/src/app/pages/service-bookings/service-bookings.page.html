@@ -1,4 +1,4 @@
-<ion-header>
+<ion-header >
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
@@ -26,11 +26,11 @@
     <p class="text-center">No Bookings</p>
   </div>
   <ng-container *ngFor="let booking of transportBookingService.transport_bookings">
-    <div id="booking-{{ booking.transport_booking_id }}" class="my-3 bg-white pb-3" *ngIf="filteredBooking == 'all' || filteredBooking == booking.booking_status">
+    <div class="my-3 bg-white pb-3" *ngIf="filteredBooking == 'all' || filteredBooking == booking.booking_status">
       <div class="px-3 border-bottom">
         <label class="text-secondary">{{ booking.created_at | date:'mediumDate' }}</label>
       </div>
-      <ion-item lines="none">
+      <ion-item lines="none" [attr.id]="'booking-' + booking.transport_booking_id">
         <ion-label color="primary">
           <h2>{{ booking.user_customer.name }} </h2>
           <h2 class="text-secondary"><i class="fa fa-envelope me-1"></i>{{ booking.user_customer.email }}</h2>
