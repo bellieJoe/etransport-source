@@ -65,42 +65,44 @@ class UserController extends Controller
             'role_id' => ['required', 'numeric', 'exists:roles,role_id']
         ]);
 
-        $user = User::create([
-            'name' => $request->name,
-            'username' => $request->username,
-            'email' => $request->email,
-            'contact_number' => $request->contact_number,
-            'password' => Hash::make($request->password),
-            'role_id' => $request->role_id,
-            'verification_code' => $faker->randomNumber(6, true)
-        ]);
-
-        $user->refresh();
-        $user->with(['role', 'reviews']);
-
-        // create customer instance
-        if($request->role_id == 3){
-            Customer::create([
-                'user_id' => $user->user_id
+        return \DB::transaction(function () use ($request, $faker) {
+            $user = User::create([
+                'name' => $request->name,
+                'username' => $request->username,
+                'email' => $request->email,
+                'contact_number' => $request->contact_number,
+                'password' => Hash::make($request->password),
+                'role_id' => $request->role_id,
+                'verification_code' => $faker->randomNumber(6, true)
             ]);
-        }
+    
+            $user->refresh();
+            $user->with(['role', 'reviews']);
+    
+            // create customer instance
+            if($request->role_id == 3){
+                Customer::create([
+                    'user_id' => $user->user_id
+                ]);
+            }
+    
+            // create administrator instance 
+            if($request->role_id == 2){
+                Administrator::create([
+                    'user_id' => $user->user_id
+                ]);
+            }
+    
+            // send verification email
+            Mail::to($user)->send(new VerificationEmail($user->verification_code));
+    
+            // generate token
+            $user->token = $user->createToken('sampletoken')->plainTextToken;
 
-        // create administrator instance 
-        if($request->role_id == 2){
-            Administrator::create([
-                'user_id' => $user->user_id
-            ]);
-        }
+            // return authenticated user instance
+            return response($user, 200);
+        });
 
-        // send verification email
-        Mail::to($user)->send(new VerificationEmail($user->verification_code));
-
-        // generate token
-        $user->token = $user->createToken('sampletoken')->plainTextToken;
-
-        // return authenticated user instance
-        return response($user, 200);
-        
     }
 
     public function isVerified($user_id){
