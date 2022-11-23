@@ -2,6 +2,7 @@ import { Component, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/
 import { async } from '@angular/core/testing';
 import { AlertController, IonModal, LoadingController } from '@ionic/angular';
 import { AuthService } from 'src/app/services/auth.service';
+import { NotificationService } from 'src/app/services/notification.service';
 import { ReviewService } from 'src/app/services/review.service';
 import { TransportBookingService, UpdateStatusData } from '../../services/transport-booking.service';
 
@@ -17,7 +18,8 @@ export class CustomerBookingsPage implements OnInit {
     private authService : AuthService,
     private alertController : AlertController,
     private loadingController : LoadingController,
-    private reviewService : ReviewService
+    private reviewService : ReviewService,
+    private notificationService : NotificationService
   ) { }
 
   @ViewChildren(IonModal) ionModals: QueryList<IonModal>;
@@ -101,7 +103,7 @@ export class CustomerBookingsPage implements OnInit {
     const confirmHandler = async () => {
       const loader = await this.loadingController.create({
         backdropDismiss: false,
-        message: "Accepting booking.",
+        message: "Cancelling booking.",
         spinner: "circular"
       });
       await loader.present();
@@ -130,7 +132,16 @@ export class CustomerBookingsPage implements OnInit {
           return false;
         }
         return true;
-      })
+      });
+      console.log(res.data);
+      
+      await this.notificationService.addNotification({
+        link : `/service-bookings`,
+        link_fragment : `booking-${res.data.transport_booking_id}`,
+        notification_message : `A booking by ${res.data.user_customer.name} has been canceled.`,
+        notification_title : 'Booking Update',
+        user_id : res.data.service.administrator.user.user_id
+      });
       await loader.dismiss();
       this.msg_from_customer = null;
   }
