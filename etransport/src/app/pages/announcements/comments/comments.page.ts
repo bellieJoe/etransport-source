@@ -22,6 +22,11 @@ export class CommentsPage implements OnInit {
     console.log('====================================');
   }
 
+  ionViewDidEnter(){
+    console.log(this.announcement);
+    
+  }
+
   close(){
     this.modalController.dismiss();
   }

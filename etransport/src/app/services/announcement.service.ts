@@ -31,6 +31,7 @@ export class AnnouncementService {
     return res;
   }
 
+
   async updateAnnouncement(data : PostAnnouncementData){
     const res = await axios.put(`${environment.apiUrl}/api/announcements/${data.announcement_id}`, data)
     .then(res => res)

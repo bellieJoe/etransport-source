@@ -27,4 +27,10 @@ class AnnouncementCommentController extends Controller
         return $comment;
     });
    }
+
+//    public getCommentsByAnnouncementId($announcement_id){
+//         return AnnouncementComment::where('announcement_id')
+//    }
+
+
 }

@@ -13,7 +13,7 @@
   <ng-container *ngFor="let comment of announcement.comments">
     <div class="p-2">
       <h6 class="fw-bold small mb-0">{{ comment.user.name }}</h6>
-      <p class="small text-secondary">{{ timeService.displayForHumans(comment.created_at) }}</p>
+      <p class="small text-secondary mb-1">{{ timeService.displayForHumans(comment.created_at) }}</p>
       <p class="small">{{ comment.comment }}</p>
     </div>
   </ng-container>

@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import axios from 'axios';
 import { environment } from 'src/environments/environment';
-import { io } from "socket.io-client";
 import { Router } from '@angular/router';
 import { SocketServerService } from './socket-server.service';
 import { Observable } from 'rxjs';

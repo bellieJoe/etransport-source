@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { AlertController, LoadingController, ToastController } from '@ionic/angular';
 import { AnnouncementService } from 'src/app/services/announcement.service';
 import { AuthService } from 'src/app/services/auth.service';
+import { NotificationService } from 'src/app/services/notification.service';
 
 @Component({
   selector: 'app-create',
@@ -17,6 +18,7 @@ export class CreatePage implements OnInit {
     private toastController : ToastController,
     private loadingController : LoadingController,
     public announcementService : AnnouncementService,
+    public notificationService : NotificationService,
     private router : Router
   ) { }
 

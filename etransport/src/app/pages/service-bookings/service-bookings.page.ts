@@ -2,6 +2,7 @@ import { AfterViewChecked, AfterViewInit, Component, OnInit, QueryList, ViewChil
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController, IonModal, LoadingController } from '@ionic/angular';
 import { AuthService } from 'src/app/services/auth.service';
+import { NotificationService } from 'src/app/services/notification.service';
 import { ServiceService } from 'src/app/services/service.service';
 import { TransportBookingService, UpdateStatusData } from '../../services/transport-booking.service';
 
@@ -19,7 +20,8 @@ export class ServiceBookingsPage implements OnInit {
     public serviceService : ServiceService,
     private loadingController : LoadingController,
     private router : Router,
-    private activatedRoute : ActivatedRoute
+    private activatedRoute : ActivatedRoute,
+    private notificationService : NotificationService
   ) { }
 
   @ViewChildren(IonModal) ionModals : QueryList<IonModal>;
@@ -47,10 +49,6 @@ export class ServiceBookingsPage implements OnInit {
     
   
   }
-
-
-
-
 
   closeModals(){
     this.ionModals.map(async (ionModal : IonModal) => {
@@ -117,7 +115,14 @@ export class ServiceBookingsPage implements OnInit {
           return false;
         }
         return true;
-      })
+      });
+      await this.notificationService.addNotification({
+        link : `/customer-bookings`,
+        link_fragment : `booking-${res.data.transport_booking_id}`,
+        notification_message : 'Your booking has been approved.',
+        notification_title : 'Booking Update',
+        user_id : res.data.user_customer_id
+      });
       await loader.dismiss();
       this.msg_from_admin = null;
     }
@@ -147,10 +152,11 @@ export class ServiceBookingsPage implements OnInit {
     const confirmHandler = async () => {
       const loader = await this.loadingController.create({
         backdropDismiss: false,
-        message: "Accepting booking.",
+        message: "Declining booking.",
         spinner: "circular"
       });
       await loader.present();
+
       const data : UpdateStatusData = {
         booking_status: 'declined',
         message: 'Service booking has been declined.',
@@ -159,6 +165,7 @@ export class ServiceBookingsPage implements OnInit {
         msg_frm_customer: null
       };
       const res = await this.transportBookingService.updateStatus(data)
+
       if(res.status != 200){
         const alert = await this.alertController.create({
           header: `Unexpected Error`,
@@ -170,6 +177,7 @@ export class ServiceBookingsPage implements OnInit {
         this.msg_from_admin = null;
         return;
       }
+
       this.transportBookingService.transport_bookings.every((val, i)=>{
         if(val.transport_booking_id == res.data.transport_booking_id){
           this.transportBookingService.transport_bookings[i] = res.data;
@@ -177,6 +185,13 @@ export class ServiceBookingsPage implements OnInit {
         }
         return true;
       })
+      await this.notificationService.addNotification({
+        link : `/customer-bookings`,
+        link_fragment : `booking-${res.data.transport_booking_id}`,
+        notification_message : 'Your booking has been declined.',
+        notification_title : 'Booking Update',
+        user_id : res.data.user_customer_id
+      });
       await loader.dismiss();
       this.msg_from_admin = null;
     }
@@ -235,6 +250,13 @@ export class ServiceBookingsPage implements OnInit {
         }
         return true;
       })
+      await this.notificationService.addNotification({
+        link : `/customer-bookings`,
+        link_fragment : `booking-${res.data.transport_booking_id}`,
+        notification_message : 'Your booking has been completed.',
+        notification_title : 'Booking Update',
+        user_id : res.data.user_customer_id
+      });
       await loader.dismiss();
       this.msg_from_admin = null;
     }
@@ -262,7 +284,7 @@ export class ServiceBookingsPage implements OnInit {
     const confirmHandler = async () => {
       const loader = await this.loadingController.create({
         backdropDismiss: false,
-        message: "Accepting booking.",
+        message: "Cancelling booking.",
         spinner: "circular"
       });
       await loader.present();
@@ -291,7 +313,14 @@ export class ServiceBookingsPage implements OnInit {
           return false;
         }
         return true;
-      })
+      });
+      await this.notificationService.addNotification({
+        link : `/customer-bookings`,
+        link_fragment : `booking-${res.data.transport_booking_id}`,
+        notification_message : 'Your booking has been canceled.',
+        notification_title : 'Booking Update',
+        user_id : res.data.user_customer_id
+      });
       await loader.dismiss();
       this.msg_from_admin = null;
     }
@@ -315,8 +344,6 @@ export class ServiceBookingsPage implements OnInit {
     await alert.onDidDismiss();
     this.closeModals();
   }
-
-
 
   async viewMessages(serviceBooking){
     this.router.navigate(['/messages'], {

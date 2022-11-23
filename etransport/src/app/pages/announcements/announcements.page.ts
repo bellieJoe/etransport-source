@@ -95,6 +95,8 @@ export class AnnouncementsPage   {
 
   async ionViewDidEnter(){
     this.fetchAnnouncements()
+    
+    
   }
 
   async editAnnouncement(announcement){
@@ -147,6 +149,7 @@ export class AnnouncementsPage   {
   }
 
   async viewComments(announcement){
+    console.log(this.announcementService.announcements);
     const modal = await this.modalController.create({
       component: CommentsPage,
       componentProps: {
