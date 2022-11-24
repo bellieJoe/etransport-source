@@ -29,28 +29,43 @@ export class SetupServicePage implements OnInit {
     plate_number : null,
     vehicle_model : null,
     capacity : null,
-    mode_of_payment : null,
-    service_type : null,
+    mode_of_payment : null, //deprecated
+    gcash_account : null,
+    service_type : [],
     small: null,
     medium: null,
     large: null,
     extra_large: null,
     errors : {},
+    isLuggageIncluded : () => {
+      let result : boolean = false;
+      this.add_service_form.service_type.map((val, i)=>{
+        if(val == 'luggage'){
+          result = true;
+        }
+      })
+      return result;
+    },
     submit : async() => {
+      this.add_service_form.errors = {};
       const loader = await this.loadingController.create({
         message: "Saving",
         spinner: "circular"
-      })
-
+      });
       await loader.present();
       const res = await this.serviceService.addService(this.add_service_form);
-
+      console.log(res);
+      
+      const toast = await this.toastController.create({
+        message: "Service successfully updated.",
+        icon: 'checkmark',
+        duration: 5000
+      });
       if(res.status == 422 && res.data.errors){
         this.add_service_form.errors = res.data.errors;
         await loader.dismiss();
         return;
       }
-
       if(res.status != 200){
         const alert  = await this.alertController.create({
           message: `${res.status} | ${res.data.message}`,
@@ -61,18 +76,13 @@ export class SetupServicePage implements OnInit {
         await alert.present();
         return;
       }
-
-      const toast = await this.toastController.create({
-        message: "Service successfully updated.",
-        icon: 'checkmark',
-        duration: 5000
-      });
-
       await loader.dismiss();
       await toast.present();
       this.router.navigate(['/service']);
+
     }
   }
+
 
   ngOnInit() {
   }

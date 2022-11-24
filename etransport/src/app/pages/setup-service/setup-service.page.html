@@ -44,28 +44,32 @@
       </ion-item>
       <ion-note *ngIf="add_service_form.errors.capacity" color="danger">{{ add_service_form.errors.capacity }}</ion-note>
 
-      <ion-item>
+      <!-- <ion-item>
         <ion-label position="floating">Mode of Payment <ion-note color="danger">*</ion-note></ion-label>
         <ion-select  multiple="true"  [(ngModel)]="add_service_form.mode_of_payment">
           <ion-select-option value="Cash">Cash</ion-select-option>
           <ion-select-option value="GCash">GCash</ion-select-option>
-          <ion-select-option value="Paymaya">Paymaya</ion-select-option>
         </ion-select>
       </ion-item>
-      <ion-note *ngIf="add_service_form.errors.mode_of_payment" color="danger">{{ add_service_form.errors.service_name }}</ion-note>
+      <ion-note *ngIf="add_service_form.errors.mode_of_payment" color="danger">{{ add_service_form.errors.service_name }}</ion-note> -->
+      <ion-item>
+        <ion-label position="stacked">Gcash Account <ion-note color="danger">*</ion-note></ion-label>
+        <ion-input type="text" max="10" [(ngModel)]="add_service_form.gcash_account">+63</ion-input>
+      </ion-item>
+      <ion-note *ngIf="add_service_form.errors.gcash_account" color="danger">{{ add_service_form.errors.gcash_account }}</ion-note>
 
       <ion-item>
         <ion-label position="floating">Service Type <ion-note color="danger">*</ion-note></ion-label>
-        <ion-select  [(ngModel)]="add_service_form.service_type">
+        <ion-select  [(ngModel)]="add_service_form.service_type" multiple="true">
           <ion-select-option value="passenger">Passenger</ion-select-option>
           <ion-select-option value="luggage">Luggage</ion-select-option>
-          <ion-select-option value="both">Both</ion-select-option>
+          <ion-select-option value="both">Animal</ion-select-option>
         </ion-select>
       </ion-item>
-      <ion-note *ngIf="add_service_form.errors.service_type" color="danger">{{ add_service_form.errors.service_name }}</ion-note>
+      <ion-note *ngIf="add_service_form.errors.service_type" color="danger">{{ add_service_form.errors.service_type }}</ion-note>
     </ion-list>
 
-    <ion-list *ngIf="add_service_form.service_type && add_service_form.service_type != 'passenger'">
+    <ion-list *ngIf="add_service_form.service_type && add_service_form.isLuggageIncluded()">
       <ion-list-header>
         <ion-label>Luggage Pricings</ion-label>
       </ion-list-header>

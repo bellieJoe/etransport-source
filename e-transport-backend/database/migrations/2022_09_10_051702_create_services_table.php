@@ -23,9 +23,9 @@ class CreateServicesTable extends Migration
             $table->string('plate_number', 500);
             $table->string('vehicle_model', 5000);
             $table->integer('capacity');
-            $table->json('mode_of_payment');
-            $table->enum('service_type', ['passenger', 'luggage', 'both']);
-
+            // $table->json('mode_of_payment');
+            $table->json('service_type');
+            $table->string('gcash_account', 11);
             // new
             $table->text('terms_and_conditions', 20000)->nullable();
             $table->dateTime('marinduque_departure_datetime')->nullable();

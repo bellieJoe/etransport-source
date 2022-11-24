@@ -94,7 +94,8 @@ class AddServiceData {
   vehicle_model : string
   capacity : string
   mode_of_payment : any
-  service_type : string
+  gcash_account : string
+  service_type : any
   small: number
   medium: number
   large: number
@@ -103,6 +104,7 @@ class AddServiceData {
 
 class EditServiceData {
   service_id: any
+  gcash_account : string
   driver: string
   service_name : string
   license_number : string
@@ -110,7 +112,7 @@ class EditServiceData {
   vehicle_model : string
   capacity : string
   mode_of_payment : any
-  service_type : string
+  service_type : any
   small: number
   medium: number
   large: number

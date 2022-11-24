@@ -20,8 +20,9 @@ class ServiceController extends Controller
             'license_number' => ['required', 'max:500'],
             'plate_number' => ['required', 'max:500'],
             'vehicle_model' => ['required'],
-            'capacity' => ['required'],
-            'mode_of_payment' => ['required'],
+            'capacity' => ['required', 'numeric'],
+            // 'mode_of_payment' => ['required'],
+            'gcash_account' => ['required', 'max:10', 'min:10'],
             'service_type' => ['required'],
             'small' => ['required_if:service_type,both,luggage'],
             'medium' => ['required_if:service_type,both,luggage'],
@@ -41,9 +42,10 @@ class ServiceController extends Controller
             'plate_number' => $request->plate_number,
             'vehicle_model' => $request->vehicle_model,
             'capacity' => $request->capacity,
-            'mode_of_payment' => json_encode($request->mode_of_payment),
+            // 'mode_of_payment' => json_encode($request->mode_of_payment),
+            'gcash_account' => $request->gcash_account,
             'service_status' => 'close',
-            'service_type' => $request->service_type
+            'service_type' => json_encode($request->service_type)
         ]);
 
         $service->refresh();
