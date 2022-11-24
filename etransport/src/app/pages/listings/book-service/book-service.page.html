@@ -35,7 +35,12 @@
             <h2 class="mb-2" ><span>Plate Number :</span> <span class="opacity-75"> {{ serviceService.to_book.plate_number }} </span></h2>
             <h2 class="mb-2" ><span>Vehicle Model :</span> <span class="opacity-75"> {{ serviceService.to_book.vehicle_model }} </span></h2>
             <h2 class="mb-2" ><span>Capacity/Slots :</span> <span class="opacity-75"> {{ serviceService.to_book.capacity }} </span></h2>
-            <h2 class="mb-2" ><span>Service Type :</span> <span class="opacity-75"> {{ serviceService.to_book.service_type == 'both' ? 'Passenger & Luggage' : (serviceService.to_book.service_type | titlecase) }}</span></h2>
+            <h2 class="mb-2" >
+              <span>Service Type :</span> 
+              <span class="opacity-75" *ngFor="let service_type of serviceService.to_book.service_type; let i = index">
+                {{ i == (serviceService.to_book.service_type.length - 1) ? (service_type | titlecase ) : (service_type + ', ' | titlecase ) }}
+              </span>
+            </h2>
           </div>
         </ion-accordion>
       </ion-accordion-group>
@@ -43,11 +48,9 @@
   </ion-card>
 
   <ion-item>
-    <ion-label position="floating">Choose Service Type</ion-label>
-    <ion-select [(ngModel)]="book_service_form.service_type">
-      <ion-select-option *ngIf="serviceService.to_book.service_type != 'luggage' " value="passenger">Passenger</ion-select-option>
-      <ion-select-option *ngIf="serviceService.to_book.service_type != 'passenger'" value="luggage">Luggage</ion-select-option>
-      <ion-select-option *ngIf="serviceService.to_book.service_type == 'both'" value="both">Both</ion-select-option>
+    <ion-label position="floating" >Choose Service Type</ion-label>
+    <ion-select [(ngModel)]="book_service_form.service_type" multiple="true">
+      <ion-select-option *ngFor="let service_type of serviceService.to_book.service_type"  [value]="service_type">{{ service_type | titlecase }}</ion-select-option>
     </ion-select>
   </ion-item>
   <ion-note color="danger" *ngIf="book_service_form.errors.service_type">{{ book_service_form.errors.service_type }}</ion-note>
@@ -65,16 +68,16 @@
   </ion-item>
   <ion-note color="danger" *ngIf="book_service_form.errors.route">{{ book_service_form.errors.route }}</ion-note>
 
-  <ion-item *ngIf="book_service_form.service_type != 'luggage'">
+  <ion-item *ngIf="serviceService.isServiceTypeHas('passenger',book_service_form.service_type)">
     <ion-label position="floating">How many passenger reservation?</ion-label>
     <ion-input type="number" [(ngModel)]="book_service_form.passenger_count"></ion-input>
   </ion-item>
   <ion-note color="danger" *ngIf="book_service_form.errors.passenger_count">{{ book_service_form.errors.passenger_count }}</ion-note>
 
-  <ion-item button   id="open-set-luggage-specs" detail="true" *ngIf="book_service_form.service_type != 'passenger'">
+  <ion-item button   id="open-set-luggage-specs" lines="full" detail="true" *ngIf="serviceService.isServiceTypeHas('luggage',book_service_form.service_type)">
     <ion-label>Set your luggage specifications</ion-label>
   </ion-item>
-  <ion-modal trigger="open-set-luggage-specs">
+  <ion-modal trigger="open-set-luggage-specs" *ngIf="serviceService.isServiceTypeHas('luggage',book_service_form.service_type)">
     <ng-template>
       <ion-toolbar>
         <ion-buttons slot="end" color="primary">
@@ -128,6 +131,13 @@
       </ion-content>
     </ng-template>
   </ion-modal>
+
+  <ion-item *ngIf="serviceService.isServiceTypeHas('animal',book_service_form.service_type)">
+    <ion-label position="floating">How many animals are included?</ion-label>
+    <ion-input type="number" [(ngModel)]="book_service_form.animal_count"></ion-input>
+  </ion-item>
+  <ion-note color="danger" *ngIf="book_service_form.errors.animal_count">{{ book_service_form.errors.animal_count }}</ion-note>
+
 
   <ion-item >
     <ion-label position="stacked">Pick-up Time</ion-label>

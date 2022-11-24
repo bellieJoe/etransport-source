@@ -55,6 +55,7 @@ class AddBookingFormData{
   pickup_time: string
   pickup_location: string
   dropoff_location: string
+  animal_count  : number
   service_type: string
   route: string
   small: number

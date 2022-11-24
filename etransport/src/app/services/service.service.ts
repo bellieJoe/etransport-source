@@ -95,6 +95,16 @@ export class ServiceService {
     return result;
   }
 
+  isServiceTypeHas(service_type : any, service_types : any[]){
+    let result = false;
+    service_types.map((val, i)=>{
+      if(val == service_type){
+        result = true;
+      }
+    })
+    return result;
+  }
+
 }
 
 class AddServiceData {
