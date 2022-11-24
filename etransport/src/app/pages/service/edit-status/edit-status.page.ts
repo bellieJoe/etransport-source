@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertController, IonModal, LoadingController, ModalController, ToastController } from '@ionic/angular';
+import { AuthService } from 'src/app/services/auth.service';
 import { ServiceService } from 'src/app/services/service.service';
 
 @Component({
@@ -16,7 +17,8 @@ export class EditStatusPage implements OnInit {
     private toastController : ToastController,
     private loadingController : LoadingController,
     private alertController : AlertController,
-    private modalController : ModalController
+    private modalController : ModalController,
+    private authService : AuthService
   ) { }
 
 
@@ -37,7 +39,8 @@ export class EditStatusPage implements OnInit {
       await loader.present();
 
       const res = await this.serviceService.setStatus(this.serviceService.service.service_id, this.set_status_form);
-
+      console.log(res);
+      
       if(res.status == 422){
         this.set_status_form.errors = res.data.errors
         await loader.dismiss();
@@ -62,7 +65,7 @@ export class EditStatusPage implements OnInit {
       });
   
       await toast.present();
-      this.serviceService.service = res.data;
+      await  this.serviceService.fetchServiceByUserId()
       await loader.dismiss();
       await this.close();
     }

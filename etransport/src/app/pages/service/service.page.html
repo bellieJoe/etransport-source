@@ -49,7 +49,11 @@
 
     <ion-item detail="false" >
       <ion-label >Service Type </ion-label>
-      <ion-label color="medium" slot="end">{{serviceService.service.service_type == 'both' ? 'Passenger & Luggage' : (serviceService.service.service_type | titlecase)}}</ion-label>
+      <ion-label color="medium" slot="end">
+        <span *ngFor="let service_type of serviceService.service.service_type; let i = index">
+          {{ i == (serviceService.service.service_type.length - 1) ? (service_type | titlecase ) : (service_type + ', ' | titlecase ) }}
+        </span>
+      </ion-label>
     </ion-item>
 
     <ion-item detail="false" >
@@ -57,12 +61,12 @@
       <ion-label color="medium" slot="end">{{serviceService.service.capacity}} slot/s</ion-label>
     </ion-item>
 
-    <ion-item detail="false" >
+    <!-- <ion-item detail="false" >
       <ion-label >Mode of Payment </ion-label>
       <ion-label color="medium" slot="end">
         <span *ngFor="let mode of serviceService.service.mode_of_payment">{{ mode }}, </span>
       </ion-label>
-    </ion-item>
+    </ion-item> -->
 
     <ion-item detail="false" lines="full" *ngIf="serviceService.service.terms_and_conditions">
       <ion-label >Terms and conditions</ion-label>
@@ -112,14 +116,19 @@
 
   </ion-list>
 
-  <ion-list *ngIf="serviceService.service.service_type != 'passenger'">
+  <ion-list *ngIf="serviceService.service.service_type && serviceService.isServiceTypeHasLuggage(serviceService.service.service_type)">
     <ion-list-header>
       <ion-label>Luggage Pricings</ion-label>
       <ion-button>Edit</ion-button>
     </ion-list-header>
 
     <ion-item lines="none">
-      <small class="mb-0 bg-warning p-1 rounded-1">Youre seeing this section because your service type is set to {{ serviceService.service.service_type == 'both' ? 'Passenger & Luggage' : serviceService.service.service_type }}</small>
+      <small class="mb-0 bg-warning p-1 rounded-1">
+        Youre seeing this section because your service type is set to 
+        <span *ngFor="let service_type of serviceService.service.service_type; let i = index">
+          {{ i == (serviceService.service.service_type.length - 1) ? (service_type | titlecase ) : (service_type + ', ' | titlecase ) }}
+        </span>
+      </small>
     </ion-item>
 
     <ion-item>

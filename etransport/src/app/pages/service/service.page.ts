@@ -42,7 +42,7 @@ export class ServicePage  {
     console.log('sample')
   }
 
-  async ionViewWillEnter() {
+  async ionViewDidEnter() {
     this.loading = true;
     await this.serviceService.fetchServiceByUserId();
     this.luggage_pricing = this.serviceService.service.luggage_pricing;

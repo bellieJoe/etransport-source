@@ -38,7 +38,9 @@ export class ServiceService {
       await alert.present();
       return;
     }
+
     this.service = res.data;
+    this.service.service_type = JSON.parse(this.service.service_type)
   }
 
   async addService(data: AddServiceData){
@@ -81,6 +83,16 @@ export class ServiceService {
     .then(res => res)
     .catch(err => err.response);
     return res;
+  }
+
+  isServiceTypeHasLuggage(service_type : any[]){
+    let result = false;
+    service_type.map((val, i)=>{
+      if(val == 'luggage'){
+        result = true;
+      }
+    });
+    return result;
   }
 
 }
