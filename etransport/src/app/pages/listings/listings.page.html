@@ -50,7 +50,12 @@
               <h2><span class="text-dark ">Plate Number :</span> {{ service.plate_number }}</h2>
               <h2><span class="text-dark ">Vehicle Model :</span> {{ service.vehicle_model }}</h2>
               <h2><span class="text-dark ">Capacity/Slots :</span> {{ service.capacity }}</h2>
-              <h2><span class="text-dark ">Service Type :</span> {{ service.service_type == 'both' ? 'Passenger & Luggage' : (service.service_type | titlecase) }}</h2>
+              <h2>
+                <span class="text-dark ">Service Type :</span>
+                <span *ngFor="let service_type of service.service_type; let i = index">
+                  {{ i == (service.service_type.length - 1) ? (service_type | titlecase ) : (service_type + ', ' | titlecase ) }}
+                </span>
+              </h2>
             </div>
           </ion-accordion>
         </ion-accordion-group>

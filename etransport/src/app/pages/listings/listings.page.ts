@@ -36,7 +36,17 @@ export class ListingsPage implements OnInit {
       return;
     }
 
+    await new Promise((resolve, reject) => {
+      res.data.map((service, i) => {
+        res.data[i].service_type =  JSON.parse(res.data[i].service_type)
+        if(i == (res.data.length-1)){
+          resolve(null)
+        }
+      });
+    })
+    
     this.serviceService.listings = res.data;
+    
     this.loading = false;
   }
 
