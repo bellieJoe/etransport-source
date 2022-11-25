@@ -50,8 +50,10 @@ export class NotificationService {
   }
 
   listenToNotification () : Observable<any>  {
+    const audio = new Audio('../../assets/sounds/new_notification.wav');
     return new Observable((subscriber => {
       this.socketService.socket.on(`notification-${this.authService.getAuth().user_id}`, (notification) =>{
+        audio.play();
         subscriber.next(notification);
       });
     }));

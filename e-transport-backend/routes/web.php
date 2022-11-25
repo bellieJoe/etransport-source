@@ -27,7 +27,28 @@ use Illuminate\Http\Request;
 |
 */
 Route::get('testing', function(){
-    return route('announcements.edit', ['announcement' => 1]);
+    $curl = curl_init();
+    curl_setopt_array($curl, array(
+    CURLOPT_URL => 'https://g.payx.ph/payment_request',
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_ENCODING => '',
+    CURLOPT_MAXREDIRS => 10,
+    CURLOPT_TIMEOUT => 0,
+    CURLOPT_FOLLOWLOCATION => true,
+    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+    CURLOPT_CUSTOMREQUEST => 'POST',
+    CURLOPT_POSTFIELDS => array(
+        'x-public-key' => 'pk_4f953eb709ba3a04b95b50168030ddf4',
+        'amount' => 200,
+        'description' => 'Downpayment for Door to Door Booking.',
+        'expiry' => 2169,
+    ),
+    ));
+
+    $response = json_decode(curl_exec($curl));
+
+    curl_close($curl);
+    return $response;
 });
 
 Route::get('/', function () {

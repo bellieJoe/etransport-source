@@ -15,6 +15,9 @@ class TransportBooking extends Model
 
     protected $guarded = [];
 
+    /* 
+    Relationships
+     */
     public function luggageConfig(){
         return $this->hasOne(LuggageConfig::class, 'transport_booking_id', 'transport_booking_id');
     }
@@ -31,4 +34,51 @@ class TransportBooking extends Model
         return $this->hasMany(BookingUpdate::class, 'transport_booking_id', 'transport_booking_id');
     }
 
+    /* 
+        Others
+    */
+    public function computeTotalFee(){
+        $computation = (object)[
+            'total' => 0,
+            'breakdown' => [
+                'paassenger' => 0,
+                'animal' => 0,
+                'luggage' => [
+                    'small' => 0,
+                    'medium' => 0,
+                    'large' => 0,
+                    'extra_large' => 0
+                ]
+            ]
+        ];
+        $luggage_config = $this->luggageConfig();
+        $luggage_pricing = LuggagePricing::where('service_id', $this->service_id);
+        if($this->passenger_count > 0){
+            $computation->breakdown->passenger = (1500 * $this->passenger_count);
+            $$computation->total += (1500 * $this->passenger_count);
+        }
+        if($this->animal_count > 0){
+            $computation->breakdown->animal = (400 * $this->animal_count);
+            $computation->total += (400 * $this->animal_count);
+        }
+        if(!empty($luggage_config)){
+            if($luggage_config->small){
+                $computation->breakdown->luggage->small = ($luggage_pricing->small * $luggage_config->small);
+                $computation->total += ($luggage_pricing->small * $luggage_config->small);
+            }
+            if($luggage_config->medium){
+                $computation->breakdown->luggage->medium = ($luggage_pricing->medium * $luggage_config->medium);
+                $computation->total += ($luggage_pricing->medium * $luggage_config->medium);
+            }
+            if($luggage_config->large){
+                $computation->breakdown->luggage->large = ($luggage_pricing->large * $luggage_config->large);
+                $computation->total += ($luggage_pricing->large * $luggage_config->large);
+            }
+            if($luggage_config->extra_large){
+                $computation->breakdown->luggage->extra_large = ($luggage_pricing->extra_large * $luggage_config->extra_large);
+                $computation->total += ($luggage_pricing->extra_large * $luggage_config->extra_large);
+            }
+        }
+        return $computation;
+    }
 }

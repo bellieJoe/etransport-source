@@ -147,3 +147,10 @@ Route::prefix('notifications')->group(function(){
     Route::post('', [NotificationController::class, 'store']); 
     Route::get('/get-notifications-by-user-id/{user_id}', [NotificationController::class, 'getNotificationsByUserId']); 
 });
+
+/* 
+Payments
+*/
+Route::group(['prefix' => 'payments', 'as' => 'payments.'], function(){
+    Route::post('update', function(){})->name('update');
+});

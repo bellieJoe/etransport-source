@@ -69,8 +69,10 @@ export class MessageService {
   }
 
   public getUpdatedConversation(receiver){
+    const audio = new Audio('../../assets/sounds/new_message.wav');
     return new Observable((subscriber => {
       this.socketService.socket.on(`conversation${this.authService.getAuth().user_id}`, (receiver) =>{
+        audio.play();
         subscriber.next(receiver);
       });
       
@@ -78,11 +80,12 @@ export class MessageService {
   }
 
   public getNewMessage (sender) : Observable<any>  {
+    const audio = new Audio('../../assets/sounds/new_message.wav');
     return new Observable((subscriber => {
       this.socketService.socket.on(`message${sender}${this.authService.getAuth().user_id}`, (message) =>{
+        audio.play();
         subscriber.next(message);
       });
-      
     }));
     
   };

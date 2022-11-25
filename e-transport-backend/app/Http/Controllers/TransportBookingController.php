@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\LuggageConfig;
 use App\Models\TransportBooking;
+use App\Models\Payment;
 use App\Models\BookingUpdate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -133,29 +134,78 @@ class TransportBookingController extends Controller
             ], 422);
         }
 
-        $transport_booking = TransportBooking::where('transport_booking_id', $transport_booking_id);
+        return \DB::transaction(function () use ($request) {
+            $transport_booking = TransportBooking::where('transport_booking_id', $transport_booking_id);
+            $transport_booking->update([
+                'booking_status' => $request->booking_status
+            ]);
+            
 
-        $transport_booking->update([
-            'booking_status' => $request->booking_status
-        ]);
+            BookingUpdate::create([
+                'transport_booking_id' => $transport_booking_id,
+                'booking_status' => $request->booking_status,
+                'message' => $request->message,
+                'msg_frm_customer' => $request->msg_frm_customer ? $request->msg_frm_customer : null,
+                'msg_frm_admin' => $request->msg_frm_admin ? $request->msg_frm_admin : null
+            ]);
 
-        BookingUpdate::create([
-            'transport_booking_id' => $transport_booking_id,
-            'booking_status' => $request->booking_status,
-            'message' => $request->message,
-            'msg_frm_customer' => $request->msg_frm_customer ? $request->msg_frm_customer : null,
-            'msg_frm_admin' => $request->msg_frm_admin ? $request->msg_frm_admin : null
-        ]);
+            if($request->booking_status == 'accepted'){
+                $computed_fee = $transport_booking->computeTotalFee();
+                $curl = curl_init();
+                curl_setopt_array($curl, array(
+                CURLOPT_URL => 'https://g.payx.ph/payment_request',
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => '',
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 0,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => 'POST',
+                CURLOPT_POSTFIELDS => array(
+                    'x-public-key' => 'pk_4f953eb709ba3a04b95b50168030ddf4',
+                    'amount' => $computed_fee->total,
+                    'description' => 'Downpayment for Door to Door Booking.',
+                    'expiry' => 2169,
+                    'customername' =>  $transport_booking->userCustomer()->name,
+                    'customermobile' => $transport_booking->userCustomer()->contact_number,
+                    'customeremail' => $transport_booking->userCustomer()->email,
+                    'webhooksuccessurl' => route('payments.update'),
+                    'webhooksfailurl' => route('payments.update')
+                ),
+                ));
 
-        // $transport_booking->refresh();
-        $transport_booking->with([
-            'luggageConfig',
-            'service.administrator.user',
-            'userCustomer',
-            'bookingUpdates' => function($q){
-                $q->orderBy('created_at', 'desc');
+                $response = json_encode(curl_exec($curl));
+                curl_close($curl);
+
+                Payment::create([
+                    'user_id' => $transport_booking->user_customer_id,
+                    'service_id' => $transport_booking->servicec_id,
+                    'status' => $response->status,
+                    'code' => $response->code,
+                    'request_id' => $response->request_id,
+                    'amount' => $response->amount,
+                    'fee' => $response->fee,
+                    'grossamount' => $response->grossamount,
+                    'customername' => $response->customername,
+                    'customeremail' => $response->customeremail,
+                    'customermobile' => $reponse->customermobile,
+                    'webhooksuccessurl' => $response->webhooksuccessurl,
+                    'webhookfailurl' => $response->webhookfailurl,
+                    'dateadded' => $response->dateadded,
+                    'checkouturl' => $reponse->checkouturl
+                ])
+
             }
-        ]);
-        return $transport_booking->first();
+
+            $transport_booking->with([
+                'luggageConfig',
+                'service.administrator.user',
+                'userCustomer',
+                'bookingUpdates' => function($q){
+                    $q->orderBy('created_at', 'desc');
+                }
+            ]);
+            return $transport_booking->first();
+        });
     }
 }
