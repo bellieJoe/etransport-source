@@ -4,6 +4,7 @@ import { AlertController, IonModal, LoadingController } from '@ionic/angular';
 import { AuthService } from 'src/app/services/auth.service';
 import { NotificationService } from 'src/app/services/notification.service';
 import { ReviewService } from 'src/app/services/review.service';
+import { ServiceService } from 'src/app/services/service.service';
 import { TransportBookingService, UpdateStatusData } from '../../services/transport-booking.service';
 
 @Component({
@@ -15,6 +16,7 @@ export class CustomerBookingsPage implements OnInit {
 
   constructor(
     public transportBookingService : TransportBookingService,
+    public serviceService : ServiceService,
     private authService : AuthService,
     private alertController : AlertController,
     private loadingController : LoadingController,
@@ -177,6 +179,9 @@ export class CustomerBookingsPage implements OnInit {
       alert.present();
       return;
     }
+    res.data.map((val, i)=>{
+      res.data[i].service.service_type = JSON.parse(val.service.service_type)
+    });
     this.transportBookingService.transport_bookings = res.data;
   }
 

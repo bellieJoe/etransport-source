@@ -80,6 +80,12 @@
                   <h2>{{ booking.passenger_count }}</h2>
                 </ion-label>
               </ion-item>
+              <ion-item lines="full" *ngIf="booking.animal_count">
+                <ion-label >
+                  <h2>Animals slots reserved</h2>
+                  <h2>{{ booking.animal_count }}</h2>
+                </ion-label>
+              </ion-item>
               <ion-list *ngIf="booking.luggage_config">
                 <ion-list-header>
                   <ion-label>Luggage Reservations</ion-label>
