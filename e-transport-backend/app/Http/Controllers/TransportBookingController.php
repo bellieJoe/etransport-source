@@ -6,27 +6,53 @@ use App\Models\LuggageConfig;
 use App\Models\TransportBooking;
 use App\Models\BookingUpdate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
 class TransportBookingController extends Controller
 {
     //
     public function store(Request $request){
-        $request->validate([
-            'passenger_count' => ['required_unless:service_type,luggage'], //later
-            'animals_count' => ['required_unless:service_type,luggage'], //later
-            'pickup_time' => ['required'],
-            'pickup_location' => ['required', 'max:1000'],
-            'dropoff_location' => ['required', 'max:1000'],
-            'service_type' => ['required'],
-            'route' => ['required', Rule::in(['Manila to Marinduque', 'Marinduque to Manila'])]
-        ]);
+        $validation = Validator::make(
+            $request->all(),
+            [
+                // 'passenger_count' => ['required_unless:service_type,luggage'], //later
+                // 'animals_count' => ['required_unless:service_type,luggage'], //later
+                'pickup_time' => ['required'],
+                'pickup_location' => ['required', 'max:1000'],
+                'dropoff_location' => ['required', 'max:1000'],
+                'service_type' => ['required'],
+                'route' => ['required', Rule::in(['Manila to Marinduque', 'Marinduque to Manila'])]
+            ],
+            []
+
+        );
+
+        if($validation->fails()){
+            return response([
+                'errors' => $validation->errors()
+            ], 422);
+        }
+
+        if(!$request->passenger_count && in_array('passenger', $request->service_type)){
+            $validation->getMessageBag()->add('passenger_count', 'The passenger count is required.');
+            return response([
+                'errors' => $validation->errors()
+            ], 422);
+        }
+
+        if(!$request->animal_count && in_array('animal', $request->service_type)){
+            $validation->getMessageBag()->add('animal_count', 'The Animal count is required.');
+            return response([
+                'errors' => $validation->errors()
+            ], 422);
+        }
 
         if(!$request->user_customer_id || !$request->service_id){
 
         }
 
-        if($request->service_type != 'passenger' && !$request->small && !$request->medium && !$request->large && !$request->extra_large){
+        if(in_array('luggage', $request->service_type) && !$request->small && !$request->medium && !$request->large && !$request->extra_large){
             return response([
                 'message' => 'Please specify the the Luggage specification.'
             ], 400);
@@ -43,7 +69,7 @@ class TransportBookingController extends Controller
                 'route' => $request->route,
                 'pickup_location' => $request->pickup_location,
                 'dropoff_location' => $request->dropoff_location,
-                'service_type' => $request->service_type
+                'service_type' => json_encode($request->service_type)
             ]);
     
             $transport_booking->refresh();
@@ -56,7 +82,7 @@ class TransportBookingController extends Controller
                 'msg_frm_admin' => null
             ]);
     
-            if($request->service_type != 'passenger'){
+            if(in_array('luggage', $request->service_type)){
                 LuggageConfig::create([
                     'transport_booking_id' => $transport_booking->transport_booking_id,
                     'small' => $request->small,

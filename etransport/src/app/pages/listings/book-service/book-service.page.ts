@@ -59,7 +59,7 @@ export class BookServicePage implements OnInit {
       await loader.present();
 
       const res = await this.transporBookingService.addBooking(this.book_service_form);
-
+      
       if(res.status == 422){
         await loader.dismiss();
         this.book_service_form.errors = res.data.errors;
