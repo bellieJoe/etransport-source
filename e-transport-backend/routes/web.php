@@ -27,28 +27,19 @@ use Illuminate\Http\Request;
 |
 */
 Route::get('testing', function(){
-    $curl = curl_init();
-    curl_setopt_array($curl, array(
-    CURLOPT_URL => 'https://g.payx.ph/payment_request',
-    CURLOPT_RETURNTRANSFER => true,
-    CURLOPT_ENCODING => '',
-    CURLOPT_MAXREDIRS => 10,
-    CURLOPT_TIMEOUT => 0,
-    CURLOPT_FOLLOWLOCATION => true,
-    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-    CURLOPT_CUSTOMREQUEST => 'POST',
-    CURLOPT_POSTFIELDS => array(
-        'x-public-key' => 'pk_4f953eb709ba3a04b95b50168030ddf4',
-        'amount' => 200,
-        'description' => 'Downpayment for Door to Door Booking.',
-        'expiry' => 2169,
-    ),
-    ));
+    $client = new \GuzzleHttp\Client();
 
-    $response = json_decode(curl_exec($curl));
+    $response = $client->request('POST', 'https://api.paymongo.com/v1/links', [
+        'body' => '{"data":{"attributes":{"amount":10000,"description":"Kahit ano"}}}',
+        'headers' => [
+            'accept' => 'application/json',
+            'authorization' => 'Basic c2tfdGVzdF9xTTdQTnJVN3REM0VxUXNrUldBc2FUeW06',
+            'content-type' => 'application/json',
+        ],
+    ]);
 
-    curl_close($curl);
-    return $response;
+    return json_decode($response->getBody());
+        // return $result;
 });
 
 Route::get('/', function () {

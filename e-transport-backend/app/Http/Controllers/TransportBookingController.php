@@ -134,8 +134,10 @@ class TransportBookingController extends Controller
             ], 422);
         }
 
-        return \DB::transaction(function () use ($request) {
+        return \DB::transaction(function () use ($request, $transport_booking_id) {
             $transport_booking = TransportBooking::where('transport_booking_id', $transport_booking_id);
+            $booking = TransportBooking::where('transport_booking_id', $transport_booking_id)->with(['userCustomer'])->first();
+            // return $booking->userCustomer;
             $transport_booking->update([
                 'booking_status' => $request->booking_status
             ]);
@@ -149,52 +151,8 @@ class TransportBookingController extends Controller
                 'msg_frm_admin' => $request->msg_frm_admin ? $request->msg_frm_admin : null
             ]);
 
-            if($request->booking_status == 'accepted'){
-                $computed_fee = $transport_booking->computeTotalFee();
-                $curl = curl_init();
-                curl_setopt_array($curl, array(
-                CURLOPT_URL => 'https://g.payx.ph/payment_request',
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_ENCODING => '',
-                CURLOPT_MAXREDIRS => 10,
-                CURLOPT_TIMEOUT => 0,
-                CURLOPT_FOLLOWLOCATION => true,
-                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                CURLOPT_CUSTOMREQUEST => 'POST',
-                CURLOPT_POSTFIELDS => array(
-                    'x-public-key' => 'pk_4f953eb709ba3a04b95b50168030ddf4',
-                    'amount' => $computed_fee->total,
-                    'description' => 'Downpayment for Door to Door Booking.',
-                    'expiry' => 2169,
-                    'customername' =>  $transport_booking->userCustomer()->name,
-                    'customermobile' => $transport_booking->userCustomer()->contact_number,
-                    'customeremail' => $transport_booking->userCustomer()->email,
-                    'webhooksuccessurl' => route('payments.update'),
-                    'webhooksfailurl' => route('payments.update')
-                ),
-                ));
-
-                $response = json_encode(curl_exec($curl));
-                curl_close($curl);
-
-                Payment::create([
-                    'user_id' => $transport_booking->user_customer_id,
-                    'service_id' => $transport_booking->servicec_id,
-                    'status' => $response->status,
-                    'code' => $response->code,
-                    'request_id' => $response->request_id,
-                    'amount' => $response->amount,
-                    'fee' => $response->fee,
-                    'grossamount' => $response->grossamount,
-                    'customername' => $response->customername,
-                    'customeremail' => $response->customeremail,
-                    'customermobile' => $reponse->customermobile,
-                    'webhooksuccessurl' => $response->webhooksuccessurl,
-                    'webhookfailurl' => $response->webhookfailurl,
-                    'dateadded' => $response->dateadded,
-                    'checkouturl' => $reponse->checkouturl
-                ])
-
+            if($request->booking_status == 'to pay'){
+                $transport_booking->first()->generatePayment();
             }
 
             $transport_booking->with([

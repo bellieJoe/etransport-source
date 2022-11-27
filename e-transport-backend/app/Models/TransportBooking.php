@@ -38,10 +38,10 @@ class TransportBooking extends Model
         Others
     */
     public function computeTotalFee(){
-        $computation = (object)[
+        $computation = [
             'total' => 0,
             'breakdown' => [
-                'paassenger' => 0,
+                'passenger' => 0,
                 'animal' => 0,
                 'luggage' => [
                     'small' => 0,
@@ -51,34 +51,59 @@ class TransportBooking extends Model
                 ]
             ]
         ];
-        $luggage_config = $this->luggageConfig();
+        $transport_booking = TransportBooking::where('transport_booking_id', $this->transport_booking_id)->with('luggageConfig')->first();
+        $luggage_config =  $transport_booking->luggage_config;
         $luggage_pricing = LuggagePricing::where('service_id', $this->service_id);
         if($this->passenger_count > 0){
-            $computation->breakdown->passenger = (1500 * $this->passenger_count);
-            $$computation->total += (1500 * $this->passenger_count);
+            $computation['breakdown']['passenger'] = (1500 * $this->passenger_count);
+            $computation['total'] += (1500 * $this->passenger_count);
         }
         if($this->animal_count > 0){
-            $computation->breakdown->animal = (400 * $this->animal_count);
-            $computation->total += (400 * $this->animal_count);
+            $computation['breakdown']['animal'] = (400 * $this->animal_count);
+            $computation['total'] += (400 * $this->animal_count);
         }
         if(!empty($luggage_config)){
             if($luggage_config->small){
-                $computation->breakdown->luggage->small = ($luggage_pricing->small * $luggage_config->small);
-                $computation->total += ($luggage_pricing->small * $luggage_config->small);
+                $computation['breakdown']['luggage']['small'] = ($luggage_pricing->small * $luggage_config->small);
+                $computation['total'] += ($luggage_pricing->small * $luggage_config->small);
             }
             if($luggage_config->medium){
-                $computation->breakdown->luggage->medium = ($luggage_pricing->medium * $luggage_config->medium);
-                $computation->total += ($luggage_pricing->medium * $luggage_config->medium);
+                $computation['breakdown']['luggage']['medium'] = ($luggage_pricing->medium * $luggage_config->medium);
+                $computation['total'] += ($luggage_pricing->medium * $luggage_config->medium);
             }
             if($luggage_config->large){
-                $computation->breakdown->luggage->large = ($luggage_pricing->large * $luggage_config->large);
-                $computation->total += ($luggage_pricing->large * $luggage_config->large);
+                $computation['breakdown']['luggage']['large'] = ($luggage_pricing->large * $luggage_config->large);
+                $computation['total'] += ($luggage_pricing->large * $luggage_config->large);
             }
             if($luggage_config->extra_large){
-                $computation->breakdown->luggage->extra_large = ($luggage_pricing->extra_large * $luggage_config->extra_large);
-                $computation->total += ($luggage_pricing->extra_large * $luggage_config->extra_large);
+                $computation['breakdown']['luggage']['extra_large'] = ($luggage_pricing->extra_large * $luggage_config->extra_large);
+                $computation['total'] += ($luggage_pricing->extra_large * $luggage_config->extra_large);
             }
         }
         return $computation;
+    }
+
+    public function generatePayment(){
+        $computed_fee = $this->computeTotalFee();
+        $client = new \GuzzleHttp\Client();
+
+        $downpayment_in_cents = (($computed_fee['total']/2)*100);
+        $response = $client->request('POST', 'https://api.paymongo.com/v1/links', [
+            'body' => '{"data":{"attributes":{"amount":'.$downpayment_in_cents.',"description":"Downpayment for Etransport Transport Booking"}}}',
+            'headers' => [
+                'accept' => 'application/json',
+                'authorization' => 'Basic c2tfdGVzdF9xTTdQTnJVN3REM0VxUXNrUldBc2FUeW06',
+                'content-type' => 'application/json',
+            ],
+        ]);
+
+        Payment::create([
+            'user_id' => $this->user_customer_id,
+            'transport_booking_id' => $this->transport_booking_id,
+            'service_id' => $this->service_id,
+            'status' => 'unpaid',
+            'payment_data' => $response->getBody(),
+            'breakdown' => json_encode($computed_fee)
+        ]);
     }
 }

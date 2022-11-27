@@ -16,7 +16,7 @@ class CreateBookingUpdatesTable extends Migration
         Schema::create('booking_updates', function (Blueprint $table) {
             $table->id('booking_update_id');
             $table->foreignId('transport_booking_id');
-            $table->enum('booking_status', ['pending', 'accepted', 'canceled', 'finished', 'declined']);
+            $table->enum('booking_status', ['pending', 'accepted', 'canceled', 'finished', 'declined', 'to pay']);
             $table->string('message', 5000);
             $table->string('msg_frm_customer', 5000)->nullable();
             $table->string('msg_frm_admin', 5000)->nullable();

@@ -91,13 +91,15 @@ export class ServiceBookingsPage implements OnInit {
       });
       await loader.present();
       const data : UpdateStatusData = {
-        booking_status: 'accepted',
-        message: 'Service booking has been accepted.',
+        booking_status: 'to pay',
+        message: 'Service booking has been approved.',
         transport_booking_id: transport_booking_id,
         msg_frm_customer: null,
         msg_frm_admin: this.msg_from_admin,
       };
       const res = await this.transportBookingService.updateStatus(data)
+      console.log(res);
+      
       if(res.status != 200){
         const alert = await this.alertController.create({
           header: `Unexpected Error`,
