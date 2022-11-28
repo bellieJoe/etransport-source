@@ -7,6 +7,7 @@ use App\Http\Controllers\AdministratorController;
 use App\Http\Controllers\LuggagePricingController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\TransportBookingController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\TermsAndConditionController;
 use App\Http\Controllers\AnnouncementCommentController;
@@ -153,4 +154,5 @@ Payments
 */
 Route::group(['prefix' => 'payments', 'as' => 'payments.'], function(){
     Route::post('update', function(){})->name('update');
+    Route::put('check-payment/{payment_id}', [PaymentController::class, 'checkPayment']);
 });

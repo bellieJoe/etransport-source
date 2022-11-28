@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Payment;
+use App\Models\TransportBooking;
+use App\Models\BookingUpdate;
 use Illuminate\Http\Request;
 
 class PaymentController extends Controller
@@ -13,53 +15,53 @@ class PaymentController extends Controller
         Payment::find(3)->update([
             'payment_data' => json_encode($request)
         ]);
-        // return $request;
-        // header('Content-Type: application/json');
-        // $request = file_get_contents('php://input');
-        // $payload = json_decode($request, true);
-        // $type = $payload['data']['attributes']['type'];
+     
+    }
 
-        // //If event type is source.chargeable, call the createPayment API
-        // if ($type == 'llink.payment.paid') {
-        // $amount = $payload['data']['attributes']['data']['attributes']['amount'];
-        // $id = $payload['data']['attributes']['data']['id'];
-        // $description = "GCash Payment Description";
-        // $curl = curl_init();
-        // $fields = array("data" => array ("attributes" => array ("amount" => $amount, "source" => array ("id" => $id, "type" => "source"), "currency" => "PHP", "description" => $description)));
-        // $jsonFields = json_encode($fields);
-            
-        // curl_setopt_array($curl, [
-        //     CURLOPT_URL => "https://api.paymongo.com/v1/payments",
-        //     CURLOPT_RETURNTRANSFER => true,
-        //     CURLOPT_ENCODING => "",
-        //     CURLOPT_MAXREDIRS => 10,
-        //     CURLOPT_TIMEOUT => 30,
-        //     CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-        //     CURLOPT_CUSTOMREQUEST => "POST",
-        //     CURLOPT_POSTFIELDS => $jsonFields,
-        //     CURLOPT_HTTPHEADER => [
-        //     "Accept: application/json",
-        //     //Input your encoded API keys below for authorization
-        //     "Authorization:" ,
-        //     "Content-Type: application/json"
-        //     ],
-        // ]);
+    public function checkPayment($payment_id){
+        $payment = Payment::find($payment_id);
+        $payment->payment_data = json_decode($payment->payment_data);
 
-        // $response = curl_exec($curl);
-        // //Log the response
-        // $fp = file_put_contents( 'test.log', $response );
-        // $err = curl_error($curl);
+        $client = new \GuzzleHttp\Client();
 
-        // curl_close($curl);
+        $response = $client->request('GET', 'https://api.paymongo.com/v1/links/'.$payment->payment_data->data->id, [
+            'headers' => [
+                'accept' => 'application/json',
+                'authorization' => 'Basic c2tfdGVzdF9xTTdQTnJVN3REM0VxUXNrUldBc2FUeW06',
+            ],
+        ]);
+        
+        return \DB::transaction(function () use($payment, $response) {
+            $payment->update([
+                'payment_data' => $response->getBody(),
+                'status' => 'partially paid'
+            ]);
+            $transport_booking = TransportBooking::find($payment->transport_booking_id);
+            $transport_booking->update([
+                'booking_status' => 'accepted'
+            ]);
+            BookingUpdate::create([
+                'transport_booking_id' => $transport_booking->transport_booking_id,
+                'booking_status' => 'accepted',
+                'message' => 'The Customer has paid the initial payment for this transport booking'
+            ]);
+            if(json_decode($response->getBody())->data->attributes->status == 'unpaid'){
+                
+                return response([
+                    'message' => 'Payment is still unpaid'
+                ], 419);
+            }
+            return TransportBooking::where('transport_booking_id', $payment->transport_booking_id)->with([
+                'luggageConfig',
+                'service.administrator.user',
+                'userCustomer',
+                'payment',
+                'bookingUpdates' => function($q){
+                    $q->orderBy('created_at', 'desc');
+                }
+            ])->first();
+        });
 
-        // if ($err) {
-        //     echo "cURL Error #:" . $err;
-        //     //Log the response
-        //     $fp = file_put_contents( 'test.log', $err );
-        // } else {
-        //     echo $response;
-        // }
-        // }
-
+        
     }
 }

@@ -36,8 +36,14 @@
       <ion-label>Luggage Reservations(XL)</ion-label>
       <ion-label slot="end">{{ transport_booking.payment.breakdown.breakdown.luggage.extra_large | currency:'PHP' }}</ion-label>
     </ion-item>
+    
 
     <p class="text-center py-3 text-secondary mb-0">**Nothing Follows**</p>
+
+    <ion-item color="warning" class="mt-3" lines="full" (click)="paymentService.checkPayment(transport_booking.payment.payment_id)">
+      <ion-label >Check Payment?</ion-label>
+      <ion-label class="text-secondary" slot="end">For testing only</ion-label>
+    </ion-item>
 
   </ion-list>
 </ion-content>
@@ -49,7 +55,6 @@
       <p class="mb-0 fw-bold">{{ transport_booking.payment.breakdown.total | currency:'PHP' }}</p>
     </div>
     <div class="col-auto justify-self-end">
-      <!-- (click)="pay(transport_booking)" -->
       <ion-button  [href]="transport_booking.payment.payment_data.data.attributes.checkout_url" target="_blank">
         <ion-icon name="card-outline" slot="start"></ion-icon>
         Pay

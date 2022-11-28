@@ -7,6 +7,7 @@ use App\Models\Administrator;
 use App\Models\Service;
 use App\Models\LuggagePricing;
 use App\Models\TransportBooking;
+use App\Models\Payment;
 
 use App\Http\Controllers\MainAdministratorController;
 
@@ -28,19 +29,19 @@ use Illuminate\Http\Request;
 |
 */
 Route::get('testing', function(){
+    $payment = Payment::find(2);
+    $payment->payment_data = json_decode($payment->payment_data);
+
     $client = new \GuzzleHttp\Client();
 
-    $response = $client->request('POST', 'https://api.paymongo.com/v1/links', [
-        'body' => '{"data":{"attributes":{"amount":10000,"description":"Kahit ano"}}}',
-        'headers' => [
-            'accept' => 'application/json',
-            'authorization' => 'Basic c2tfdGVzdF9xTTdQTnJVN3REM0VxUXNrUldBc2FUeW06',
-            'content-type' => 'application/json',
-        ],
+    $response = $client->request('GET', 'https://api.paymongo.com/v1/links/'.$payment->payment_data->data->id, [
+    'headers' => [
+        'accept' => 'application/json',
+        'authorization' => 'Basic c2tfdGVzdF9xTTdQTnJVN3REM0VxUXNrUldBc2FUeW06',
+    ],
     ]);
 
     return json_decode($response->getBody());
-        // return $result;
 });
 
 Route::get('/', function () {

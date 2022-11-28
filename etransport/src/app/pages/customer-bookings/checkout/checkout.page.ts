@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { PaymentService } from 'src/app/services/payment.service';
 
 @Component({
   selector: 'app-checkout',
@@ -9,7 +10,8 @@ import { Router } from '@angular/router';
 export class CheckoutPage implements OnInit {
 
   constructor(
-    private router : Router
+    private router : Router,
+    public paymentService : PaymentService
   ) { }
 
   navState : any;
