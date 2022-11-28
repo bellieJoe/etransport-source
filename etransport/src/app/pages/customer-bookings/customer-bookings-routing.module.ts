@@ -7,6 +7,14 @@ const routes: Routes = [
   {
     path: '',
     component: CustomerBookingsPage
+  },
+  {
+    path: 'checkout',
+    loadChildren: () => import('./checkout/checkout.module').then( m => m.CheckoutPageModule)
+  },
+  {
+    path: 'pay',
+    loadChildren: () => import('./pay/pay.module').then( m => m.PayPageModule)
   }
 ];
 

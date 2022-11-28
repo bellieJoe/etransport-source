@@ -12,4 +12,12 @@ class Payment extends Model
     protected $primaryKey = 'payment_id';
 
     protected $guarded = [];
+
+    protected $cast = [
+        'payment_data' => 'array'
+    ];
+
+    protected function transport_booking(){
+        return $this->belongsTo(TransportBooking::class,  'transport_booking_id', 'transport_booking_id');
+    }
 }

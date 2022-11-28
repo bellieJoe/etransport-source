@@ -9,283 +9,292 @@
 
 <ion-content color="background">
   <ion-progress-bar type="indeterminate"  color="primary" *ngIf="isLoading"></ion-progress-bar>
-    <ion-card >
-      <ion-item lines="none">
-        <ion-label>Filter</ion-label>
-        <ion-select value="all" interface="action-sheet" cancelText="Cancel Selection" [(ngModel)]="filteredBooking">
-          <ion-select-option value="all">All</ion-select-option>
-          <ion-select-option value="pending">Pending</ion-select-option>
-          <ion-select-option value="accepted">Accepted</ion-select-option>
-          <ion-select-option value="canceled">Canceled</ion-select-option>
-          <ion-select-option value="declined">Declined</ion-select-option>
-          <ion-select-option value="finished">Finished</ion-select-option>
-        </ion-select>
-      </ion-item>
-    </ion-card>
-    <div class="my-3 px-3" *ngIf="!transportBookingService.transport_bookings[0]">
-      <p class="text-center">No Bookings</p>
-    </div>
-    <ng-container *ngFor="let booking of transportBookingService.transport_bookings">
-      <div class="my-3 bg-white pb-3" [id]="'booking-' + booking.transport_booking_id" *ngIf="filteredBooking == 'all' || filteredBooking == booking.booking_status">
-        <div class="px-3 border-bottom">
-          <label class="text-secondary">{{ booking.created_at | date:'mediumDate' }}</label>
-        </div>
-        <ion-item lines="none">
-          <ion-label color="primary">
-            {{ booking.service.service_name }} 
-          </ion-label>
-          <ion-badge slot="end" [color]="setBookingStatusColor(booking.booking_status)" >{{ booking.booking_status | titlecase }}</ion-badge>
-        </ion-item>
-        <ion-item lines="none" *ngIf="booking.service.marinduque_departure_datetime">
-          <ion-label>
-            <h2>Marinduque Departure Datetime</h2>
-            <label for="">{{ booking.service.marinduque_departure_datetime | date:'mediumDate' }} {{ booking.service.marinduque_departure_datetime | date:'hh mm a' }} </label>
-          </ion-label>
-        </ion-item>
-        <ion-item lines="none" *ngIf="booking.service.marinduque_departure_datetime">
-          <ion-label>
-            <h2>Manila Departure Datetime</h2>
-            <label for="">{{ booking.service.manila_departure_datetime | date:'mediumDate' }} {{ booking.service.manila_departure_datetime | date:'hh:mm a' }} </label>
-          </ion-label>
-        </ion-item>
-        <ion-item lines="none" *ngIf="booking.pickup_time">
-          <ion-label>
-            <h2>Pickup Time</h2>
-            <label for="">{{ '01-01-01 ' + booking.pickup_time | date:'hh:mm a' }} </label>
-          </ion-label>
-        </ion-item>
-        <ion-item lines="none" *ngIf="booking.pickup_location">
-          <ion-label>
-            <h2>Pickup Location</h2>
-            <label for="">{{ booking.pickup_location }} </label>
-          </ion-label>
-        </ion-item>
-        <ion-item lines="none" *ngIf="booking.dropoff_location">
-          <ion-label>
-            <h2>Drop-off Location</h2>
-            <label for="">{{ booking.dropoff_location }} </label>
-          </ion-label>
-        </ion-item>
-        <div class="px-3">
-          <ion-item color="light" lines="none" detail="true" button id="booking-detail-modal-{{ booking.transport_booking_id }}">
-            <ion-label>Number of reservations</ion-label>
-          </ion-item>
-          <ion-modal trigger="booking-detail-modal-{{ booking.transport_booking_id }}" [initialBreakpoint]="0.75" [breakpoints]="[0, 0.25, 0.5, 1]">
-            <ng-template >
-              <ion-header>
-                <ion-toolbar>
-                  <ion-title><span class="text-primary">{{ booking.service.service_name }}</span> reservation details</ion-title>
-                </ion-toolbar>
-              </ion-header>
-              <ion-content color="background">
-                <br>
-                <ion-item lines="full" *ngIf="booking.passenger_count">
-                  <ion-label >
-                    <h2>Passenger slots reserved</h2>
-                    <h2>{{ booking.passenger_count }}</h2>
-                  </ion-label>
-                </ion-item>
-                <ion-item lines="full" *ngIf="booking.animal_count">
-                  <ion-label >
-                    <h2>Animal slots reserved</h2>
-                    <h2>{{ booking.animal_count }}</h2>
-                  </ion-label>
-                </ion-item>
-                <ion-list *ngIf="booking.luggage_config">
-                  <ion-list-header>
-                    <ion-label>Luggage Reservations</ion-label>
-                    <ion-button>See All</ion-button>
-                  </ion-list-header>
-                  <ion-item lines="full" *ngIf="booking.luggage_config.small">
-                    <ion-label >Small {{ booking.service.luggage_pricing.small | currency:'PHP' }}</ion-label>
-                    <ion-label slot="end">{{ booking.luggage_config.small }}</ion-label>
-                  </ion-item>
-                  <ion-item lines="full" *ngIf="booking.luggage_config.medium">
-                    <ion-label >Medium {{ booking.service.luggage_pricing.medium | currency:'PHP' }}</ion-label>
-                    <ion-label slot="end">{{ booking.luggage_config.medium }}</ion-label>
-                  </ion-item>
-                  <ion-item lines="full" *ngIf="booking.luggage_config.large">
-                    <ion-label >Large {{ booking.service.luggage_pricing.large | currency:'PHP' }}</ion-label>
-                    <ion-label slot="end">{{ booking.luggage_config.large }}</ion-label>
-                  </ion-item>
-                  <ion-item lines="full" *ngIf="booking.luggage_config.extra_large">
-                    <ion-label >Extra Large {{ booking.service.luggage_pricing.extra_large | currency:'PHP' }}</ion-label>
-                    <ion-label slot="end">{{ booking.luggage_config.extra_large }}</ion-label>
-                  </ion-item>
-                </ion-list>
-              </ion-content>
-            </ng-template>
-          </ion-modal>
-        </div>
-        <div class="px-3">
-          <ion-item color="light" lines="none" detail="true" button id="service-detail-modal-{{ booking.transport_booking_id }}">
-            <ion-label>Service details</ion-label>
-          </ion-item>
-          <ion-modal trigger="service-detail-modal-{{ booking.transport_booking_id }}" [initialBreakpoint]="0.75" [breakpoints]="[0, 0.25, 0.5, 1]">
-            <ng-template >
-              <ion-header>
-                <ion-toolbar>
-                  <ion-title><span class="text-primary">{{ booking.service.service_name }}</span> details</ion-title>
-                </ion-toolbar>
-              </ion-header>
-              <ion-content color="background">
-                <br>
-                <ion-item lines="full">
-                  <ion-label >Driver</ion-label>
-                  <ion-label slot="end" color="medium">{{ booking.service.driver}}</ion-label>
-                </ion-item>
-                <ion-item lines="full">
-                  <ion-label >License Number</ion-label>
-                  <ion-label slot="end" color="medium">{{ booking.service.license_number}}</ion-label>
-                </ion-item>
-                <ion-item lines="full">
-                  <ion-label >Vehicle Model</ion-label>
-                  <ion-label slot="end" color="medium">{{ booking.service.vehicle_model}}</ion-label>
-                </ion-item>
-                <ion-item lines="full">
-                  <ion-label >Plate Number</ion-label>
-                  <ion-label slot="end" color="medium">{{ booking.service.plate_number}}</ion-label>
-                </ion-item>
-                <ion-item lines="full">
-                  <ion-label >Capacity</ion-label>
-                  <ion-label slot="end" color="medium">{{ booking.service.capacity}} slots</ion-label>
-                </ion-item>
-                <ion-item lines="full">
-                  <ion-label>Service Type</ion-label>
-                  <ion-label slot="end" color="medium" >
-                    <!-- {{ booking.service.service_type == 'both' ? 'Passenger & Luggage' : (booking.service.service_type | titlecase)}} -->
-                    <span class="opacity-75" *ngFor="let service_type of booking.service.service_type; let i = index">
-                      {{ i == (booking.service.service_type.length - 1) ? (service_type | titlecase ) : (service_type + ', ' | titlecase ) }}
-                    </span>
-                  </ion-label>
-                </ion-item>
-                <ion-item lines="full">
-                  <ion-label slot="start">Capacity</ion-label>
-                  <ion-label slot="end" color="medium">{{ booking.service.capacity}} slots</ion-label>
-                </ion-item>
-              </ion-content>
-            </ng-template>
-          </ion-modal>
-        </div>
+  <!-- filter -->
+  <ion-card >
+    <ion-item lines="none">
+      <ion-label>Filter</ion-label>
+      <ion-select value="all" interface="action-sheet" cancelText="Cancel Selection" [(ngModel)]="filteredBooking">
+        <ion-select-option value="all">All</ion-select-option>
+        <ion-select-option value="pending">Pending</ion-select-option>
+        <ion-select-option value="accepted">Accepted</ion-select-option>
+        <ion-select-option value="to pay">To Pay(Advance Payment)</ion-select-option>
+        <ion-select-option value="canceled">Canceled</ion-select-option>
+        <ion-select-option value="declined">Declined</ion-select-option>
+        <ion-select-option value="finished">Finished</ion-select-option>
+      </ion-select>
+    </ion-item>
+  </ion-card>
 
-        <!-- reservation updates -->
-        <div class="px-3"> 
-          <ion-item color="light" lines="none" detail="true" button id="booking-updates-modal-{{ booking.transport_booking_id }}">
-            <ion-label>Booking Updates</ion-label>
-          </ion-item>
-          <ion-modal trigger="booking-updates-modal-{{ booking.transport_booking_id }}" [initialBreakpoint]="0.75" [breakpoints]="[0, 0.25, 0.5, 1]">
-            <ng-template >
-              <ion-header>
-                <ion-toolbar>
-                  <ion-title>
-                    <ion-label>
-                      <h2>Reservation updates</h2>
-                    </ion-label>
-                  </ion-title>
-                </ion-toolbar>
-              </ion-header>
-              <ion-content color="background">
-                <br>
-                <div class="px-3 my-3" *ngIf="!booking.booking_updates[0]">
-                  <p class="text-center">No Updates</p>
-                </div>
-                <div class="row px-3 py-2 my-2 bg-white" *ngFor="let update of booking.booking_updates">
-                  <div class="col-auto">
-                    <p class="mb-0 ion-text-primary">{{ update.created_at | date:'mediumDate' }}</p>
-                    <p class="mb-0 ion-text-primary">{{ update.created_at | date:'h:mm a' }}</p>
-                    <i class="fa-solid fa-share ion-text-medium"></i>
-                  </div>
-                  <div class="col">
-                    <ion-badge [color]="setBookingStatusColor(update.booking_status)">{{ update.booking_status | titlecase }}</ion-badge>
-                    <p>{{ update.message }}</p>
-                    <div *ngIf="update.msg_frm_admin">
-                      <p class="mb-0 ion-text-medium fs-6">Message from Service owner</p>
-                      <p >{{ update.msg_frm_admin }}</p>
-                    </div>
-                    <div *ngIf="update.msg_frm_customer">
-                      <p class="mb-0 ion-text-medium fs-6">Reasons for cancelling</p>
-                      <p >{{ update.msg_frm_customer}}</p>
-                    </div>
-                  </div>
-                </div>
-              </ion-content>
-            </ng-template>
-          </ion-modal>
-        </div>
+  <div class="my-3 px-3" *ngIf="!transportBookingService.transport_bookings[0]">
+    <p class="text-center">No Bookings</p>
+  </div>
 
-        <!-- actions -->
-        <div class="px-3 mt-2" >  
-          <ion-button color="medium" id="cancel-booking-modal-{{ booking.transport_booking_id }}" fill="outline" *ngIf="booking.booking_status == 'pending'">
-            Cancel Booking
-          </ion-button>
-          <ion-modal trigger="cancel-booking-modal-{{ booking.transport_booking_id }}" [initialBreakpoint]="0.5" [breakpoints]="[0, 0.5, 1]">
-            <ng-template >
-              <ion-header class="ion-no-border">
-                <ion-toolbar>
-                  <ion-title>Cancel Booking</ion-title>
-                </ion-toolbar>
-              </ion-header>
-              <ion-content>
-                <div class="px-3">
-                  <div class="bg-info p-2">
-                    <p class="mb-0"><i class="fa-solid fa-lightbulb text-warning"></i> <span class="fw-bold">Tips:</span>  You can call the administrator who set the booking to make sure that he/she is formally informed.</p>
-                  </div>
-                  <ion-item class="mb-2">
-                    <ion-label position="floating">Any reasons for cancelling this booking?</ion-label>
-                    <ion-input type="text" [(ngModel)]="msg_from_customer"></ion-input>
-                  </ion-item>
-                  <ion-button (click)="cancelBooking(booking.transport_booking_id)" expand="block">
-                    Cancel Booking
-                  </ion-button>
-                </div>
-              </ion-content>
-            </ng-template>
-          </ion-modal>
-
-          <ion-button color="secondary" (click)="ratings.init(booking)" id="rate-booking-modal-{{ booking.transport_booking_id }}" fill="outline" *ngIf="booking.booking_status == 'finished'">
-            {{ hasReviewed(booking) ? 'Change Rating' : 'Rate this Booking' }} 
-          </ion-button>
-          <ion-modal trigger="rate-booking-modal-{{ booking.transport_booking_id }}" [initialBreakpoint]="0.5" [breakpoints]="[0, 0.5, 1]">
-            <ng-template >
-              <ion-header class="ion-no-border">
-                <ion-toolbar>
-                  <ion-title>Rate Booking</ion-title>
-                </ion-toolbar>
-              </ion-header>
-              <ion-content>
-                <div class="px-3">
-                  <div class="px-3 mb-2">
-                    <ion-item lines="none">
-                      <ion-label>Rate</ion-label>
-                      <ion-button (click)="ratings.setRating(0)"  fill="clear" slot="end">
-                        Clear
-                      </ion-button>
-                    </ion-item>
-                    <div >
-                      <button class="btn btn-clear fs-2 border-0" *ngFor="let i of [1,2,3,4,5]" (click)="ratings.setRating(i)">
-                        <i class="fa-solid fa-star text-warning" *ngIf="ratings.rate >= i" ></i>
-                        <i class="fa-regular fa-star text-warning" *ngIf="ratings.rate < i" ></i>
-                      </button>
-                      <h2 class="px-3 my-0">{{ ratings.rate }} / 5</h2>
-                    </div>
-                    <ion-note *ngIf="ratings.errors.rate">{{ ratings.errors.rate }}</ion-note>
-                  </div>
-
-                  <ion-item class="mb-2">
-                    <ion-label position="floating">Write a review</ion-label>
-                    <ion-textarea [(ngModel)]="ratings.content"></ion-textarea>
-                  </ion-item>
-                  <ion-note *ngIf="ratings.errors.content">{{ ratings.errors.content }}</ion-note>
-
-                  <ion-button (click)="ratings.submit(booking.service_id)" expand="block">
-                    <ion-icon name="send-outline" slot="start"></ion-icon>
-                    Submit Rating
-                  </ion-button>
-                </div>
-              </ion-content>
-            </ng-template>
-          </ion-modal>
-        </div>
+  <ng-container *ngFor="let booking of transportBookingService.transport_bookings">
+    <div class="my-3 bg-white pb-3" [id]="'booking-' + booking.transport_booking_id" *ngIf="filteredBooking == 'all' || filteredBooking == booking.booking_status">
+      <div class="px-3 border-bottom">
+        <label class="text-secondary">{{ booking.created_at | date:'mediumDate' }}</label>
       </div>
-    </ng-container>
+      <ion-item lines="none">
+        <ion-label color="primary">
+          {{ booking.service.service_name }} 
+        </ion-label>
+        <ion-badge slot="end" [color]="setBookingStatusColor(booking.booking_status)" >{{ booking.booking_status | titlecase }}</ion-badge>
+      </ion-item>
+      <ion-item lines="none" *ngIf="booking.service.marinduque_departure_datetime">
+        <ion-label>
+          <h2>Marinduque Departure Datetime</h2>
+          <label for="">{{ booking.service.marinduque_departure_datetime | date:'mediumDate' }} {{ booking.service.marinduque_departure_datetime | date:'hh mm a' }} </label>
+        </ion-label>
+      </ion-item>
+      <ion-item lines="none" *ngIf="booking.service.marinduque_departure_datetime">
+        <ion-label>
+          <h2>Manila Departure Datetime</h2>
+          <label for="">{{ booking.service.manila_departure_datetime | date:'mediumDate' }} {{ booking.service.manila_departure_datetime | date:'hh:mm a' }} </label>
+        </ion-label>
+      </ion-item>
+      <ion-item lines="none" *ngIf="booking.pickup_time">
+        <ion-label>
+          <h2>Pickup Time</h2>
+          <label for="">{{ '01-01-01 ' + booking.pickup_time | date:'hh:mm a' }} </label>
+        </ion-label>
+      </ion-item>
+      <ion-item lines="none" *ngIf="booking.pickup_location">
+        <ion-label>
+          <h2>Pickup Location</h2>
+          <label for="">{{ booking.pickup_location }} </label>
+        </ion-label>
+      </ion-item>
+      <ion-item lines="none" *ngIf="booking.dropoff_location">
+        <ion-label>
+          <h2>Drop-off Location</h2>
+          <label for="">{{ booking.dropoff_location }} </label>
+        </ion-label>
+      </ion-item>
+      <div class="px-3">
+        <ion-item color="light" lines="none" detail="true" button id="booking-detail-modal-{{ booking.transport_booking_id }}">
+          <ion-label>Number of reservations</ion-label>
+        </ion-item>
+        <ion-modal trigger="booking-detail-modal-{{ booking.transport_booking_id }}" [initialBreakpoint]="0.75" [breakpoints]="[0, 0.25, 0.5, 1]">
+          <ng-template >
+            <ion-header>
+              <ion-toolbar>
+                <ion-title><span class="text-primary">{{ booking.service.service_name }}</span> reservation details</ion-title>
+              </ion-toolbar>
+            </ion-header>
+            <ion-content color="background">
+              <br>
+              <ion-item lines="full" *ngIf="booking.passenger_count">
+                <ion-label >
+                  <h2>Passenger slots reserved</h2>
+                  <h2>{{ booking.passenger_count }}</h2>
+                </ion-label>
+              </ion-item>
+              <ion-item lines="full" *ngIf="booking.animal_count">
+                <ion-label >
+                  <h2>Animal slots reserved</h2>
+                  <h2>{{ booking.animal_count }}</h2>
+                </ion-label>
+              </ion-item>
+              <ion-list *ngIf="booking.luggage_config">
+                <ion-list-header>
+                  <ion-label>Luggage Reservations</ion-label>
+                  <ion-button>See All</ion-button>
+                </ion-list-header>
+                <ion-item lines="full" *ngIf="booking.luggage_config.small">
+                  <ion-label >Small {{ booking.service.luggage_pricing.small | currency:'PHP' }}</ion-label>
+                  <ion-label slot="end">{{ booking.luggage_config.small }}</ion-label>
+                </ion-item>
+                <ion-item lines="full" *ngIf="booking.luggage_config.medium">
+                  <ion-label >Medium {{ booking.service.luggage_pricing.medium | currency:'PHP' }}</ion-label>
+                  <ion-label slot="end">{{ booking.luggage_config.medium }}</ion-label>
+                </ion-item>
+                <ion-item lines="full" *ngIf="booking.luggage_config.large">
+                  <ion-label >Large {{ booking.service.luggage_pricing.large | currency:'PHP' }}</ion-label>
+                  <ion-label slot="end">{{ booking.luggage_config.large }}</ion-label>
+                </ion-item>
+                <ion-item lines="full" *ngIf="booking.luggage_config.extra_large">
+                  <ion-label >Extra Large {{ booking.service.luggage_pricing.extra_large | currency:'PHP' }}</ion-label>
+                  <ion-label slot="end">{{ booking.luggage_config.extra_large }}</ion-label>
+                </ion-item>
+              </ion-list>
+            </ion-content>
+          </ng-template>
+        </ion-modal>
+      </div>
+      <div class="px-3">
+        <ion-item color="light" lines="none" detail="true" button id="service-detail-modal-{{ booking.transport_booking_id }}">
+          <ion-label>Service details</ion-label>
+        </ion-item>
+        <ion-modal trigger="service-detail-modal-{{ booking.transport_booking_id }}" [initialBreakpoint]="0.75" [breakpoints]="[0, 0.25, 0.5, 1]">
+          <ng-template >
+            <ion-header>
+              <ion-toolbar>
+                <ion-title><span class="text-primary">{{ booking.service.service_name }}</span> details</ion-title>
+              </ion-toolbar>
+            </ion-header>
+            <ion-content color="background">
+              <br>
+              <ion-item lines="full">
+                <ion-label >Driver</ion-label>
+                <ion-label slot="end" color="medium">{{ booking.service.driver}}</ion-label>
+              </ion-item>
+              <ion-item lines="full">
+                <ion-label >License Number</ion-label>
+                <ion-label slot="end" color="medium">{{ booking.service.license_number}}</ion-label>
+              </ion-item>
+              <ion-item lines="full">
+                <ion-label >Vehicle Model</ion-label>
+                <ion-label slot="end" color="medium">{{ booking.service.vehicle_model}}</ion-label>
+              </ion-item>
+              <ion-item lines="full">
+                <ion-label >Plate Number</ion-label>
+                <ion-label slot="end" color="medium">{{ booking.service.plate_number}}</ion-label>
+              </ion-item>
+              <ion-item lines="full">
+                <ion-label >Capacity</ion-label>
+                <ion-label slot="end" color="medium">{{ booking.service.capacity}} slots</ion-label>
+              </ion-item>
+              <ion-item lines="full">
+                <ion-label>Service Type</ion-label>
+                <ion-label slot="end" color="medium" >
+                  <!-- {{ booking.service.service_type == 'both' ? 'Passenger & Luggage' : (booking.service.service_type | titlecase)}} -->
+                  <span class="opacity-75" *ngFor="let service_type of booking.service.service_type; let i = index">
+                    {{ i == (booking.service.service_type.length - 1) ? (service_type | titlecase ) : (service_type + ', ' | titlecase ) }}
+                  </span>
+                </ion-label>
+              </ion-item>
+              <ion-item lines="full">
+                <ion-label slot="start">Capacity</ion-label>
+                <ion-label slot="end" color="medium">{{ booking.service.capacity}} slots</ion-label>
+              </ion-item>
+            </ion-content>
+          </ng-template>
+        </ion-modal>
+      </div>
+
+      <!-- reservation updates -->
+      <div class="px-3"> 
+        <ion-item color="light" lines="none" detail="true" button id="booking-updates-modal-{{ booking.transport_booking_id }}">
+          <ion-label>Booking Updates</ion-label>
+        </ion-item>
+        <ion-modal trigger="booking-updates-modal-{{ booking.transport_booking_id }}" [initialBreakpoint]="0.75" [breakpoints]="[0, 0.25, 0.5, 1]">
+          <ng-template >
+            <ion-header>
+              <ion-toolbar>
+                <ion-title>
+                  <ion-label>
+                    <h2>Reservation updates</h2>
+                  </ion-label>
+                </ion-title>
+              </ion-toolbar>
+            </ion-header>
+            <ion-content color="background">
+              <br>
+              <div class="px-3 my-3" *ngIf="!booking.booking_updates[0]">
+                <p class="text-center">No Updates</p>
+              </div>
+              <div class="row px-3 py-2 my-2 bg-white" *ngFor="let update of booking.booking_updates">
+                <div class="col-auto">
+                  <p class="mb-0 ion-text-primary">{{ update.created_at | date:'mediumDate' }}</p>
+                  <p class="mb-0 ion-text-primary">{{ update.created_at | date:'h:mm a' }}</p>
+                  <i class="fa-solid fa-share ion-text-medium"></i>
+                </div>
+                <div class="col">
+                  <ion-badge [color]="setBookingStatusColor(update.booking_status)">{{ update.booking_status | titlecase }}</ion-badge>
+                  <p>{{ update.message }}</p>
+                  <div *ngIf="update.msg_frm_admin">
+                    <p class="mb-0 ion-text-medium fs-6">Message from Service owner</p>
+                    <p >{{ update.msg_frm_admin }}</p>
+                  </div>
+                  <div *ngIf="update.msg_frm_customer">
+                    <p class="mb-0 ion-text-medium fs-6">Reasons for cancelling</p>
+                    <p >{{ update.msg_frm_customer}}</p>
+                  </div>
+                </div>
+              </div>
+            </ion-content>
+          </ng-template>
+        </ion-modal>
+      </div>
+
+      <!-- actions -->
+      <div class="px-3 mt-2" >  
+        <ion-button color="tertiary" *ngIf="booking.booking_status == 'to pay'" (click)="checkout(booking)">
+          <ion-icon name="receipt-outline" slot="start"></ion-icon>
+          <ion-label>Checkout</ion-label>
+        </ion-button>
+
+        <ion-button color="medium" id="cancel-booking-modal-{{ booking.transport_booking_id }}" fill="outline" *ngIf="booking.booking_status == 'pending'">
+          Cancel Booking
+        </ion-button>
+        <ion-modal trigger="cancel-booking-modal-{{ booking.transport_booking_id }}" [initialBreakpoint]="0.5" [breakpoints]="[0, 0.5, 1]">
+          <ng-template >
+            <ion-header class="ion-no-border">
+              <ion-toolbar>
+                <ion-title>Cancel Booking</ion-title>
+              </ion-toolbar>
+            </ion-header>
+            <ion-content>
+              <div class="px-3">
+                <div class="bg-info p-2">
+                  <p class="mb-0"><i class="fa-solid fa-lightbulb text-warning"></i> <span class="fw-bold">Tips:</span>  You can call the administrator who set the booking to make sure that he/she is formally informed.</p>
+                </div>
+                <ion-item class="mb-2">
+                  <ion-label position="floating">Any reasons for cancelling this booking?</ion-label>
+                  <ion-input type="text" [(ngModel)]="msg_from_customer"></ion-input>
+                </ion-item>
+                <ion-button (click)="cancelBooking(booking.transport_booking_id)" expand="block">
+                  Cancel Booking
+                </ion-button>
+              </div>
+            </ion-content>
+          </ng-template>
+        </ion-modal>
+
+        <ion-button color="secondary" (click)="ratings.init(booking)" id="rate-booking-modal-{{ booking.transport_booking_id }}" fill="outline" *ngIf="booking.booking_status == 'finished'">
+          {{ hasReviewed(booking) ? 'Change Rating' : 'Rate this Booking' }} 
+        </ion-button>
+        <ion-modal trigger="rate-booking-modal-{{ booking.transport_booking_id }}" [initialBreakpoint]="0.5" [breakpoints]="[0, 0.5, 1]">
+          <ng-template >
+            <ion-header class="ion-no-border">
+              <ion-toolbar>
+                <ion-title>Rate Booking</ion-title>
+              </ion-toolbar>
+            </ion-header>
+            <ion-content>
+              <div class="px-3">
+                <div class="px-3 mb-2">
+                  <ion-item lines="none">
+                    <ion-label>Rate</ion-label>
+                    <ion-button (click)="ratings.setRating(0)"  fill="clear" slot="end">
+                      Clear
+                    </ion-button>
+                  </ion-item>
+                  <div >
+                    <button class="btn btn-clear fs-2 border-0" *ngFor="let i of [1,2,3,4,5]" (click)="ratings.setRating(i)">
+                      <i class="fa-solid fa-star text-warning" *ngIf="ratings.rate >= i" ></i>
+                      <i class="fa-regular fa-star text-warning" *ngIf="ratings.rate < i" ></i>
+                    </button>
+                    <h2 class="px-3 my-0">{{ ratings.rate }} / 5</h2>
+                  </div>
+                  <ion-note *ngIf="ratings.errors.rate">{{ ratings.errors.rate }}</ion-note>
+                </div>
+
+                <ion-item class="mb-2">
+                  <ion-label position="floating">Write a review</ion-label>
+                  <ion-textarea [(ngModel)]="ratings.content"></ion-textarea>
+                </ion-item>
+                <ion-note *ngIf="ratings.errors.content">{{ ratings.errors.content }}</ion-note>
+
+                <ion-button (click)="ratings.submit(booking.service_id)" expand="block">
+                  <ion-icon name="send-outline" slot="start"></ion-icon>
+                  Submit Rating
+                </ion-button>
+              </div>
+            </ion-content>
+          </ng-template>
+        </ion-modal>
+      </div>
+    </div>
+  </ng-container>
 </ion-content>

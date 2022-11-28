@@ -34,6 +34,10 @@ class TransportBooking extends Model
         return $this->hasMany(BookingUpdate::class, 'transport_booking_id', 'transport_booking_id');
     }
 
+    public function payment(){
+        return $this->hasOne(Payment::class, 'transport_booking_id', 'transport_booking_id');
+    }
+
     /* 
         Others
     */

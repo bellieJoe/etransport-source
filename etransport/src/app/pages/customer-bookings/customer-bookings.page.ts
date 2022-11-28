@@ -1,5 +1,6 @@
 import { Component, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { async } from '@angular/core/testing';
+import { Router } from '@angular/router';
 import { AlertController, IonModal, LoadingController } from '@ionic/angular';
 import { AuthService } from 'src/app/services/auth.service';
 import { NotificationService } from 'src/app/services/notification.service';
@@ -21,7 +22,8 @@ export class CustomerBookingsPage implements OnInit {
     private alertController : AlertController,
     private loadingController : LoadingController,
     private reviewService : ReviewService,
-    private notificationService : NotificationService
+    private notificationService : NotificationService,
+    private router : Router
   ) { }
 
   @ViewChildren(IonModal) ionModals: QueryList<IonModal>;
@@ -83,6 +85,14 @@ export class CustomerBookingsPage implements OnInit {
         }
       })
     }
+  }
+
+  async ngOnInit() {
+    this.isLoading = true;
+    await this.fetchBookings();
+    this.isLoading = false;
+    this.transport = this.transportBookingService.transport_bookings;
+    console.log(this.transportBookingService.transport_bookings)
   }
 
   setBookingStatusColor(status : string){
@@ -195,12 +205,13 @@ export class CustomerBookingsPage implements OnInit {
     return false;
   }
 
-  async ngOnInit() {
-    this.isLoading = true;
-    await this.fetchBookings();
-    this.isLoading = false;
-    this.transport = this.transportBookingService.transport_bookings;
-    console.log(this.transportBookingService.transport_bookings)
+  async checkout(transport_booking){
+    this.router.navigate(['/customer-bookings/checkout'], {
+      state : {
+        transport_booking
+      }
+    })
   }
+
 
 }

@@ -151,7 +151,7 @@ class ServiceController extends Controller
         $user_can_book_ids = TransportBooking::where([
             'user_customer_id' => $user_customer_id 
         ])
-        ->whereIn('booking_status', ['pending', 'accepted'])
+        ->whereIn('booking_status', ['pending', 'accepted', 'to pay'])
         ->pluck('service_id');
 
         $services =  Service::where([

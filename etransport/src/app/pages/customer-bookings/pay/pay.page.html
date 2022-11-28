@@ -1,0 +1,12 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Payment</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <iframe [src]="transport_booking.payment.payment_data.data.attributes.checkout_url" frameborder="0" height="100%" width="100%"></iframe>
+</ion-content>

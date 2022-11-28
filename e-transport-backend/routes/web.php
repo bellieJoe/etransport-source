@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AnnouncementController;
+use App\Http\Controllers\PaymentController;
 use App\Models\User;
 use App\Models\Administrator;
 use App\Models\Service;
@@ -72,6 +73,13 @@ Route::group(['prefix' => 'announcements','as' => 'announcements.'], function(){
 
 Route::group(['prefix' => 'terms_and_conditions', 'as' => 'terms_and_conditions.'], function(){
     Route::view('', 'pages.terms_and_conditions.terms_and_conditions');
+});
+
+/* 
+payments
+*/
+Route::prefix('payments')->group(function(){
+    Route::post('ok', [PaymentController::class, 'ok'])->withoutMiddleware(\App\Http\Middleware\VerifyCsrfToken::class);
 });
 
 
