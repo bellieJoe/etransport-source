@@ -64,4 +64,21 @@ class PaymentController extends Controller
 
         
     }
+
+    public function getPaymentsByServiceId( $service_id, Request $request ){
+        $data = [
+            'service_id' => $service_id
+        ];
+        if($request->status != 'all'){
+            $data['status'] = $request->status;
+        }
+
+        return Payment::where($data)
+        ->orderBy('updated_at', 'desc')
+        ->with([
+            'transportBooking',
+            'user'
+        ])
+        ->paginate(10);
+    }
 }

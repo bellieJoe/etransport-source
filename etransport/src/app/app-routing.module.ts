@@ -134,6 +134,10 @@ const routes: Routes = [
   },  {
     path: 'notifications',
     loadChildren: () => import('./pages/notifications/notifications.module').then( m => m.NotificationsPageModule)
+  },
+  {
+    path: 'payment-monitoring',
+    loadChildren: () => import('./pages/payment-monitoring/payment-monitoring.module').then( m => m.PaymentMonitoringPageModule)
   }
 
 

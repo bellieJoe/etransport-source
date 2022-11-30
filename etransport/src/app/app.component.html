@@ -44,6 +44,12 @@
             </ion-item>
           </ion-menu-toggle>
           <ion-menu-toggle  auto-hide="false" *ngIf="user.role_id === 2">
+            <ion-item routerDirection="root" routerLink="/payment-monitoring" lines="none" detail="false" routerLinkActive="selected">
+              <ion-icon slot="start" name="receipt-outline"></ion-icon>
+              <ion-label>Payments</ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+          <ion-menu-toggle  auto-hide="false" *ngIf="user.role_id === 2">
             <ion-item routerDirection="root" routerLink="/service-bookings" lines="none" detail="false" routerLinkActive="selected">
               <ion-icon slot="start" icon="book-outline"></ion-icon>
               <ion-label>Service Bookings</ion-label>

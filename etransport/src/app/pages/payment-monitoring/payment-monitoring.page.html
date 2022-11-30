@@ -1,0 +1,42 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Payment Monitoring</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content color="background">
+  <ion-progress-bar type="indeterminate" color="primary" *ngIf="loading"></ion-progress-bar>
+
+  <ion-card color="light">
+    <ion-item lines="none">
+      <ion-label>Filter</ion-label>
+      <ion-select value="all" interface="action-sheet" cancelText="Cancel Selection" [(ngModel)]="filteredPayment" (ionChange)="getPayments()">
+        <ion-select-option value="all">All</ion-select-option>
+        <ion-select-option value="paid">Paid</ion-select-option>
+        <ion-select-option value="partially paid">Partially Paid</ion-select-option>
+        <ion-select-option value="unpaid">Unpaid</ion-select-option>
+      </ion-select>
+    </ion-item>
+  </ion-card>
+
+  <ion-list>
+    <ion-list-header>
+      <ion-label>Payments</ion-label>
+    </ion-list-header>
+      <ng-container *ngFor="let payment of payments.data">
+        <ion-item lines="full" button>
+          <div class="py-3">
+            <p class="mb-0 text-secondary small">Ref No. {{ payment.payment_id }}</p>
+            <p class="mb-0">{{ payment.user.name }}</p>
+            <p class="mb-0">Amount Paid: {{ (payment.payment_data.data.attributes.amount / 100) | currency:'PHP' }}</p>
+            <p class="mb-0 text-secondary">{{ payment.updated_at | date:medium }}</p>
+          </div>
+          <ion-label [color]="payment.status == 'unpaid' ? 'danger' : 'success'" slot="end">{{ payment.status | titlecase }}</ion-label>
+        </ion-item>
+      </ng-container>
+      <p class="text-center text-secondary" *ngIf="payments.total < 1">No Records Found</p>
+  </ion-list>
+</ion-content>

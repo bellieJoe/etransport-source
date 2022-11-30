@@ -155,6 +155,11 @@ class TransportBookingController extends Controller
             if($request->booking_status == 'to pay'){
                 $transport_booking->first()->generatePayment();
             }
+            if($request->booking_status == 'finished'){
+                Payment::where('transport_booking_id', $transport_booking->first()->transport_booking_id)->update([
+                    'status' => 'paid'
+                ]);
+            }
 
             $transport_booking->with([
                 'luggageConfig',

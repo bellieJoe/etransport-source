@@ -265,7 +265,7 @@ export class ServiceBookingsPage implements OnInit {
 
     const alert = await this.alertController.create({
       header: "Confirm action",
-      message: "This booking will now be mark as finished. Do you want to continue?",
+      message: "This booking will now be mark as finished. Please make sure that you have already received the remaining payment for this booking.",
       buttons: [
         {
           text: 'Cancel',

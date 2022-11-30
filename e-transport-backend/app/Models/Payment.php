@@ -17,7 +17,13 @@ class Payment extends Model
         'payment_data' => 'array'
     ];
 
-    protected function transport_booking(){
+    /* 
+    Relationships
+    */
+    public function transportBooking(){
         return $this->belongsTo(TransportBooking::class,  'transport_booking_id', 'transport_booking_id');
+    }
+    public function user(){
+        return $this->belongsTo(User::class,  'user_id', 'user_id');
     }
 }
