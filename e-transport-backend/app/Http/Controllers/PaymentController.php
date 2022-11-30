@@ -81,4 +81,21 @@ class PaymentController extends Controller
         ])
         ->paginate(10);
     }
+
+    public function getPaymentsByUserId($user_id, Request $request ){
+        $data = [
+            'user_id' => $user_id
+        ];
+        if($request->status != 'all'){
+            $data['status'] = $request->status;
+        }
+
+        return Payment::where($data)
+        ->orderBy('updated_at', 'desc')
+        ->with([
+            'transportBooking',
+            'user'
+        ])
+        ->paginate(20);
+    }
 }

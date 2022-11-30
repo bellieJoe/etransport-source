@@ -71,4 +71,26 @@ export class PaymentService {
     
   }
 
+  async getPaymentsByUserId(
+    user_id, 
+    data : {
+      status : string
+      page : number
+    }){
+    try {
+      const res = await axios.get(`${environment.apiUrl}/api/payments/get-payments-by-user-id/${user_id}`, {params: data});
+      res.data.data.map((payment, i)=>{
+        res.data.data[i].payment_data = JSON.parse(res.data.data[i].payment_data);
+        res.data.data[i].breakdown = JSON.parse(res.data.data[i].breakdown);
+      })
+      
+      return res.data;
+    } catch (error) {
+      console.log('error');
+      console.log(error);
+      this.errorHandlerService.handleError(error);
+    }
+    
+  }
+
 }
