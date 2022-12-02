@@ -80,10 +80,11 @@ Route::group(['prefix' => 'terms_and_conditions', 'as' => 'terms_and_conditions.
 });
 
 /* 
-payments
+Payments
 */
 Route::group(['prefix' => 'payments', 'as' => 'payments.'], function(){
     Route::post('ok', [PaymentController::class, 'ok'])->withoutMiddleware(\App\Http\Middleware\VerifyCsrfToken::class);
+    Route::get('', [PaymentController::class, 'index'])->name('index')->middleware('auth');
 });
 
 /* 

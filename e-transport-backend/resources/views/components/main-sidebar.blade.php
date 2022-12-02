@@ -48,7 +48,7 @@
                     </a>
                 </li>
                 <li class="nav-item ">
-                    <a href="#" class="nav-link {{ $path[0] == 'payments' ? 'active' : '' }}">
+                    <a href="{{ route('payments.index') }}" class="nav-link {{ $path[0] == 'payments' ? 'active' : '' }}">
                         <i class="nav-icon far fa-credit-card"></i>
                         <p>Payments</p>
                     </a>

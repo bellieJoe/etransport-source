@@ -98,4 +98,10 @@ class PaymentController extends Controller
         ])
         ->paginate(20);
     }
+
+    public function index(){
+        return view('pages.payments.index')->with([
+            'payments' => Payment::query()->paginate(15)
+        ]);
+    }
 }
