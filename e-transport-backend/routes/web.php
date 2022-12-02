@@ -10,7 +10,7 @@ use App\Models\TransportBooking;
 use App\Models\Payment;
 
 use App\Http\Controllers\MainAdministratorController;
-
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 use Faker\Factory;
@@ -72,6 +72,9 @@ Route::group(['prefix' => 'announcements','as' => 'announcements.'], function(){
     Route::delete('{announcement}', [AnnouncementController::class, 'delete'])->name('delete')->middleware('auth');
 });
 
+/* 
+administrators
+*/
 Route::group(['prefix' => 'terms_and_conditions', 'as' => 'terms_and_conditions.'], function(){
     Route::view('', 'pages.terms_and_conditions.terms_and_conditions');
 });
@@ -79,8 +82,20 @@ Route::group(['prefix' => 'terms_and_conditions', 'as' => 'terms_and_conditions.
 /* 
 payments
 */
-Route::prefix('payments')->group(function(){
+Route::group(['prefix' => 'payments', 'as' => 'payments.'], function(){
     Route::post('ok', [PaymentController::class, 'ok'])->withoutMiddleware(\App\Http\Middleware\VerifyCsrfToken::class);
+});
+
+/* 
+Users
+*/
+Route::group(['prefix' => 'users', 'as' => 'users.'], function(){
+    Route::group(['prefix' => 'administrators', 'as' => 'administrators.'], function(){
+        Route::get('', [UserController::class, 'indexAdministrators'])->name('index')->middleware('auth');
+    });
+    Route::group(['prefix' => 'passengers', 'as' => 'passengers.'], function(){
+        Route::get('', [UserController::class, 'indexPassengers'])->name('index')->middleware('auth');
+    });
 });
 
 

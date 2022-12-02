@@ -51,7 +51,6 @@
                         @endforelse                     
                     </tbody>
                 </table>
-                
             </div>
             <div>
                 {{ $announcements }}

@@ -172,4 +172,34 @@ class UserController extends Controller
     public function getUserByUserId($user_id){
         return User::find($user_id);
     }
+
+    public function indexAdministrators(Request $request){
+        if($request->search){
+            return view('pages.users.index')->with([
+                'users' => User::where('role_id', 2)
+                ->where('name', 'like', '%'.$request->search.'%')
+                ->paginate(15),
+                'title' => 'Administrators'
+            ]);
+        }
+        return view('pages.users.index')->with([
+            'users' => User::where('role_id', 2)->paginate(15),
+            'title' => 'Administrators'
+        ]);
+    }
+
+    public function indexPassengers(Request $request){
+        if($request->search){
+            return view('pages.users.index')->with([
+                'users' => User::where('role_id', 3)
+                ->where('name', 'like', '%'.$request->search.'%')
+                ->paginate(15),
+                'title' => 'Passengers'
+            ]);
+        }
+        return view('pages.users.index')->with([
+            'users' => User::where('role_id', 3)->paginate(15),
+            'title' => 'Passengers'
+        ]);
+    }
 }
