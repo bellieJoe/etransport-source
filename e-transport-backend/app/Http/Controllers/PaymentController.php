@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Payment;
+use App\Models\User;
 use App\Models\TransportBooking;
 use App\Models\BookingUpdate;
 use Illuminate\Http\Request;
@@ -99,9 +100,18 @@ class PaymentController extends Controller
         ->paginate(20);
     }
 
-    public function index(){
+    public function index(Request $request){
+        $payment_query = Payment::query();
+        $filter = [];
+        if($request->name){
+            $userIds = User::where('name', 'like', '%'.$request->name.'%')->pluck('user_id');
+            $payment_query->whereIn('user_id', $userIds);
+        }
+        if($request->status){
+            $payment_query->where('status', $request->status);
+        }
         return view('pages.payments.index')->with([
-            'payments' => Payment::query()->paginate(15)
+            'payments' => $payment_query->paginate(15)
         ]);
     }
 }
