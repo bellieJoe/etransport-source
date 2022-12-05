@@ -56,8 +56,8 @@ class TransportBooking extends Model
             ]
         ];
         $transport_booking = TransportBooking::where('transport_booking_id', $this->transport_booking_id)->with('luggageConfig')->first();
-        $luggage_config =  $transport_booking->luggage_config;
-        $luggage_pricing = LuggagePricing::where('service_id', $this->service_id);
+        $luggage_config =  $transport_booking->luggageConfig;
+        $luggage_pricing = LuggagePricing::where('service_id', $this->service_id)->first();
         if($this->passenger_count > 0){
             $computation['breakdown']['passenger'] = (1500 * $this->passenger_count);
             $computation['total'] += (1500 * $this->passenger_count);
@@ -66,7 +66,7 @@ class TransportBooking extends Model
             $computation['breakdown']['animal'] = (400 * $this->animal_count);
             $computation['total'] += (400 * $this->animal_count);
         }
-        if(!empty($luggage_config)){
+        if($luggage_config){
             if($luggage_config->small){
                 $computation['breakdown']['luggage']['small'] = ($luggage_pricing->small * $luggage_config->small);
                 $computation['total'] += ($luggage_pricing->small * $luggage_config->small);

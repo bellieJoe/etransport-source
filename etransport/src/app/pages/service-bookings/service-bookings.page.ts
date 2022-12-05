@@ -82,7 +82,7 @@ export class ServiceBookingsPage implements OnInit {
   }
 
   async acceptBooking(transport_booking_id: any){
-    this.msg_from_admin = null;
+    
     const confirmHandler = async () => {
       const loader = await this.loadingController.create({
         backdropDismiss: false,
@@ -97,8 +97,7 @@ export class ServiceBookingsPage implements OnInit {
         msg_frm_customer: null,
         msg_frm_admin: this.msg_from_admin,
       };
-      const res = await this.transportBookingService.updateStatus(data)
-      console.log(res);
+      const res = await this.transportBookingService.updateStatus(data);
       
       if(res.status != 200){
         const alert = await this.alertController.create({
@@ -125,6 +124,7 @@ export class ServiceBookingsPage implements OnInit {
         notification_title : 'Booking Update',
         user_id : res.data.user_customer_id
       });
+      this.msg_from_admin = null;
       await loader.dismiss();
       this.msg_from_admin = null;
     }

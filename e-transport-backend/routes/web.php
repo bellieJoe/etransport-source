@@ -29,19 +29,7 @@ use Illuminate\Http\Request;
 |
 */
 Route::get('testing', function(){
-    $payment = Payment::find(2);
-    $payment->payment_data = json_decode($payment->payment_data);
-
-    $client = new \GuzzleHttp\Client();
-
-    $response = $client->request('GET', 'https://api.paymongo.com/v1/links/'.$payment->payment_data->data->id, [
-    'headers' => [
-        'accept' => 'application/json',
-        'authorization' => 'Basic c2tfdGVzdF9xTTdQTnJVN3REM0VxUXNrUldBc2FUeW06',
-    ],
-    ]);
-
-    return json_decode($response->getBody());
+    return TransportBooking::where('transport_booking_id', 6)->with('luggageConfig')->first()->luggageConfig->extra_large;
 });
 
 Route::get('/', function () {
