@@ -4,6 +4,7 @@ import { AlertController, IonModal, IonSelectOption, LoadingController, ModalCon
 import { AuthService } from 'src/app/services/auth.service';
 import { NotificationService } from 'src/app/services/notification.service';
 import { ServiceService } from 'src/app/services/service.service';
+import { environment } from 'src/environments/environment';
 import { TransportBookingService } from '../../../services/transport-booking.service';
 
 @Component({
@@ -32,6 +33,8 @@ export class BookServicePage implements OnInit {
     subHeader: 'These are all the available routes provided by the service owner.',
     cssClass: 'route-select',
   };
+
+  apiUrl : string = environment.apiUrl;
 
   book_service_form : any = {
     user_customer_id : this.authService.getAuth().user_id,

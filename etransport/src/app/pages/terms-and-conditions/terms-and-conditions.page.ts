@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EnvironmentInjector, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { AuthService } from 'src/app/services/auth.service';
@@ -19,6 +19,7 @@ export class TermsAndConditionsPage implements OnInit {
     private router : Router
   ) { }
 
+  apiUrl : string = environment.apiUrl;
   loading : boolean = false;
   tacLink : any  = `${environment.apiUrl}/terms_and_conditions`;
 
