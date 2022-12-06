@@ -282,7 +282,6 @@ export class ServiceBookingsPage implements OnInit {
   }
 
   async cancelBooking(transport_booking_id: any){
-    this.msg_from_admin = null;
     const confirmHandler = async () => {
       const loader = await this.loadingController.create({
         backdropDismiss: false,

@@ -137,7 +137,15 @@
     <ion-input type="number" [(ngModel)]="book_service_form.animal_count"></ion-input>
   </ion-item>
   <ion-note color="danger" *ngIf="book_service_form.errors.animal_count">{{ book_service_form.errors.animal_count }}</ion-note>
-
+  <div class="p-3" *ngIf="serviceService.isServiceTypeHas('animal',book_service_form.service_type)">
+    <p class="mb-0 h6 fw-bold">Reminders</p>
+    <p class="mb-0">For Reservations including animals, the following requirements must be met.</p>
+    <ul>
+      <li>Vaccine Certificate(Anti-rabies)</li>
+      <li>Ownership Certificate</li>
+      <li>Travel Clearance from Veterenary Office</li>
+    </ul>
+  </div>
 
   <ion-item >
     <ion-label position="stacked">Pick-up Time</ion-label>
@@ -157,6 +165,7 @@
   </ion-item> 
   <ion-note color="danger" *ngIf="book_service_form.errors.dropoff_location">{{ book_service_form.errors.dropoff_location }}</ion-note>
 
+  
 
   <p class="p-3">By submitting this reservation means you agree to the <span id="terms_and_conditions_modal" class="text-primary">Terms and Conditions</span> regarding the reservation</p>
   <ion-modal trigger="terms_and_conditions_modal" >
