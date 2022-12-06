@@ -213,5 +213,12 @@ export class CustomerBookingsPage implements OnInit {
     })
   }
 
-
+  async viewMessages(serviceBooking){
+    this.router.navigate(['/messages'], {
+      state : {
+        serviceBooking,
+        receiver : serviceBooking.service.administrator.user_id
+      }
+    })
+  }
 }

@@ -219,6 +219,10 @@
 
       <!-- actions -->
       <div class="px-3 mt-2" >  
+        <ion-button color="tertiary" (click)="viewMessages(booking)">
+          <ion-icon slot="icon-only" name="chatbubbles-outline"></ion-icon>
+        </ion-button>
+        
         <ion-button color="tertiary" *ngIf="booking.booking_status == 'to pay'" (click)="checkout(booking)">
           <ion-icon name="receipt-outline" slot="start"></ion-icon>
           <ion-label>Checkout</ion-label>

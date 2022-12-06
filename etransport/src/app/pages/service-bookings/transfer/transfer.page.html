@@ -1,0 +1,36 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Transfer</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-list-header>
+      <ion-label>Passenger Detail</ion-label>
+    </ion-list-header>
+    <ion-item lines="none" details="none">
+      <ion-label>Name</ion-label>
+      <ion-label slot="end" color="medium">{{ booking.user_customer.name }}</ion-label>
+    </ion-item>
+    <ion-item lines="none" details="none">
+      <ion-label>Contact Number</ion-label>
+      <ion-label slot="end" color="medium">+63{{ booking.user_customer.contact_number }}</ion-label>
+    </ion-item>
+  </ion-list>
+  
+  <div class="p-3 bg-warning mb-3">
+    <p class="mb-0 fw-bold">Quick Reminders</p>
+    <p class="mb-0">
+      Transferring a booking must be done properly. 
+      Please ensure that all parties have agreed for a transfer to prevent further confusions.
+    </p>
+  </div>
+  <ion-item detail="true" lines="full" button>
+    <ion-label>Select a Service to transfer</ion-label>
+  </ion-item>
+
+</ion-content>

@@ -3,8 +3,8 @@
     "version": "2.2.11",
     "width": 2000,
     "height": 2000,
-    "scrollTop": -12.8,
-    "scrollLeft": -5.6000000000000005,
+    "scrollTop": -12,
+    "scrollLeft": -7.200000000000001,
     "zoomLevel": 1,
     "show": {
       "tableComment": true,
@@ -19,7 +19,7 @@
     },
     "database": "MySQL",
     "databaseName": "etransport",
-    "canvasType": "@vuerd/builtin-generator-code",
+    "canvasType": "ERD",
     "language": "GraphQL",
     "tableCase": "pascalCase",
     "columnCase": "camelCase",
@@ -373,12 +373,97 @@
           "active": false,
           "left": 111.2,
           "top": 87.2,
-          "zIndex": 101,
+          "zIndex": 1,
           "widthName": 60,
           "widthComment": 60
         },
         "visible": true,
         "id": "0beef97c-ec31-4278-a547-09448ea163a9"
+      },
+      {
+        "name": "transferred_bookings",
+        "comment": "",
+        "columns": [
+          {
+            "name": "transfered_booking_id",
+            "comment": "",
+            "dataType": "",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": false
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 130.64794921875,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "dd51238e-4dff-4bcf-ae9b-509570cb5b99"
+          },
+          {
+            "name": "service_id",
+            "comment": "",
+            "dataType": "",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": false
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 60.525390625,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "9cbb293d-e996-473f-9e6b-b01afc718433"
+          },
+          {
+            "name": "status",
+            "comment": "",
+            "dataType": "",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": false
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "52e984ab-d740-4169-b5b9-1d77891f897e"
+          }
+        ],
+        "ui": {
+          "active": true,
+          "left": 648.8,
+          "top": 102.4,
+          "zIndex": 18,
+          "widthName": 124.12890625,
+          "widthComment": 60
+        },
+        "visible": true,
+        "id": "24b6914e-c297-4310-a184-c75fb2f8a2bd"
       }
     ],
     "indexes": []

@@ -7,6 +7,10 @@ const routes: Routes = [
   {
     path: '',
     component: ServiceBookingsPage
+  },
+  {
+    path: 'transfer',
+    loadChildren: () => import('./transfer/transfer.module').then( m => m.TransferPageModule)
   }
 ];
 

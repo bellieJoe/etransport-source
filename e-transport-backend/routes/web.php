@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 use Faker\Factory;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Carbon;
 use Illuminate\Http\Request;
 
 /*
@@ -29,7 +30,7 @@ use Illuminate\Http\Request;
 |
 */
 Route::get('testing', function(){
-    return TransportBooking::where('transport_booking_id', 6)->with('luggageConfig')->first()->luggageConfig->extra_large;
+    return time();
 });
 
 Route::get('/', function () {

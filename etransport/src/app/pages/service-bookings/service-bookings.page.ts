@@ -354,4 +354,12 @@ export class ServiceBookingsPage implements OnInit {
       }
     })
   }
+
+  async transfer(booking){
+    this.router.navigate(['/service-bookings/transfer'], {
+      state : {
+        booking
+      }
+    })
+  }
 }
