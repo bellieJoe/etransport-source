@@ -49,4 +49,14 @@ export class ServicePage  {
     this.loading = false;
   }
 
+  async copy(text, message){
+    await navigator.clipboard.writeText(text);
+    const toast = await this.toastController.create({
+      message: message,
+      icon: 'copy-outline',
+      duration: 1000
+    });
+    await toast.present();
+  }
+
 }

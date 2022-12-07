@@ -15,6 +15,7 @@ class CreateServicesTable extends Migration
     {
         Schema::create('services', function (Blueprint $table) {
             $table->id('service_id');
+            $table->string('sid', 5000)->unique();
             $table->foreignId('administrator_id');
             $table->enum('service_status', ['open', 'close']);
             $table->string('driver', 1000);

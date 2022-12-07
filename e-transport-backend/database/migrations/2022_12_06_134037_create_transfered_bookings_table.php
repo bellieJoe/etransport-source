@@ -15,8 +15,10 @@ class CreateTransferedBookingsTable extends Migration
     {
         Schema::create('transfered_bookings', function (Blueprint $table) {
             $table->id('transfered_booking_id');
+            $table->foreignId('transport_booking_id');
             $table->foreignId('service_id');
-            $table->enum('status', ['accepted', 'declined']);
+            $table->foreignId('from_service_id');
+            $table->enum('status', ['accepted', 'declined', 'pending']);
             $table->timestamps();
         });
     }

@@ -1,0 +1,19 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Booking Transfers</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+<ion-segment value="request" (ionChange)="filter()">
+  <ion-segment-button value="request">
+    <ion-label>Request</ion-label>
+  </ion-segment-button>
+  <ion-segment-button value="my transfers">
+    <ion-label>My Transfers</ion-label>
+  </ion-segment-button>
+</ion-segment>
+</ion-content>

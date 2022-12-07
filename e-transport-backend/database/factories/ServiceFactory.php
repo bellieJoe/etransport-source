@@ -21,6 +21,7 @@ class ServiceFactory extends Factory
         return [
             // 'administrator_id' => $this->faker->randomElement($administrator_ids),
             'service_status' => 'open',
+            'sid' => 'sid_'.Str::random(30).'_'.time(),
             'marinduque_departure_datetime' => '2022-10-18 00:00:00',
             'manila_departure_datetime' => $this->faker->randomElement([null, '2022-10-18 00:00:00']),
             'driver' => $this->faker->name('male'),

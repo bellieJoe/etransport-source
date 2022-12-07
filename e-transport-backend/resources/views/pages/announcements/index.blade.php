@@ -46,7 +46,7 @@
                         </tr>
                         @empty
                             <tr>
-                                <td colspan="4" class="rounded-b-md">No Announcements</td>
+                                <td colspan="4" class="rounded-b-md text-center">No Announcements</td>
                             </tr >
                         @endforelse                     
                     </tbody>

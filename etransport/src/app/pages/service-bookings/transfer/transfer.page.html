@@ -7,7 +7,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content color="background">
   <ion-list>
     <ion-list-header>
       <ion-label>Passenger Detail</ion-label>
@@ -29,8 +29,28 @@
       Please ensure that all parties have agreed for a transfer to prevent further confusions.
     </p>
   </div>
-  <ion-item detail="true" lines="full" button>
-    <ion-label>Select a Service to transfer</ion-label>
+
+  <ion-item detail="false" >
+    <ion-label position="stacked">Service Key</ion-label>
+    <ion-input [(ngModel)]="serviceKey" type="text" placeholder="Paste the Service Key here." (change)="setService()"></ion-input>
   </ion-item>
 
+  <ion-list *ngIf="transferToService">
+    <ion-list-header>
+      <ion-label>Transfer Booking To</ion-label>
+    </ion-list-header>
+    <ion-item lines="full">
+      <ion-label>Service Name</ion-label>
+      <ion-label slot="end" color="medium">{{transferToService.service_name}}</ion-label>
+    </ion-item>
+  </ion-list>
+
 </ion-content>
+
+<ion-footer>
+  <ion-toolbar class="px-3">
+    <ion-button slot="end" [disabled]="transferToService ? 'false' : 'true'" (click)="transfer()">
+      Transfer
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>

@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
-import { AlertController } from '@ionic/angular';
+import { AlertController, LoadingController, ToastController } from '@ionic/angular';
 import axios from "axios";
 import { setErrorHandler } from 'ionicons/dist/types/stencil-public-runtime';
 import { environment } from 'src/environments/environment';
+import { ErrorHandlerService } from '../helpers/error-handler.service';
 import { AuthService } from './auth.service';
+import { NotificationService } from './notification.service';
 
 axios.defaults.withCredentials = true;
 axios.defaults.headers.common['Accept'] = 'application/json';
@@ -18,7 +20,11 @@ export class ServiceService {
 
   constructor(
     private authService : AuthService,
-    private alertController : AlertController
+    private alertController : AlertController,
+    private errorHandler : ErrorHandlerService,
+    private loadingController : LoadingController,
+    private toastController : ToastController,
+    private notificationService : NotificationService
   ) { }
 
   // states
@@ -83,6 +89,47 @@ export class ServiceService {
     .then(res => res)
     .catch(err => err.response);
     return res;
+  }
+
+  async getServiceByServiceKey(service_key){
+    try {
+      const res = await axios.get(`${environment.apiUrl}/api/services/get-service-by-service-key/${service_key}`);
+      if(!res.data || res.data.service_id == this.service.service_id){
+        throw new Error("Invalid Service Key");
+      }
+      return res.data;
+    } catch (error) {
+      this.errorHandler.handleError(error);
+    }
+  }
+
+  async transfer(data : {service_id:any, from_service_id:any, transport_booking_id:any, user_administrator_id:any}){
+    const loader = await this.loadingController.create({
+      message : 'Transferring Booking',
+      spinner : 'circular',
+      backdropDismiss : false
+    });
+    try {
+      await loader.present();
+      const res = await axios.post(`${environment.apiUrl}/api/services/transfer`, data);
+      await loader.dismiss();
+      this.notificationService.addNotification({
+        link: '/booking-transfers',
+        link_fragment: `booking-${data.transport_booking_id}`,
+        notification_message: 'You have a new Booking Transfer Request',
+        notification_title: 'Booking Transfer',
+        user_id: data.user_administrator_id
+      });
+      const toast = await this.toastController.create({
+        message : 'Transfer Booking request was succesfully sent',
+        icon : 'checkmark-outline',
+        duration: 1000
+      });
+      await toast.present();
+    } catch (error) {
+      await loader.dismiss();
+      this.errorHandler.handleError(error);
+    }
   }
 
   isServiceTypeHasLuggage(service_type : any[]){

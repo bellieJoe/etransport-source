@@ -71,16 +71,13 @@ Services
 */
 Route::prefix('services')->group(function () {
     Route::post('', [ServiceController::class, 'store']);
-
     Route::get('get-service-by-user-id/{user_id}', [ServiceController::class, 'getServiceByUserID']);
-
     Route::put('{service_id}', [ServiceController::class, 'update']);
-
     Route::patch('set-status/{service_id}', [ServiceController::class, 'setStatus']);
-
     Route::delete('{service_id}', [ServiceController::class, 'destroy']);
-
     Route::get('listings/{user_customer_id}', [ServiceController::class, 'getListingsByUserCustomerId']);
+    Route::get('get-service-by-service-key/{service_key}', [ServiceController::class, 'getServiceByServiceKey']);
+    Route::post('transfer', [ServiceController::class, 'transfer']);
 });
 
 /* 

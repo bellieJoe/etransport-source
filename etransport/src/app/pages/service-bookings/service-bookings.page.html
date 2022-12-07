@@ -9,6 +9,7 @@
 
 <ion-content color="background">
   <ion-progress-bar type="indeterminate" color="primary" *ngIf="isLoading"></ion-progress-bar>
+
   <ion-card >
     <ion-item lines="none">
       <ion-label>Filter</ion-label>
@@ -22,9 +23,11 @@
       </ion-select>
     </ion-item>
   </ion-card>
+
   <div class="my-3 px-3" *ngIf="!transportBookingService.transport_bookings[0]">
     <p class="text-center">No Bookings</p>
   </div>
+
   <ng-container *ngFor="let booking of transportBookingService.transport_bookings">
     <div class="my-3 bg-white pb-3" *ngIf="filteredBooking == 'all' || filteredBooking == booking.booking_status">
       <div class="px-3 border-bottom">
@@ -220,7 +223,7 @@
           </ng-template>
         </ion-modal>
 
-        <ion-button fill="outline" color="medium" id="cancel-booking-modal-{{ booking.transport_booking_id }}" *ngIf="booking.booking_status == 'accepted'">
+        <ion-button fill="outline" color="medium" id="cancel-booking-modal-{{ booking.transport_booking_id }}" *ngIf="booking.booking_status == 'to pay' || booking.booking_status == 'accepted'">
           Cancel
         </ion-button>
         <ion-modal trigger="cancel-booking-modal-{{ booking.transport_booking_id }}" [initialBreakpoint]="0.5" [breakpoints]="[0, 0.5, 1]">

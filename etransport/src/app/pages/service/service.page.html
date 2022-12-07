@@ -20,6 +20,17 @@
       </h2>
     </ion-text>
   </ion-item>
+
+
+  <ion-item class="" detail="false" lines="none" color="light" button>
+    <div>
+      <ion-label class="mb-0" color="medium"><small><i class="fa-solid fa-key me-1"></i>Service Key</small></ion-label>
+      <ion-label class="mb-0">{{ serviceService.service.sid }}</ion-label>
+    </div>
+    <ion-button slot="end" fill="clear" color="medium" (click)="copy(serviceService.service.sid, 'The service key was copied to clipboard.')">
+      <ion-icon name="copy-outline" slot="icon-only"></ion-icon>
+    </ion-button>
+  </ion-item>
   
   <ion-list class="mb-3">
     <ion-list-header >

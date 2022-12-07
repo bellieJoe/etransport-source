@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Service;
 use App\Models\Administrator;
 use App\Models\LuggagePricing;
+use App\Models\TransferedBooking;
 use App\Models\TransportBooking;
 use App\Rules\DepartureDate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
 class ServiceController extends Controller
@@ -34,29 +36,33 @@ class ServiceController extends Controller
             'user_id' => $request->user_id
         ])->first();
 
-        $service = Service::create([   
-            'administrator_id' => $administrator->administrator_id,
-            'driver' => $request->driver,
-            'service_name' => $request->service_name,   
-            'license_number' => $request->license_number,
-            'plate_number' => $request->plate_number,
-            'vehicle_model' => $request->vehicle_model,
-            'capacity' => $request->capacity,
-            // 'mode_of_payment' => json_encode($request->mode_of_payment),
-            'gcash_account' => $request->gcash_account,
-            'service_status' => 'close',
-            'service_type' => json_encode($request->service_type)
-        ]);
-
-        $service->refresh();
-
-        LuggagePricing::create([
-            'service_id' => $service->service_id,
-            'small' => $request->small ? $request->small : null ,
-            'medium' => $request->medium ? $request->medium : null ,
-            'large' => $request->large ? $request->large : null ,
-            'extra_large' => $request->extra_large ? $request->extra_large : null
-        ]);
+        \DB::transaction(function () use($administrator, $request) {
+            $service = Service::create([   
+                'administrator_id' => $administrator->administrator_id,
+                'sid' => 'service_'.Str::random(30).'_'.time(),
+                'driver' => $request->driver,
+                'service_name' => $request->service_name,   
+                'license_number' => $request->license_number,
+                'plate_number' => $request->plate_number,
+                'vehicle_model' => $request->vehicle_model,
+                'capacity' => $request->capacity,
+                // 'mode_of_payment' => json_encode($request->mode_of_payment),
+                'gcash_account' => $request->gcash_account,
+                'service_status' => 'close',
+                'service_type' => json_encode($request->service_type)
+            ]);
+    
+            $service->refresh();
+    
+            LuggagePricing::create([
+                'service_id' => $service->service_id,
+                'small' => $request->small ? $request->small : null ,
+                'medium' => $request->medium ? $request->medium : null ,
+                'large' => $request->large ? $request->large : null ,
+                'extra_large' => $request->extra_large ? $request->extra_large : null
+            ]);
+        });
+        
     }
 
     public function getServiceByUserID($user_id){
@@ -162,5 +168,24 @@ class ServiceController extends Controller
         ->get();
 
         return $services;
+    }
+
+    public function getServiceByServiceKey($service_key){
+        return Service::where('sid', $service_key)->with('administrator.user')->first();
+    }
+
+    public function transfer(Request $request){
+        \DB::transaction(function () use($request) {
+            TransferedBooking::create([
+                'transport_booking_id' => $request->transport_booking_id,
+                'service_id' => $request->service_id,
+                'from_service_id' => $request->from_service_id,
+                'status' => 'pending'
+            ]);
+            // TransportBooking::where('transport_booking_id', $request->transport_booking_id)
+            // ->update([
+            //     'service_id' => $request->service_id
+            // ]);
+        });
     }
 }

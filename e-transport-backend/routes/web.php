@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,7 +31,7 @@ use Illuminate\Http\Request;
 |
 */
 Route::get('testing', function(){
-    return time();
+    return 'sid_'.Str::random(30).'_'.time();
 });
 
 Route::get('/', function () {

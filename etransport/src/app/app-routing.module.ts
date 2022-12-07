@@ -142,6 +142,10 @@ const routes: Routes = [
   {
     path: 'payments',
     loadChildren: () => import('./pages/payments/payments.module').then( m => m.PaymentsPageModule)
+  },
+  {
+    path: 'booking-transfers',
+    loadChildren: () => import('./pages/booking-transfers/booking-transfers.module').then( m => m.BookingTransfersPageModule)
   }
 
 
