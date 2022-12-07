@@ -78,6 +78,8 @@ Route::prefix('services')->group(function () {
     Route::get('listings/{user_customer_id}', [ServiceController::class, 'getListingsByUserCustomerId']);
     Route::get('get-service-by-service-key/{service_key}', [ServiceController::class, 'getServiceByServiceKey']);
     Route::post('transfer', [ServiceController::class, 'transfer']);
+    Route::get('booking-transfers-request/{service_id}', [ServiceController::class, 'getBookingTransfersRequest']);
+    Route::get('booking-transfers-by-service/{service_id}', [ServiceController::class, 'getBookingTransfersByService']);
 });
 
 /* 

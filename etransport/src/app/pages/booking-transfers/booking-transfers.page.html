@@ -7,13 +7,35 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-<ion-segment value="request" (ionChange)="filter()">
-  <ion-segment-button value="request">
-    <ion-label>Request</ion-label>
-  </ion-segment-button>
-  <ion-segment-button value="my transfers">
-    <ion-label>My Transfers</ion-label>
-  </ion-segment-button>
-</ion-segment>
+<ion-content color="background">
+
+  <ion-progress-bar type="indeterminate" color="primary" *ngIf="loading"></ion-progress-bar>
+
+  <ion-segment [(ngModel)]="filteredTransfer" value="request" (ionChange)="filter()">
+    <ion-segment-button value="request">
+      <ion-label>Request</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="my transfers">
+      <ion-label>My Transfers</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+  <div class="p-3" *ngIf="transferedBookings.length < 1">
+    <p class="mb-0 text-secondary text-center" >No Records Found</p>
+  </div>
+
+  <ion-list *ngIf="transferedBookings.length > 0">
+    <ion-list-header>
+      <ion-label>Transfer Request</ion-label>
+    </ion-list-header>
+    <ng-container *ngFor="let i of transferedBookings">
+      <ion-item detail="false" lines="full">
+        <ion-label>sa</ion-label>
+        <ion-label>Label</ion-label>
+        <ion-button slot="end">
+          Click me
+        </ion-button>
+      </ion-item>
+    </ng-container>
+  </ion-list>
 </ion-content>

@@ -132,6 +132,26 @@ export class ServiceService {
     }
   }
 
+  async getBookingTransferRequest(service_id){
+    try {
+      const res = await axios.get(`${environment.apiUrl}/api/services/booking-transfers-request/${service_id}`);
+      console.log(res);
+      return res.data;
+    } catch (error) {
+      this.errorHandler.handleError(error);
+    }
+  }
+
+  async getBookingTransfersByService(service_id){
+    try {
+      const res = await axios.get(`${environment.apiUrl}/api/services/booking-transfers-by-service/${service_id}`);
+      console.log(res);
+      return res.data;
+    } catch (error) {
+      this.errorHandler.handleError(error);
+    }
+  }
+
   isServiceTypeHasLuggage(service_type : any[]){
     let result = false;
     service_type.map((val, i)=>{

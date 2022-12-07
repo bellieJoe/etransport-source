@@ -188,4 +188,12 @@ class ServiceController extends Controller
             // ]);
         });
     }
+
+    public function getBookingTransfersRequest($service_id){
+        return TransferedBooking::where('service_id', $service_id)->with(['transportBooking'])->orderBy('updated_at', 'desc')->get();
+    }
+
+    public function getBookingTransfersByService($service_id){
+        return TransferedBooking::where('from_service_id', $service_id)->with(['transportBooking'])->orderBy('updated_at', 'desc')->get();
+    }
 }
