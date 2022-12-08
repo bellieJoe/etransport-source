@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { LoadingController } from '@ionic/angular';
 import { AuthService } from './services/auth.service';
+import { NotificationService } from './services/notification.service';
 import { TestingService } from './services/testing.service';
 import { UserService } from './services/user.service';
 
@@ -27,7 +28,8 @@ export class AppComponent implements OnInit{
     private testing : TestingService,
     private userService : UserService,
     private loadingController : LoadingController,
-    private router : Router
+    private router : Router,
+    public notificationService  : NotificationService
   ) {}
 
   auth = {};
@@ -49,10 +51,18 @@ export class AppComponent implements OnInit{
   }
 
   async ngOnInit(){
-    
+    this.watchNotifications();
     setInterval(() => {
       this.user = this.authService.getAuth();
     }, 1000);
+  }
+
+  watchNotifications(){
+    const audio = new Audio('../assets/sounds/new_notification.wav');
+    this.notificationService.listenToNotification().subscribe(notification => {
+      this.notificationService.newNotifCount++;
+      audio.play();
+    })
   }
 
 }

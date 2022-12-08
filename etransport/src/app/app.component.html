@@ -29,6 +29,7 @@
             <ion-item routerDirection="root" routerLink="/notifications" lines="none" detail="false" routerLinkActive="selected">
               <ion-icon slot="start" name="notifications-outline"></ion-icon>
               <ion-label>Notifications</ion-label>
+              <ion-badge color="primary" *ngIf="notificationService.newNotifCount > 0">{{ notificationService.newNotifCount }}</ion-badge>
             </ion-item>
           </ion-menu-toggle>
           <ion-menu-toggle  auto-hide="false" *ngIf="user.role_id === 3">

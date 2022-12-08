@@ -31,6 +31,8 @@ export class NotificationService {
     private errorHandlerService : ErrorHandlerService
   ) { }
 
+  newNotifCount : number = 0;
+
   async getNotificationsByUserId(user_id, page){
     try {
       const res = await axios.get(`${environment.apiUrl}/api/notifications/get-notifications-by-user-id/${user_id}?page=${page}`);
@@ -50,10 +52,10 @@ export class NotificationService {
   }
 
   listenToNotification () : Observable<any>  {
-    const audio = new Audio('../../assets/sounds/new_notification.wav');
+    // const audio = new Audio('../../assets/sounds/new_notification.wav');
     return new Observable((subscriber => {
       this.socketService.socket.on(`notification-${this.authService.getAuth().user_id}`, (notification) =>{
-        audio.play();
+        // audio.play();
         subscriber.next(notification);
       });
     }));

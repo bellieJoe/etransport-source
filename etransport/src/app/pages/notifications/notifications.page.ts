@@ -42,12 +42,12 @@ export class NotificationsPage implements OnInit {
 
   ionViewDidLeave(){
     this.page = 1;
+    this.notificationService.newNotifCount = 0;
   }
 
   watchNotifications(){
     this.notificationService.listenToNotification().subscribe(notification => {
       this.notifications = [notification,...this.notifications];
-      console.log(notification);
     })
   }
 
@@ -59,6 +59,5 @@ export class NotificationsPage implements OnInit {
     this.page++;
     (ev as InfiniteScrollCustomEvent).target.complete();
   }
-
 
 }
