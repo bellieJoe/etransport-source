@@ -11,7 +11,7 @@
 
   <ion-progress-bar type="indeterminate" color="primary" *ngIf="loading"></ion-progress-bar>
 
-  <ion-segment [(ngModel)]="filteredTransfer" value="request" (ionChange)="filter()">
+  <ion-segment [(ngModel)]="filteredTransfer" value="request" (ionChange)="filter()" >
     <ion-segment-button value="request">
       <ion-label>Request</ion-label>
     </ion-segment-button>
@@ -26,16 +26,31 @@
 
   <ion-list *ngIf="transferedBookings.length > 0">
     <ion-list-header>
-      <ion-label>Transfer Request</ion-label>
+      <ion-label>{{ filteredTransfer == 'request' ? 'Transfer Request' : 'My Transfers' }}</ion-label>
     </ion-list-header>
     <ng-container *ngFor="let i of transferedBookings">
-      <ion-item detail="false" lines="full">
-        <ion-label>sa</ion-label>
-        <ion-label>Label</ion-label>
-        <ion-button slot="end">
-          Click me
-        </ion-button>
-      </ion-item>
+      <ion-item-sliding #ionItemSliding [id]="'ionItemSliding' + i.transfered_booking_id">
+        <ion-item detail="false" lines="full" >
+          <div *ngIf="filteredTransfer == 'request'" class="py-2">
+            <ion-label>Service Name : <span class="text-secondary">{{ i.transport_booking.service.service_name }}</span></ion-label>
+            <ion-label>Customer Name : <span class="text-secondary">{{ i.transport_booking.user_customer.name }}</span></ion-label>
+            <ion-label>Status : <span class="{{ i.status == 'pending' ? 'text-secondary' : (i.status == 'accepted' ? 'text-success' : 'text-danger') }}">{{ i.status | titlecase }}</span></ion-label>
+          </div>
+          <div *ngIf="filteredTransfer == 'my transfers'" class="py-2">
+            <ion-label>Service Name : <span class="text-secondary">{{ i.transport_booking.service.service_name }}</span></ion-label>
+            <ion-label>Status : <span class="{{ i.status == 'pending' ? 'text-secondary' : (i.status == 'accepted' ? 'text-success' : 'text-danger') }}">{{ i.status | titlecase }}</span></ion-label>
+          </div>
+          
+          <ion-button slot="end" fill="clear" *ngIf="filteredTransfer == 'request' && i.status == 'pending'" (click)="openOptions('ionItemSliding'+i.transfered_booking_id)">
+            <ion-icon name="ellipsis-horizontal" slot="icon-only"></ion-icon>
+          </ion-button>
+        </ion-item>
+        <ion-item-options side="end" *ngIf="i.status == 'pending' && filteredTransfer == 'request'" >
+          <ion-item-option color="danger" (click)="declineTransfer(i)">Decline</ion-item-option>
+          <ion-item-option color="tertiary" (click)="acceptTransfer(i)">Accept</ion-item-option>
+        </ion-item-options>
+      </ion-item-sliding>
+
     </ng-container>
   </ion-list>
 </ion-content>

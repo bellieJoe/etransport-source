@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { AlertController, LoadingController, ToastController } from '@ionic/angular';
 import axios from "axios";
 import { setErrorHandler } from 'ionicons/dist/types/stencil-public-runtime';
@@ -24,7 +25,8 @@ export class ServiceService {
     private errorHandler : ErrorHandlerService,
     private loadingController : LoadingController,
     private toastController : ToastController,
-    private notificationService : NotificationService
+    private notificationService : NotificationService,
+    private router : Router
   ) { }
 
   // states
@@ -126,6 +128,73 @@ export class ServiceService {
         duration: 1000
       });
       await toast.present();
+    } catch (error) {
+      await loader.dismiss();
+      this.errorHandler.handleError(error);
+    }
+  }
+
+  async acceptTransfer(transfered_booking_id, user_administrator_id, transport_booking_id, user_customer_id){
+    const loader = await this.loadingController.create({
+      message : 'Accepting Transfer Request',
+      spinner : 'circular',
+      backdropDismiss : false
+    });
+    try {
+      await loader.present();
+      const res = await axios.put(`${environment.apiUrl}/api/services/accept-transfer/${transfered_booking_id}`);
+      await loader.dismiss();
+      this.notificationService.addNotification({
+        link: '/booking-transfers',
+        link_fragment: `booking-${transport_booking_id}`,
+        notification_message: 'Your booking transfer request has been accepted',
+        notification_title: 'Booking Transfer',
+        user_id: user_administrator_id
+      });
+      this.notificationService.addNotification({
+        link: '/booking-transfers',
+        link_fragment: `booking-${transport_booking_id}`,
+        notification_message: 'Your booking has been transfered to another service',
+        notification_title: 'Booking Transfer',
+        user_id: user_customer_id
+      });
+      const toast = await this.toastController.create({
+        message : 'Transfer Booking request was succesfully accepted',
+        icon : 'checkmark-outline',
+        duration: 1000
+      });
+      await toast.present();
+      await this.router.navigate(['/service-bookings']);
+    } catch (error) {
+      await loader.dismiss();
+      this.errorHandler.handleError(error);
+    }
+  }
+
+  async declineTransfer(transfered_booking_id, user_administrator_id, transport_booking_id){
+    const loader = await this.loadingController.create({
+      message : 'Declining Transfer Request',
+      spinner : 'circular',
+      backdropDismiss : false
+    });
+    try {
+      await loader.present();
+      const res = await axios.put(`${environment.apiUrl}/api/services/decline-transfer/${transfered_booking_id}`);
+      await loader.dismiss();
+      this.notificationService.addNotification({
+        link: '/booking-transfers',
+        link_fragment: `booking-${transport_booking_id}`,
+        notification_message: 'Your booking transfer request has been declined',
+        notification_title: 'Booking Transfer',
+        user_id: user_administrator_id
+      });
+      const toast = await this.toastController.create({
+        message : 'Transfer Booking request has been declined',
+        icon : 'checkmark-outline',
+        duration: 1000
+      });
+      await toast.present();
+      await this.router.navigate(['/service-bookings']);
     } catch (error) {
       await loader.dismiss();
       this.errorHandler.handleError(error);

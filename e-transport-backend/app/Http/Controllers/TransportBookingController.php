@@ -173,4 +173,5 @@ class TransportBookingController extends Controller
             return $transport_booking->first();
         });
     }
+
 }

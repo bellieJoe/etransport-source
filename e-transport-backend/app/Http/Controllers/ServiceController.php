@@ -189,11 +189,33 @@ class ServiceController extends Controller
         });
     }
 
+    public function acceptTransfer($transfered_booking_id){
+        \DB::transaction(function () use($transfered_booking_id) {
+            $transfered_booking = TransferedBooking::find($transfered_booking_id);
+            $transfered_booking->update([
+                'status' => 'accepted'
+            ]);
+            TransportBooking::where('transport_booking_id', $transfered_booking->transport_booking_id)
+            ->update([
+                'service_id' => $transfered_booking->service_id
+            ]);
+        });
+    }
+
+    public function declineTransfer($transfered_booking_id){
+        \DB::transaction(function () use($transfered_booking_id) {
+            $transfered_booking = TransferedBooking::find($transfered_booking_id);
+            $transfered_booking->update([
+                'status' => 'declined'
+            ]);
+        });
+    }
+
     public function getBookingTransfersRequest($service_id){
-        return TransferedBooking::where('service_id', $service_id)->with(['transportBooking'])->orderBy('updated_at', 'desc')->get();
+        return TransferedBooking::where('service_id', $service_id)->with(['transportBooking.userCustomer', 'transportBooking.service', 'service', 'fromService.administrator'])->orderBy('updated_at', 'desc')->get();
     }
 
     public function getBookingTransfersByService($service_id){
-        return TransferedBooking::where('from_service_id', $service_id)->with(['transportBooking'])->orderBy('updated_at', 'desc')->get();
+        return TransferedBooking::where('from_service_id', $service_id)->with(['transportBooking.userCustomer', 'transportBooking.service', 'service', 'fromService.administrator'])->orderBy('updated_at', 'desc')->get();
     }
 }

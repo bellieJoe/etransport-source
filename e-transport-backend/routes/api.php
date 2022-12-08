@@ -80,6 +80,8 @@ Route::prefix('services')->group(function () {
     Route::post('transfer', [ServiceController::class, 'transfer']);
     Route::get('booking-transfers-request/{service_id}', [ServiceController::class, 'getBookingTransfersRequest']);
     Route::get('booking-transfers-by-service/{service_id}', [ServiceController::class, 'getBookingTransfersByService']);
+    Route::put('accept-transfer/{transfered_booking_id}', [ServiceController::class, 'acceptTransfer']);
+    Route::put('decline-transfer/{transfered_booking_id}', [ServiceController::class, 'declineTransfer']);
 });
 
 /* 

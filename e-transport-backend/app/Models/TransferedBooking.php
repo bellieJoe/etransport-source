@@ -18,4 +18,12 @@ class TransferedBooking extends Model
     public function transportBooking(){
         return $this->hasOne(TransportBooking::class, 'transport_booking_id', 'transport_booking_id');
     }
+
+    public function service(){
+        return $this->hasOne(Service::class, 'service_id', 'service_id');
+    }
+
+    public function fromService(){
+        return $this->hasOne(Service::class,  'service_id', 'from_service_id');
+    }
 }
