@@ -227,6 +227,11 @@
           <ion-icon name="receipt-outline" slot="start"></ion-icon>
           <ion-label>Checkout</ion-label>
         </ion-button>
+        
+        <ion-button color="light" *ngIf="booking.payment && (booking.payment.status == 'paid' || booking.payment.status == 'partially paid') " >
+          <ion-icon name="cash-outline" slot="start"></ion-icon>
+          <ion-label>Refund</ion-label>
+        </ion-button>
 
         <ion-button color="medium" id="cancel-booking-modal-{{ booking.transport_booking_id }}" fill="outline" *ngIf="booking.booking_status == 'pending'">
           Cancel Booking
