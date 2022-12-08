@@ -24,7 +24,8 @@ export class ListingsPage implements OnInit {
   async fetchListings(){
     this.loading = true;
     const res = await this.serviceService.getListingsByUserCustomerId(this.authService.getAuth().user_id);
-
+    console.log(res);
+    
     if(res.status != 200){
       const alert = await this.alertController.create({
         header: "Error fetching services",
@@ -36,14 +37,16 @@ export class ListingsPage implements OnInit {
       return;
     }
 
-    await new Promise((resolve, reject) => {
-      res.data.map((service, i) => {
-        res.data[i].service_type =  JSON.parse(res.data[i].service_type)
-        if(i == (res.data.length-1)){
-          resolve(null)
-        }
-      });
-    })
+    if(res.data.length != 0){
+      await new Promise((resolve, reject) => {
+        res.data.map((service, i) => {
+          res.data[i].service_type =  JSON.parse(res.data[i].service_type)
+          if(i == (res.data.length-1)){
+            resolve(null)
+          }
+        });
+      })
+    }
     
     this.serviceService.listings = res.data;
     

@@ -71,6 +71,7 @@ class ServiceController extends Controller
         $service = Service::where([
             'administrator_id' => $administrator->administrator_id
         ])
+        ->orderBy('updated_at', 'desc')
         ->with('luggagePricing')
         ->first();
 
@@ -97,7 +98,7 @@ class ServiceController extends Controller
             'plate_number' => ['required', 'max:500'],
             'vehicle_model' => ['required'],
             'capacity' => ['required'],
-            'mode_of_payment' => ['required'],
+            // 'mode_of_payment' => ['required'],
             'service_type' => ['required'],
             'small' => ['required_if:service_type,both,luggage'],
             'medium' => ['required_if:service_type,both,luggage'],
@@ -114,7 +115,7 @@ class ServiceController extends Controller
             'plate_number' => $request->plate_number,
             'vehicle_model' => $request->vehicle_model,
             'capacity' => $request->capacity,
-            'mode_of_payment' => json_encode($request->mode_of_payment),
+            // 'mode_of_payment' => json_encode($request->mode_of_payment),
             'service_type' => $request->service_type
         ]);
 

@@ -120,6 +120,7 @@ class TransportBookingController extends Controller
             'luggageConfig',
             'service.administrator.user',
             'userCustomer',
+            'payment',
             'bookingUpdates' => function($q){
                 $q->orderBy('created_at', 'desc');
             }

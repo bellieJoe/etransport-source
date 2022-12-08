@@ -63,7 +63,9 @@ export class EditServicePage implements OnInit {
         message: "Service successfully updated",
         duration: 3000
       })
+      res.data.service_type = JSON.parse(res.data.service_type);
       this.serviceService.service = res.data;
+
       await loader.dismiss();
       await toast.present();
       this.close();

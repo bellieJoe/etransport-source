@@ -7,7 +7,6 @@
   </ion-toolbar>
 </ion-header>
 
-
 <ion-content color="background">
   <ion-progress-bar type="indeterminate"  color="primary" *ngIf="loading"></ion-progress-bar>
   <ng-container *ngFor="let service of serviceService.listings">
@@ -64,6 +63,9 @@
         </ion-button>
       </ion-card-content>
     </ion-card>
-    
   </ng-container>
+
+  <div class="p-3" *ngIf="serviceService.listings.length < 1">
+    <p class="text-secondary text-center">No Listings at this moment.</p>
+  </div>
 </ion-content>

@@ -37,6 +37,8 @@ export class ServiceBookingsPage implements OnInit {
     await this.fetchBookings();
     this.isLoading = false;
     this.transport = this.transportBookingService.transport_bookings;
+    console.log(this.transport);
+    
     const fragment : string = await new Promise((resolve, reject) =>{
       this.activatedRoute.fragment.subscribe(fragment => {
         resolve(fragment);

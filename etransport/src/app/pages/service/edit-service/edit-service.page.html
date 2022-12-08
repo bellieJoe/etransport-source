@@ -47,10 +47,10 @@
 
       <ion-item>
         <ion-label position="floating">Service Type <ion-note color="danger">*</ion-note></ion-label>
-        <ion-select  [(ngModel)]="update_service_form.service_type">
+        <ion-select  [(ngModel)]="update_service_form.service_type" multiple="true">
           <ion-select-option value="passenger">Passenger</ion-select-option>
           <ion-select-option value="luggage">Luggage</ion-select-option>
-          <ion-select-option value="both">Both</ion-select-option>
+          <ion-select-option value="animal">Animal</ion-select-option>
         </ion-select>
       </ion-item>
       <ion-note color="danger" *ngIf="update_service_form.errors.service_type">{{ update_service_form.errors.service_type }}</ion-note>
