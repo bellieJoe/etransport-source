@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from 'src/app/services/auth.service';
+import { RefundsService } from 'src/app/services/refunds.service';
 
 @Component({
   selector: 'app-administrator-refunds',
@@ -7,10 +9,25 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AdministratorRefundsPage implements OnInit {
 
-  constructor() { }
+  constructor(
+    private refundsService : RefundsService,
+    private authService : AuthService
+  ) { }
 
-  ngOnInit() {
+  loading : boolean = false;
+  refunds : any[] = [];  
+
+  async ngOnInit() {
+    await this.getRefunds();
+    console.log(this.refunds);
     
+  }
+
+  async getRefunds(){
+    this.loading = true;
+    const user_id = await this.authService.getAuth().user_id;
+    this.refunds = await this.refundsService.getRefundsByUserAdministratorId(user_id);
+    this.loading = false;
   }
 
 }

@@ -56,5 +56,9 @@ class Service extends Model
         return $this->hasMany(Review::class, 'service_id', 'service_id');
     }
 
+    public function payments(){
+        return $this->hasMany(Payment::class, 'service_id', 'service_id');
+    }
+
 
 }

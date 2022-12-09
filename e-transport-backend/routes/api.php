@@ -13,6 +13,7 @@ use App\Http\Controllers\TermsAndConditionController;
 use App\Http\Controllers\AnnouncementCommentController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\RefundController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -156,4 +157,11 @@ Route::group(['prefix' => 'payments', 'as' => 'payments.'], function(){
     Route::put('check-payment/{payment_id}', [PaymentController::class, 'checkPayment']);
     Route::get('get-payments-by-service-id/{service_id}', [PaymentController::class, 'getPaymentsByServiceId']);
     Route::get('get-payments-by-user-id/{user_id}', [PaymentController::class, 'getPaymentsByUserId']);
+});
+
+/* 
+Payments
+*/
+Route::group(['prefix' => 'refunds', 'as' => 'refunds.'], function(){
+    Route::get('get-refunds-by-user-administrator-id/{user_id}', [RefundController::class, 'getRefundsByUserAdministratorId']);
 });

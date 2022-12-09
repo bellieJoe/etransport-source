@@ -31,7 +31,7 @@ use Illuminate\Support\Str;
 |
 */
 Route::get('testing', function(){
-    return TransportBooking::find(1)->payment;
+    return User::find(22)->administrator->service->payments->pluck('payment_id');
 });
 
 Route::get('/', function () {
