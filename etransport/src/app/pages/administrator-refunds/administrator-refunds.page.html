@@ -10,14 +10,30 @@
 <ion-content>
   <ion-progress-bar type="indeterminate"  color="primary" *ngIf="loading"></ion-progress-bar>
 
-  <ion-list>
+  <ion-list *ngIf="refunds.length > 0">
     <ion-list-header>
       <ion-label>Refunds</ion-label>
     </ion-list-header>
     <ng-container *ngFor="let refund of refunds">
-      <ion-item>
-        <ion-label>{{ refund.status }}</ion-label>
-      </ion-item>
+      <ion-item-sliding >
+        <ion-item lines="full" detail="false">
+          <div class="py-2">
+            <p class="mb-0">Name : <span class="text-secondary">{{ refund.payment.user.name }}</span></p>
+            <p class="mb-0">Amount : <span class="text-secondary">{{ (refund.payment.payment_data.data.attributes.amount - refund.payment.payment_data.data.attributes.fee) / 100 | currency:'PHP' }}</span></p>
+          </div>
+          <ion-label slot="end">{{ refund.service_approval | titlecase }}</ion-label>
+          <ion-label class="ms-2" slot="end" color="medium"><i class="fa-solid fa-bars"></i></ion-label>
+          <!-- <ion-icon name="ellipsis-vertical" slot="end"></ion-icon> -->
+        </ion-item>
+        <ion-item-options side="end">
+          <ion-item-option color="danger" >Disapprove</ion-item-option>
+          <ion-item-option color="success" (click)="approverefund(refund)">Approve</ion-item-option>
+        </ion-item-options>
+      </ion-item-sliding>
     </ng-container>
   </ion-list>
+
+  <div class="p-3" *ngIf="refunds.length < 1">
+    <p class="text-secondary text-center">No Records found.</p>
+  </div>
 </ion-content>

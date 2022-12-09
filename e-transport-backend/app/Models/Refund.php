@@ -12,4 +12,15 @@ class Refund extends Model
     protected $primaryKey ='refund_id';
     
     protected $guarded = [];
+
+    protected $casts = [
+        'expire_date' => 'datetime:Y-m-d',
+    ];
+
+    /* 
+    Relationships
+    */
+    public function payment(){
+        return $this->hasOne(Payment::class, 'payment_id', 'payment_id');
+    }
 }

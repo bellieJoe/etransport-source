@@ -160,8 +160,9 @@ Route::group(['prefix' => 'payments', 'as' => 'payments.'], function(){
 });
 
 /* 
-Payments
+Refunds
 */
 Route::group(['prefix' => 'refunds', 'as' => 'refunds.'], function(){
     Route::get('get-refunds-by-user-administrator-id/{user_id}', [RefundController::class, 'getRefundsByUserAdministratorId']);
+    Route::post('approve/{refund_id}', [RefundController::class, 'approveRefund']);
 });

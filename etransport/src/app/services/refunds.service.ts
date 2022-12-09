@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { LoadingController, ToastController } from '@ionic/angular';
 import axios from 'axios';
 import { environment } from 'src/environments/environment';
 import { ErrorHandlerService } from '../helpers/error-handler.service';
@@ -16,7 +17,9 @@ axios.defaults.headers.common['Access-Control-Allow-Headers'] = '*';
 export class RefundsService {
 
   constructor(
-    private errorHandler : ErrorHandlerService
+    private errorHandler : ErrorHandlerService,
+    private toastController : ToastController,
+    private loadingController : LoadingController
   ) { }
 
   async getRefundsByUserAdministratorId(user_id : any){
@@ -25,6 +28,31 @@ export class RefundsService {
       return res.data;
     } catch (error) {
       this.errorHandler.handleError(error)
+    }
+  }
+
+  async approveRefund(refund : any){
+    const loader = await this.loadingController.create({
+      message : 'Processing refund',
+      spinner: 'circular',
+      backdropDismiss: false
+    });
+    try {
+      await loader.present()
+      const res = await axios.post(`${environment.apiUrl}/api/refunds/approve/${refund.refund_id}`);
+      await loader.dismiss();
+      const toast = await this.toastController.create({
+        message: 'A refund has been approved',
+        duration: 1000
+      });
+      await toast.present();
+      return res.data;
+    } catch (error) {
+      console.log(error);
+      
+      await loader.dismiss()
+      this.errorHandler.handleError(error)
+      return false;
     }
 
   }
