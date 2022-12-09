@@ -96,12 +96,10 @@ TransportBookings
 */
 Route::prefix('transport-bookings')->group(function (){
     Route::post('', [TransportBookingController::class, 'store']);
-
     Route::get('get-by-user-customer-id/{user_customer_id}', [TransportBookingController::class, 'getByUserCustomerId']);
-
     Route::get('get-by-service-id/{service_id}', [TransportBookingController::class, 'getByServiceId']);
-
     Route::post('update-status/{transport_booking_id}', [TransportBookingController::class, 'updateStatus']);
+    Route::post('request-refund/{transport_booking_id}', [TransportBookingController::class, 'requestRefund']);
 });
 
 /* 

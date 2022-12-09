@@ -21,6 +21,12 @@ class Payment extends Model
         return json_decode($this->payment_data);
     }
 
+    public function refundPayment(){
+        // update the refund status 
+
+        // update the payment_data in payments table
+    }
+
     /* 
     Relationships
     */
@@ -34,5 +40,9 @@ class Payment extends Model
 
     public function user(){
         return $this->belongsTo(User::class,  'user_id', 'user_id');
+    }
+
+    public function refunds(){
+        return $this->hasMany(Refund::class, 'payment_id', 'payment_id');
     }
 }

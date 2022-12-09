@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Schema;
 
 class CreateRefundsTable extends Migration
@@ -17,7 +18,8 @@ class CreateRefundsTable extends Migration
             $table->id('refund_id');
             $table->foreignId('payment_id');
             $table->enum('status', ['processing', 'succeeded', 'canceled', 'declined']);
-            $table->json('refund_data');
+            $table->enum('service_approval', ['approved', 'disapproved', 'pending']);
+            $table->timestamp('expire_date')->default(Carbon::now()->addWeek());
             $table->timestamps();
         });
     }

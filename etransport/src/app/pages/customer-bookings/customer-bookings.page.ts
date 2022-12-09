@@ -221,4 +221,24 @@ export class CustomerBookingsPage implements OnInit {
       }
     })
   }
+
+  async refund(booking){
+    const alert = await this.alertController.create({
+      header: 'Confirm Action',
+      message: 'Request a refund for this transport booking payment?',
+      buttons: [
+        {
+          text: 'Cancel'
+        },
+        {
+          text: 'Refund',
+          handler: async () => {
+            await this.transportBookingService.requestRefund(booking);
+          }
+        }
+      ]
+    });
+    await alert.present();
+    
+  }
 }

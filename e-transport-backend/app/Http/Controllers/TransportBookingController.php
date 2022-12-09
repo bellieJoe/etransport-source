@@ -6,7 +6,9 @@ use App\Models\LuggageConfig;
 use App\Models\TransportBooking;
 use App\Models\Payment;
 use App\Models\BookingUpdate;
+use App\Models\Refund;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
@@ -103,7 +105,7 @@ class TransportBookingController extends Controller
         return TransportBooking::where('user_customer_id', $user_customer_id)
         ->with([
             'luggageConfig',
-            'payment',
+            'payment.refunds',
             'service.administrator.user',
             'service.reviews',
             'bookingUpdates' => function($q){
@@ -174,5 +176,25 @@ class TransportBookingController extends Controller
             return $transport_booking->first();
         });
     }
+
+    public function requestRefund($transport_booking_id){
+        return \DB::transaction(function () use($transport_booking_id) {
+            $transport_booking = TransportBooking::find($transport_booking_id);
+            if(count($transport_booking->payment->refunds) > 0 && collect($transport_booking->payment->refunds)->last()->status == 'processing'){
+                return response([
+                    'message' => 'This Booking already has pending refund'
+                ], 400);
+            }
+            $refund = Refund::create([
+                'payment_id' => $transport_booking->payment->payment_id,
+                'status' => 'processing',
+                'service_approval' => 'pending',
+                'expire_date' => Carbon::now()->addWeek()
+            ]);
+            $refund->refresh();
+            return $refund->first();
+        });
+    }
+
 
 }

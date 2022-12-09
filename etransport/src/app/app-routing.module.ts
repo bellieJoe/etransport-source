@@ -146,6 +146,10 @@ const routes: Routes = [
   {
     path: 'booking-transfers',
     loadChildren: () => import('./pages/booking-transfers/booking-transfers.module').then( m => m.BookingTransfersPageModule)
+  },
+  {
+    path: 'administrator-refunds',
+    loadChildren: () => import('./pages/administrator-refunds/administrator-refunds.module').then( m => m.AdministratorRefundsPageModule)
   }
 
 

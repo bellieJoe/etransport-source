@@ -31,7 +31,7 @@ use Illuminate\Support\Str;
 |
 */
 Route::get('testing', function(){
-    return 'sid_'.Str::random(30).'_'.time();
+    return TransportBooking::find(1)->payment;
 });
 
 Route::get('/', function () {
