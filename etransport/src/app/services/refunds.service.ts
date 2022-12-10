@@ -56,4 +56,30 @@ export class RefundsService {
     }
 
   }
+
+  async disapproveRefund(refund : any){
+    const loader = await this.loadingController.create({
+      message : 'Processing refund',
+      spinner: 'circular',
+      backdropDismiss: false
+    });
+    try {
+      await loader.present()
+      const res = await axios.post(`${environment.apiUrl}/api/refunds/disapprove/${refund.refund_id}`);
+      await loader.dismiss();
+      const toast = await this.toastController.create({
+        message: 'A refund has been disapproved',
+        duration: 1000
+      });
+      await toast.present();
+      return res.data;
+    } catch (error) {
+      console.log(error);
+      
+      await loader.dismiss()
+      this.errorHandler.handleError(error)
+      return false;
+    }
+
+  }
 }

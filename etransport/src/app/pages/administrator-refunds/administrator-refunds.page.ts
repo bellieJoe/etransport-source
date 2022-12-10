@@ -67,4 +67,33 @@ export class AdministratorRefundsPage implements OnInit {
     
   }
 
+  async disapproverefund(refund){
+    const alert = await this.alertController.create({
+      header: 'Confirm action',
+      message: 'Disapprove this refund request?',
+      buttons: [
+        {
+          text: 'Cancel'
+        },
+        {
+          text: 'Disapprove',
+          handler: async () => {
+            const res = await this.refundsService.disapproveRefund(refund);
+            if(res){
+              this.refunds.map((refund, i) => {
+                if(refund.refund_id == res.refund_id){
+                  res.payment.payment_data = JSON.parse(res.payment.payment_data)
+                  res.payment.breakdown = JSON.parse(res.payment.breakdown)
+                  this.refunds[i] = res;
+                }
+              })
+            }
+          }
+        }
+      ]
+    })
+    await alert.present();
+    
+  }
+
 }

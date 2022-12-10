@@ -33,6 +33,20 @@ class RefundController extends Controller
             ]);
             return $refund->with('payment.user')->first();
         });
-        
+    }
+
+    public function disapproveRefund($refund_id){
+        return \DB::transaction(function () use($refund_id) {
+            $refund = Refund::where('refund_id', $refund_id);
+            if($refund->first()->expire_date->lessThan(Carbon::now()) ){
+                return response([
+                    'message' => 'This refund has expired'
+                ], 400);
+            }
+            $refund->update([
+                'service_approval' => 'disapproved'
+            ]);
+            return $refund->with('payment.user')->first();
+        });
     }
 }
