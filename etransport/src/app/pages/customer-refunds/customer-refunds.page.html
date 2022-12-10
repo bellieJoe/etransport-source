@@ -1,0 +1,32 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Refunds</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-progress-bar type="indeterminate"  color="primary" *ngIf="loading"></ion-progress-bar>
+
+  <ion-list *ngIf="refunds.length > 0">
+    <ion-list-header>
+      <ion-label>Refunds</ion-label>
+    </ion-list-header>
+    <ng-container *ngFor="let refund of refunds">
+      <ion-item lines="full" detail="false">
+        <div class="py-2">
+          <p class="mb-0">Name : <span class="text-secondary">{{ refund.payment.user.name }}</span></p>
+          <p class="mb-0">Amount : <span class="text-secondary">{{ (refund.payment.payment_data.data.attributes.amount - refund.payment.payment_data.data.attributes.fee) / 100 | currency:'PHP' }}</span></p>
+          <p class="mb-0">Status : <span class="text-secondary">{{ refund.status | titlecase }}</span></p>
+        </div>
+      </ion-item>
+    </ng-container>
+  </ion-list>
+
+  <div class="p-3" *ngIf="refunds.length < 1">
+    <p class="text-secondary text-center">No Records found.</p>
+  </div>
+
+</ion-content>

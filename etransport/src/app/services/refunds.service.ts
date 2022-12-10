@@ -31,6 +31,15 @@ export class RefundsService {
     }
   }
 
+  async getRefundsByUserCustomerId(user_id : any){
+    try {
+      const res = await axios.get(`${environment.apiUrl}/api/refunds/get-refunds-by-user-customer-id/${user_id}`);
+      return res.data;
+    } catch (error) {
+      this.errorHandler.handleError(error)
+    }
+  }
+
   async approveRefund(refund : any){
     const loader = await this.loadingController.create({
       message : 'Processing refund',

@@ -150,6 +150,10 @@ const routes: Routes = [
   {
     path: 'administrator-refunds',
     loadChildren: () => import('./pages/administrator-refunds/administrator-refunds.module').then( m => m.AdministratorRefundsPageModule)
+  },
+  {
+    path: 'customer-refunds',
+    loadChildren: () => import('./pages/customer-refunds/customer-refunds.module').then( m => m.CustomerRefundsPageModule)
   }
 
 

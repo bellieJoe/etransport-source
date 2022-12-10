@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Refund;
+use App\Models\Payment;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -15,6 +16,18 @@ class RefundController extends Controller
         return Refund::whereIn('payment_id', $payment_ids)
         ->with([
             'payment.user'
+        ])
+        ->orderBy('updated_at', 'desc')
+        ->get();
+    }
+
+    public function getRefundsByUserCustomerId($user_id){
+        $payment_ids = Payment::where('user_id', $user_id)->pluck('payment_id');
+        return Refund::whereIn('payment_id', $payment_ids)
+        ->with([
+            'payment.user',
+            'payment.service.administrator.user',
+            'payment.transportBooking'
         ])
         ->orderBy('updated_at', 'desc')
         ->get();

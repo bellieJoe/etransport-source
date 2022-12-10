@@ -20,6 +20,7 @@
           <div class="py-2">
             <p class="mb-0">Name : <span class="text-secondary">{{ refund.payment.user.name }}</span></p>
             <p class="mb-0">Amount : <span class="text-secondary">{{ (refund.payment.payment_data.data.attributes.amount - refund.payment.payment_data.data.attributes.fee) / 100 | currency:'PHP' }}</span></p>
+            <p class="mb-0">Status : <span class="text-secondary">{{ refund.status | titlecase }}</span></p>
           </div>
           <ion-label slot="end" [color]="refund.service_approval == 'approved' ? 'success' : (refund.service_approval == 'disapproved' ? 'danger' : '')">{{ refund.service_approval | titlecase }}</ion-label>
           <ion-label class="ms-2" slot="end" color="medium"><i class="fa-solid fa-bars" *ngIf="refund.service_approval == 'pending'"></i></ion-label>
