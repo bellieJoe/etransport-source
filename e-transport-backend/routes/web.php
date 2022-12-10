@@ -1,13 +1,15 @@
 <?php
 
 use App\Http\Controllers\AnnouncementController;
-use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\PaymentController; 
+use App\Http\Controllers\RefundController; 
 use App\Models\User;
 use App\Models\Administrator;
 use App\Models\Service;
 use App\Models\LuggagePricing;
 use App\Models\TransportBooking;
 use App\Models\Payment;
+use App\Models\Refund;
 
 use App\Http\Controllers\MainAdministratorController;
 use App\Http\Controllers\UserController;
@@ -31,7 +33,7 @@ use Illuminate\Support\Str;
 |
 */
 Route::get('testing', function(){
-    return User::find(22)->administrator->service->payments->pluck('payment_id');
+
 });
 
 Route::get('/', function () {
@@ -75,6 +77,11 @@ Payments
 Route::group(['prefix' => 'payments', 'as' => 'payments.'], function(){
     Route::post('ok', [PaymentController::class, 'ok'])->withoutMiddleware(\App\Http\Middleware\VerifyCsrfToken::class);
     Route::get('', [PaymentController::class, 'index'])->name('index')->middleware('auth');
+    Route::group(['prefix' => 'refunds', 'as' => 'refunds.'], function(){
+        Route::get('', [RefundController::class, 'index'])->name('index')->middleware('auth');
+        Route::post('refund/{refund_id}', [RefundController::class, 'refund'])->name('refund')->middleware('auth');
+        Route::post('decline-refund/{refund_id}', [RefundController::class, 'declineRefund'])->name('declineRefund')->middleware('auth');
+    });
 });
 
 /* 

@@ -41,18 +41,41 @@
                         </li>
                     </ul>
                 </li>
+                <li class="nav-item {{ $path[0] == 'payments' ? 'menu-open' : '' }}" data-widget="treeview">
+                    <a href="#" class="nav-link ">
+                        <i class="nav-icon far fa-credit-card"></i>
+                        <p>
+                            Payments
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview ">
+                        <li class="nav-item">
+                            <a href="{{ route('payments.index') }}" class="nav-link {{ $path[0] == 'payments' &&  count($path) == 1? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>All</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('payments.refunds.index') }}" class="nav-link {{ $path[0] == 'payments' &&  count($path) > 1 && $path[1] == 'refunds' ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Refunds</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
                 <li class="nav-item ">
                     <a href="{{ route('announcements.index') }}" class="nav-link {{ $path[0] == 'announcements' ? 'active' : '' }}">
                         <i class="nav-icon fa-solid fa-bullhorn"></i>
                         <p>Announcements</p>
                     </a>
                 </li>
-                <li class="nav-item ">
+                {{-- <li class="nav-item ">
                     <a href="{{ route('payments.index') }}" class="nav-link {{ $path[0] == 'payments' ? 'active' : '' }}">
                         <i class="nav-icon far fa-credit-card"></i>
                         <p>Payments</p>
                     </a>
-                </li>
+                </li> --}}
             </ul>
         </nav>
         <!-- /.sidebar-menu -->

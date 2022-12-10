@@ -185,6 +185,14 @@ class TransportBookingController extends Controller
                     'message' => 'This Booking already has pending refund'
                 ], 400);
             }
+            if(count($transport_booking->payment->refunds) > 0 && collect($transport_booking->payment->refunds)->last()->status == 'succeeded'){
+                return response([
+                    'message' => 'This Booking has already been refunded'
+                ], 400);
+            }
+            $transport_booking->update([
+                'booking_status' => 'canceled'
+            ]);
             $refund = Refund::create([
                 'payment_id' => $transport_booking->payment->payment_id,
                 'status' => 'processing',

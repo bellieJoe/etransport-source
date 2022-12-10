@@ -49,4 +49,35 @@ class RefundController extends Controller
             return $refund->with('payment.user')->first();
         });
     }
+
+    public function index(){
+        $refunds = Refund::query()
+        ->orderBy('updated_at', 'desc')
+        ->paginate(20);
+        return view('pages.payments.refunds')
+        ->with([
+            'refunds' => $refunds
+        ]);
+    }
+
+    public function refund($refund_id){
+        \DB::transaction(function () use ($refund_id) {
+            $refund = Refund::find($refund_id);
+            $refund->payment->refundPayment();
+            $refund->update([
+                'status' => 'succeeded'
+            ]);
+        });
+        return redirect()->back();
+    }
+
+    public function declineRefund($refund_id){
+        \DB::transaction(function () use ($refund_id) {
+            $refund = Refund::find($refund_id);
+            $refund->update([
+                'status' => 'declined'
+            ]);
+        });
+        return redirect()->back();
+    }
 }
