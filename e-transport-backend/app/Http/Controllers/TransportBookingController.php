@@ -138,14 +138,28 @@ class TransportBookingController extends Controller
             ], 422);
         }
 
+
         return \DB::transaction(function () use ($request, $transport_booking_id) {
             $transport_booking = TransportBooking::where('transport_booking_id', $transport_booking_id);
             $booking = TransportBooking::where('transport_booking_id', $transport_booking_id)->with(['userCustomer'])->first();
-            // return $booking->userCustomer;
+
+            if($transport_booking->first()->route == 'Marinduque to Manila'){
+                if($request->status == 'canceled' && $booking->status != 'pending' &&  $transport_booking->first()->service->marinduque_departure_datetime->subDay()->lessThan(Carbon::now())){
+                    return response([
+                        'message' => "Cancelation can't be completed within 24 hours before the departure date."
+                    ], 400);
+                }
+            }else {
+                if($request->status == 'canceled' &&  $booking->status != 'pending' && $transport_booking->first()->service->manila_departure_datetime->subDay()->lessThan(Carbon::now())){
+                    return response([
+                        'message' => "Cancelation can't be completed within 24 hours before the departure date."
+                    ], 400);
+                }
+            }
+
             $transport_booking->update([
                 'booking_status' => $request->booking_status
             ]);
-            
 
             BookingUpdate::create([
                 'transport_booking_id' => $transport_booking_id,

@@ -22,6 +22,11 @@ class Service extends Model
         'review_summary'
     ];
 
+    protected $casts = [
+        'marinduque_departure_datetime' => 'datetime:Y-m-d',
+        'manila_departure_datetime' => 'datetime:Y-m-d',
+    ];
+
     // accessors
     public function getReviewSummaryAttribute(){
         $reviews = $this->reviews;
