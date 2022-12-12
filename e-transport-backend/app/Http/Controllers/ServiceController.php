@@ -15,7 +15,7 @@ use Illuminate\Validation\Rule;
 class ServiceController extends Controller
 {
     public function store(Request $request){
-        $request->validate([
+        $rules = [
             'user_id' => ['required'],
             'driver' => ['required', 'max:1000'],
             'service_name' => ['required', 'max:1000'],
@@ -23,14 +23,22 @@ class ServiceController extends Controller
             'plate_number' => ['required', 'max:500'],
             'vehicle_model' => ['required'],
             'capacity' => ['required', 'numeric'],
-            // 'mode_of_payment' => ['required'],
             'gcash_account' => ['required', 'max:10', 'min:10'],
             'service_type' => ['required'],
-            'small' => ['required_if:service_type,both,luggage'],
-            'medium' => ['required_if:service_type,both,luggage'],
-            'large' => ['required_if:service_type,both,luggage'],
-            'extra_large' => ['required_if:service_type,both,luggage']
-        ]);
+            // 'small' => ['required_if:service_type,both,luggage'],
+            // 'medium' => ['required_if:service_type,both,luggage'],
+            // 'large' => ['required_if:service_type,both,luggage'],
+            // 'extra_large' => ['required_if:service_type,both,luggage']
+        ];
+
+        if(isset($request->service_type) && in_array('luggage', $request->service_type)){
+            $rules['small'] = ['required'];
+            $rules['medium'] = ['required'];
+            $rules['large'] = ['required'];
+            $rules['extra_large'] = ['required'];
+        }
+        
+        $request->validate($rules);
 
         $administrator = Administrator::where([
             'user_id' => $request->user_id

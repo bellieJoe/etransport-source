@@ -13,6 +13,7 @@ export class TermsAndConditionsService {
 
   constructor() { }
 
+
   async agree(user_id){
     const res = await axios.post(`${environment.apiUrl}/api/terms-and-conditions/agree/${user_id}`)
     .then(res => res)
