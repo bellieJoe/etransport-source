@@ -34,6 +34,7 @@
       </ion-card-header>
       <ion-card-content>
         <div class="mb-2">
+          <h2 class="fw-bold">{{ service.passenger_booking_count }} of {{ service.capacity }} booking's</h2>
           <h2 class="fw-bold text-dark">Departure Date/s</h2>
           <h2 *ngIf="service.marinduque_departure_datetime"><span class="text-dark">Marinduque : </span> {{ service.marinduque_departure_datetime | date:'MMM d, y h:mm a' }}</h2>
           <h2 *ngIf="service.manila_departure_datetime"><span class="text-dark">Manila : </span> {{ service.manila_departure_datetime | date:'MMM d, y h:mm a' }}</h2>

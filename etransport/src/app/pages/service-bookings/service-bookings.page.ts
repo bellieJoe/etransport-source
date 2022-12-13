@@ -1,6 +1,7 @@
 import { AfterViewChecked, AfterViewInit, Component, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AlertController, IonModal, LoadingController } from '@ionic/angular';
+import { AlertController, IonModal, LoadingController, ToastController } from '@ionic/angular';
+import { ErrorHandlerService } from 'src/app/helpers/error-handler.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { NotificationService } from 'src/app/services/notification.service';
 import { ServiceService } from 'src/app/services/service.service';
@@ -21,7 +22,9 @@ export class ServiceBookingsPage implements OnInit {
     private loadingController : LoadingController,
     private router : Router,
     private activatedRoute : ActivatedRoute,
-    private notificationService : NotificationService
+    private notificationService : NotificationService,
+    private errorHandler : ErrorHandlerService,
+    private toastController : ToastController
   ) { }
 
   @ViewChildren(IonModal) ionModals : QueryList<IonModal>;
@@ -363,5 +366,46 @@ export class ServiceBookingsPage implements OnInit {
         booking
       }
     })
+  }
+
+  async closeService(){
+    const loader = await this.loadingController.create({
+      message: 'Updating Status',
+      backdropDismiss: false
+    })
+    
+      const alert = await this.alertController.create({
+        header: 'Confirm Action',
+        message: 'Stop accepting bookings now?',
+        buttons: [
+          {
+            text: 'Cancel'
+          },
+          {
+            text: 'Close Now',
+            handler: async () => {
+              try {
+                await loader.present()
+                this.serviceService.setStatus(this.serviceService.service.service_id, {
+                  manila_departure_datetime: null,
+                  marinduque_departure_datetime: null,
+                  service_status: 'close'
+                })
+                this.serviceService.fetchServiceByUserId();
+                const toast = await this.toastController.create({
+                  message: 'Service status succecssfully updated',
+                  duration: 1000
+                });
+                await toast.present()
+                await loader.dismiss();
+              } catch (error) {
+                await loader.dismiss();
+                this.errorHandler.handleError(error);
+              }
+            }
+          }
+        ]
+      });
+      await alert.present();
   }
 }

@@ -11,6 +11,7 @@ class Service extends Model
     use HasFactory, SoftDeletes;
 
     public $review_summary = "ok oke";
+    public $passenger_booking_count = 0;
 
     protected $with = ['luggagePricing'];
 
@@ -19,7 +20,8 @@ class Service extends Model
     protected $guarded = [];
 
     protected $appends = [
-        'review_summary'
+        'review_summary',
+        'passenger_booking_count'
     ];
 
     protected $casts = [
@@ -43,6 +45,20 @@ class Service extends Model
         }
         return (object)$review_summary;
     }
+
+    public function getPassengerBookingCountAttribute(){
+        $passenger_count = 0;
+        $bookings = TransportBooking::where([
+            'service_id' => $this->service_id,
+            'booking_status' => 'accepted',
+            ['passenger_count', '>', 0]
+        ])->get();
+        foreach ($bookings as $key => $item) {
+            $passenger_count += $item->passenger_count;
+        }
+        return $passenger_count;
+    }
+
 
     // relationships
     public function administrator(){

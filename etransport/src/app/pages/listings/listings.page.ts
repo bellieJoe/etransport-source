@@ -49,6 +49,7 @@ export class ListingsPage implements OnInit {
     }
     
     this.serviceService.listings = res.data;
+    console.log(res.data);
     
     this.loading = false;
   }

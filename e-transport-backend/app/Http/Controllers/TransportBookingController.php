@@ -226,4 +226,5 @@ class TransportBookingController extends Controller
         ->with(['service'])
         ->get();
     }
+
 }
