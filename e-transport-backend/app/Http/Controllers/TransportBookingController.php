@@ -21,7 +21,7 @@ class TransportBookingController extends Controller
             [
                 // 'passenger_count' => ['required_unless:service_type,luggage'], //later
                 // 'animals_count' => ['required_unless:service_type,luggage'], //later
-                'pickup_time' => ['required'],
+                // 'pickup_time' => ['required'],
                 'pickup_location' => ['required', 'max:1000'],
                 'dropoff_location' => ['required', 'max:1000'],
                 'service_type' => ['required'],
@@ -68,7 +68,7 @@ class TransportBookingController extends Controller
                 'service_id' => $request->service_id,
                 'passenger_count' => $request->passenger_count ? $request->passenger_count : 0,
                 'animal_count' => $request->animal_count ? $request->animal_count : 0,
-                'pickup_time' => $request->pickup_time,
+                'pickup_time' => '00:00:00',
                 'route' => $request->route,
                 'pickup_location' => $request->pickup_location,
                 'dropoff_location' => $request->dropoff_location,

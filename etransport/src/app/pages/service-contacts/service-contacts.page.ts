@@ -14,6 +14,7 @@ export class ServiceContactsPage implements OnInit {
     private router : Router
   ) { }
 
+  servicesBakcup : any[] = [];
   services : any[] = [];
   loading : boolean = false;
 
@@ -21,6 +22,7 @@ export class ServiceContactsPage implements OnInit {
     this.loading = true;
     const res = await this.serviceService.getAll();
     this.services = res ? res : [];
+    this.servicesBakcup = res ? res : [];
     this.loading = false;
   }
 
@@ -31,6 +33,21 @@ export class ServiceContactsPage implements OnInit {
         receiver : service.administrator.user_id
       }
     })
+  }
+
+  async onSearchChange(ev) {
+    const text = ev.target.value;
+
+    if(text && text.trim() != ''){
+      this.services = this.servicesBakcup.filter((service, i) => {
+        return (service.administrator.user.name.toLowerCase().includes(text) || service.service_name.toLowerCase().includes(text) )
+      });
+    }
+    else {
+      this.services = this.servicesBakcup;
+    }
+    
+    // console.log(this.services)
   }
 
 }

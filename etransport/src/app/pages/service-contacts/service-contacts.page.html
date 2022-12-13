@@ -7,10 +7,11 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content color="background">
   
   <ion-progress-bar type="indeterminate" color="primary" *ngIf="loading"></ion-progress-bar>
 
+  <ion-searchbar placeholder="Search Name"  (ionChange)="onSearchChange($event)" [debounce]="250" s></ion-searchbar>
   
   <ion-list>
     <ion-list-header>
