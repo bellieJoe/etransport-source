@@ -14,6 +14,12 @@ use Illuminate\Validation\Rule;
 
 class ServiceController extends Controller
 {
+    public function getAll(){
+        return Service::query()->with([
+            'administrator.user'
+        ])->get();
+    }
+
     public function store(Request $request){
         $rules = [
             'user_id' => ['required'],

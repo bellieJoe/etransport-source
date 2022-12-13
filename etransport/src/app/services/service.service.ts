@@ -65,6 +65,16 @@ export class ServiceService {
     return res;
   }
 
+  async getAll(){
+    try {
+      const res = await axios.get(`${environment.apiUrl}/api/services`);
+      return res.data;
+    } catch (error) {
+      this.errorHandler.handleError(error)
+      return null;
+    }
+  }
+
   async deleteByID(service_id){
     const res = await axios.delete(`${environment.apiUrl}/api/services/${service_id}`)
     .then(res => res)

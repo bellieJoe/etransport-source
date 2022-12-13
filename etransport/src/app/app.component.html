@@ -44,6 +44,12 @@
               <ion-label>Announcements</ion-label>
             </ion-item>
           </ion-menu-toggle>
+          <ion-menu-toggle  auto-hide="false" *ngIf="user.role_id === 2">
+            <ion-item routerDirection="root" routerLink="/service-contacts" lines="none" detail="false" routerLinkActive="selected">
+              <ion-icon slot="start" icon="call-outline"></ion-icon>
+              <ion-label>Service Contacts</ion-label>
+            </ion-item>
+          </ion-menu-toggle>
         </ion-list>
 
         <ion-list>

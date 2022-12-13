@@ -1,0 +1,41 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button ></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Service Contacts</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  
+  <ion-progress-bar type="indeterminate" color="primary" *ngIf="loading"></ion-progress-bar>
+
+  
+  <ion-list>
+    <ion-list-header>
+      <ion-label>Contacts</ion-label>
+    </ion-list-header>  
+    <ng-container *ngFor="let service of services">
+      <ion-item-sliding>
+        <ion-item lines="full" detail="false">
+          <div class="py-2">
+            <ion-label>Name: <span class="text-secondary">{{ service.administrator.user.name }}</span></ion-label>
+            <ion-label>Service: <span class="text-secondary">{{ service.service_name }}</span></ion-label>
+          </div>
+          <ion-label class="ms-2" slot="end" color="medium"><i class="fa-solid fa-bars" ></i></ion-label>
+        </ion-item>
+        <ion-item-options side="end">
+          <ion-item-option (click)="viewMessages(service)">
+            <ion-icon slot="icon-only" name="chatbubbles-outline"></ion-icon>
+          </ion-item-option>
+        </ion-item-options>
+      </ion-item-sliding>
+    </ng-container>
+  </ion-list>
+
+  <div class="p-3" *ngIf="services.length < 1">
+    <p class="mb-0 text-center text-secondary">No records to show.</p>
+  </div>
+
+</ion-content>

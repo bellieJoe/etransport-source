@@ -32,5 +32,5 @@ io.on('connection', (socket) => {
 
 });
 
-httpServer.listen(port,  () => console.log(`listening on port ${port}`));
-// httpServer.listen(port,'EXTERNAL_HOST'  () => console.log(`listening on port ${port}`));
+// httpServer.listen(port,  () => console.log(`listening on port ${port}`));
+httpServer.listen(port, '192.168.1.226',  () => console.log(`listening on port ${port}`));

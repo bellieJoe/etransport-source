@@ -50,7 +50,7 @@ export class ServicePage  {
   }
 
   async copy(text, message){
-    await navigator.clipboard.writeText(text);
+    navigator.clipboard.writeText(text);
     const toast = await this.toastController.create({
       message: message,
       icon: 'copy-outline',

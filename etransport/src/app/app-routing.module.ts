@@ -154,6 +154,10 @@ const routes: Routes = [
   {
     path: 'customer-refunds',
     loadChildren: () => import('./pages/customer-refunds/customer-refunds.module').then( m => m.CustomerRefundsPageModule)
+  },
+  {
+    path: 'service-contacts',
+    loadChildren: () => import('./pages/service-contacts/service-contacts.module').then( m => m.ServiceContactsPageModule)
   }
 
 
