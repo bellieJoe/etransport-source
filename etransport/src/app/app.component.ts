@@ -4,6 +4,7 @@ import { LoadingController } from '@ionic/angular';
 import { AuthService } from './services/auth.service';
 import { NotificationService } from './services/notification.service';
 import { TestingService } from './services/testing.service';
+import { TransportBookingService } from './services/transport-booking.service';
 import { UserService } from './services/user.service';
 
 @Component({
@@ -29,7 +30,8 @@ export class AppComponent implements OnInit{
     private userService : UserService,
     private loadingController : LoadingController,
     private router : Router,
-    public notificationService  : NotificationService
+    public notificationService  : NotificationService,
+    public transportBookingService : TransportBookingService
   ) {}
 
   auth = {};
@@ -55,6 +57,7 @@ export class AppComponent implements OnInit{
     setInterval(() => {
       this.user = this.authService.getAuth();
     }, 1000);
+    this.transportBookingService.getCustomerSchedule();
   }
 
   watchNotifications(){

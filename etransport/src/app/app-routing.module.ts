@@ -158,6 +158,10 @@ const routes: Routes = [
   {
     path: 'service-contacts',
     loadChildren: () => import('./pages/service-contacts/service-contacts.module').then( m => m.ServiceContactsPageModule)
+  },
+  {
+    path: 'customer-schedule',
+    loadChildren: () => import('./pages/customer-schedule/customer-schedule.module').then( m => m.CustomerSchedulePageModule)
   }
 
 

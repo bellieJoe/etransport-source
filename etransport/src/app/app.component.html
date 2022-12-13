@@ -62,6 +62,13 @@
               <ion-label>My Bookings</ion-label>
             </ion-item>
           </ion-menu-toggle>
+          <ion-menu-toggle  auto-hide="false" *ngIf="user.role_id === 3">
+            <ion-item routerDirection="root" routerLink="/customer-schedule" lines="none" detail="false" routerLinkActive="selected">
+              <ion-icon slot="start" icon="calendar-outline"></ion-icon>
+              <ion-label>My Schedules</ion-label>
+              <ion-badge color="primary" >{{ transportBookingService.customer_schedule.length }}</ion-badge>
+            </ion-item>
+          </ion-menu-toggle>
           <ion-menu-toggle  auto-hide="false" *ngIf="user.role_id === 2">
             <ion-item routerDirection="root" routerLink="/payment-monitoring" lines="none" detail="false" routerLinkActive="selected">
               <ion-icon slot="start" name="receipt-outline"></ion-icon>

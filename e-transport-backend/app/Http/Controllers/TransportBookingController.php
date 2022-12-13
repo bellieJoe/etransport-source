@@ -218,5 +218,12 @@ class TransportBookingController extends Controller
         });
     }
 
-
+    public function getCustomerSchedule($user_id){
+        return TransportBooking::where([
+            'user_customer_id' => $user_id,
+            'booking_status' => 'accepted'
+        ])
+        ->with(['service'])
+        ->get();
+    }
 }

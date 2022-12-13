@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
 import { ServiceService } from 'src/app/services/service.service';
 
 @Component({
@@ -11,7 +12,8 @@ export class ServiceContactsPage implements OnInit {
 
   constructor(
     private serviceService : ServiceService,
-    private router : Router
+    private router : Router,
+    public authService : AuthService
   ) { }
 
   servicesBakcup : any[] = [];

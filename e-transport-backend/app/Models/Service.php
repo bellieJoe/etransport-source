@@ -23,8 +23,8 @@ class Service extends Model
     ];
 
     protected $casts = [
-        'marinduque_departure_datetime' => 'datetime:Y-m-d',
-        'manila_departure_datetime' => 'datetime:Y-m-d',
+        'marinduque_departure_datetime' => 'datetime:Y-m-d H:i:s',
+        'manila_departure_datetime' => 'datetime:Y-m-d H:i:s',
     ];
 
     // accessors

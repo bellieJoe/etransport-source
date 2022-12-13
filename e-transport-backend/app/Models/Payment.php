@@ -28,7 +28,7 @@ class Payment extends Model
         // refund
         $client = new \GuzzleHttp\Client();
         $response = $client->request('POST', 'https://api.paymongo.com/refunds', [
-        'body' => '{"data":{"attributes":{"amount":'.$payment->data->attributes->net_amount.',"payment_id":"'.$payment->data->id.'","reason":"requested_by_customer"}}}',
+        'body' => '{"data":{"attributes":{"amount":'.($payment->data->attributes->amount - ($payment->data->attributes->amount * 0.05)).',"payment_id":"'.$payment->data->id.'","reason":"requested_by_customer"}}}',
         'headers' => [
             'accept' => 'application/json',
             'authorization' => 'Basic c2tfdGVzdF9xTTdQTnJVN3REM0VxUXNrUldBc2FUeW06',

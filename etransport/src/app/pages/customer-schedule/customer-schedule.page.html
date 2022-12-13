@@ -1,0 +1,39 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Schedule</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content color="background">
+  <ion-list>
+    <ion-list-header>
+      <ion-label>Transport Schedules</ion-label>
+    </ion-list-header>
+
+    <ng-container *ngFor="let schedule of transportBookingService.customer_schedule">
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title><i class="fa-solid fa-taxi me-2"></i>{{ schedule.service.service_name }}</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <div *ngIf="schedule.route == 'Marinduque to Manila'">
+            <h4 class="fs-5" ><i class="fa-solid fa-route me-2"></i>Marinduque to Manila</h4>
+            <h4 class="fs-5" ><i class="fa-solid fa-calendar-days me-2"></i>{{ schedule.service.marinduque_departure_datetime | date:'medium'  }}</h4>
+          </div >
+          <div *ngIf="schedule.route == 'Manila to Marinduque'">
+            <h4 class="fs-5"><i class="fa-solid fa-route me-2"></i>Manila to Marinduque</h4>
+            <h4 class="fs-5"><i class="fa-solid fa-calendar-days me-2"></i>{{ schedule.service.manila_departure_datetime  | date:'medium' }}</h4>
+          </div>
+          
+        </ion-card-content>
+      </ion-card>
+    </ng-container>
+
+    <div class="p-3" *ngIf="transportBookingService.customer_schedule.length < 1">
+      <p class="text-center text-secondary mb-0">No Schedules to show.</p>
+    </div>
+  </ion-list>  
+</ion-content>

@@ -53,7 +53,7 @@
                         <tr>
                             <td>{{ $refund->payment->user->name }}</td>
                             <td>{{ $refund->payment->service->administrator->user->name }}</td>
-                            <td>Php {{ (json_decode($refund->payment->payment_data)->data->attributes->amount - json_decode($refund->payment->payment_data)->data->attributes->fee) / 100 }}</td>
+                            <td>Php {{ (json_decode($refund->payment->payment_data)->data->attributes->amount - (json_decode($refund->payment->payment_data)->data->attributes->amount * 0.05) ) / 100 }}</td>
                             <td>{{ Str::title($refund->service_approval) }}</td>
                             <td >{{ Str::title($refund->status) }}</td>
                             <td >{{ $refund->created_at->diffForHumans() }}</td>
@@ -89,7 +89,7 @@
                                         <p>Complete the following refund request</p>
                                         <p class="mb-0">Customer: <span class=text-secondary>{{ $refund->payment->user->name }}</span></p>
                                         <p class="mb-0">Service Owner: <span class=text-secondary>{{ $refund->payment->service->administrator->user->name }}</span></p>
-                                        <p class="mb-0">Amount: <span class=text-secondary>Php {{ (json_decode($refund->payment->payment_data)->data->attributes->amount - json_decode($refund->payment->payment_data)->data->attributes->fee) / 100 }}</span></p>
+                                        <p class="mb-0">Amount: <span class=text-secondary>Php {{ (json_decode($refund->payment->payment_data)->data->attributes->amount - (json_decode($refund->payment->payment_data)->data->attributes->amount * 0.05) ) / 100 }}</span></p>
                                     </div>
                                     <div class="modal-footer">
                                         <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">
