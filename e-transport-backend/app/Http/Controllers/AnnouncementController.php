@@ -76,6 +76,7 @@ class AnnouncementController extends Controller
     }
 
     public function apiStore(Request $request){
+        // return $request;
         $request->validate([
             'announcement_title' => ['required', 'max:100'],
             'announcement_content' => ['required', 'max:10000'],
@@ -138,6 +139,20 @@ class AnnouncementController extends Controller
             }])
             ->withCount(['comments'])
             ->get();
+            $announcements = [
+                ...$announcements, 
+                ...Announcement::where('user_id', $user_id)
+                ->orderBy('updated_at', 'desc')
+                ->with([
+                'user' => function($query){
+                    $query->with('role');
+                },  
+                'comments' => function($query){
+                    $query->with('user')->orderBy('created_at', 'desc');
+                }])
+                ->withCount(['comments'])
+                ->get()
+            ];
         }
         return $announcements;
     }
