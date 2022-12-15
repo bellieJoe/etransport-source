@@ -38,6 +38,10 @@
 
 *{
     scroll-behavior: smooth !important;
+    -webkit-user-select: auto !important;
+    -moz-user-select: auto !important;
+    -ms-user-select: auto !important;
+    user-select: auto !important;
 }
 
 .ion-text-primary{
@@ -46,3 +50,5 @@
 .ion-text-medium{
     color: var(--ion-color-medium);
 }
+
+
