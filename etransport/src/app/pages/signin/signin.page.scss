@@ -1,4 +1,11 @@
-
+.button-password-toggle{
+    display: block;
+    padding: 1rem 0rem;
+    color: var(--ion-color-primary);
+    &:active{
+        color: var(--ion-color-medium);
+    }
+}
 
 .container{
     height: 100vh;

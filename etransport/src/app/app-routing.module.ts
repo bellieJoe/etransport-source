@@ -162,6 +162,10 @@ const routes: Routes = [
   {
     path: 'customer-schedule',
     loadChildren: () => import('./pages/customer-schedule/customer-schedule.module').then( m => m.CustomerSchedulePageModule)
+  },
+  {
+    path: 'password-recovery',
+    loadChildren: () => import('./pages/password-recovery/password-recovery.module').then( m => m.PasswordRecoveryPageModule)
   }
 
 

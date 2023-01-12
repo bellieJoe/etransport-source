@@ -17,10 +17,18 @@
 
             <ion-item>
               <ion-label position="floating">Password</ion-label>
-              <ion-input type="password"  [(ngModel)]="sign_in_form.password"></ion-input>
+              <ion-input [type]="passwordVisibility ? 'text' : 'password'"  [(ngModel)]="sign_in_form.password"></ion-input>
             </ion-item>
             <ion-note color="danger"  *ngIf="sign_in_form_err.password">{{ sign_in_form_err.password }}</ion-note>
             
+            <button  (click)="togglePasswords()"  class="button-password-toggle">
+              <i class="fa-solid fa-eye me-2"></i>Toggle passwords
+            </button>
+
+            <button  class="button-password-toggle">
+              <i class="fa-solid fa-hammer me-2"></i> Forgot password?
+            </button>
+
             <div>
               <ion-button expand="block" (click)="sign_in_form.submit()">
                 <i class="fa-solid fa-arrow-right-to-bracket space-after"></i>

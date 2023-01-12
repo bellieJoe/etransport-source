@@ -19,6 +19,7 @@ export class SigninPage implements OnInit {
 
   
 
+  passwordVisibility : boolean = false;
   sign_in_form_err : any = {};
   sign_in_form = {
     email: null,
@@ -80,6 +81,10 @@ export class SigninPage implements OnInit {
 
   ionViewWillEnter(){
     this.sign_in_form.clear();
+  }
+
+  togglePasswords(){
+    this.passwordVisibility = !this.passwordVisibility;
   }
 
 }

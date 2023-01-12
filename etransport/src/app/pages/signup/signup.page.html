@@ -35,16 +35,20 @@
 
           <ion-item>
             <ion-label position="floating">Password</ion-label>
-            <ion-input type="password" required [(ngModel)]="sign_up_form.password"></ion-input>
+            <ion-input [type]="passwordVisibility ? 'text' : 'password'" required [(ngModel)]="sign_up_form.password"></ion-input>
           </ion-item>
           <ion-note color="danger" *ngIf="sign_up_form_err.password">{{ sign_up_form_err.password }}</ion-note>
 
           <ion-item>
             <ion-label position="floating">Password Confirmation</ion-label>
-            <ion-input type="password" required [(ngModel)]="sign_up_form.password_confirmation"></ion-input>
+            <ion-input [type]="passwordVisibility ? 'text' : 'password'" required [(ngModel)]="sign_up_form.password_confirmation"></ion-input>
           </ion-item>
           <ion-note color="danger" *ngIf="sign_up_form_err.password_confirmation">{{ sign_up_form_err.password_confirmation }}</ion-note>
 
+          <ion-button  (click)="togglePasswords()"  expand="block" fill="clear" shape="round">
+            Toggle passwords
+          </ion-button>
+          
           <ion-item>
             <ion-label>Role</ion-label>
             <ion-select placeholder="Select Role" slot="end"  [(ngModel)]="sign_up_form.role_id">

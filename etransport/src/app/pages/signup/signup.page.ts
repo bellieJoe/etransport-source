@@ -19,6 +19,7 @@ export class SignupPage implements OnInit {
     private router : Router
   ) { }
 
+  passwordVisibility : boolean = false;
   sign_up_form_err : any = {}
   sign_up_form  = {
     name : null,
@@ -93,6 +94,10 @@ export class SignupPage implements OnInit {
 
   async ionViewWillEnter(){
     this.sign_up_form.clear();
+  }
+  
+  togglePasswords(){
+    this.passwordVisibility = !this.passwordVisibility;
   }
 
 }
