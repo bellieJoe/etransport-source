@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 
 class TransportBooking extends Model
 {
@@ -42,6 +44,7 @@ class TransportBooking extends Model
         Others
     */
     public function computeTotalFee(){
+        $global_settings = json_decode(File::get(Storage::path('/private/global_settings.json')));
         $computation = [
             'total' => 0,
             'breakdown' => [
@@ -59,12 +62,12 @@ class TransportBooking extends Model
         $luggage_config =  $transport_booking->luggageConfig;
         $luggage_pricing = LuggagePricing::where('service_id', $this->service_id)->first();
         if($this->passenger_count > 0){
-            $computation['breakdown']['passenger'] = (1500 * $this->passenger_count);
-            $computation['total'] += (1500 * $this->passenger_count);
+            $computation['breakdown']['passenger'] = ($global_settings->passenger_price * $this->passenger_count);
+            $computation['total'] += ($global_settings->passenger_price * $this->passenger_count);
         }
         if($this->animal_count > 0){
-            $computation['breakdown']['animal'] = (400 * $this->animal_count);
-            $computation['total'] += (400 * $this->animal_count);
+            $computation['breakdown']['animal'] = ($global_settings->animal_price * $this->animal_count);
+            $computation['total'] += ($global_settings->animal_price * $this->animal_count);
         }
         if($luggage_config){
             if($luggage_config->small){

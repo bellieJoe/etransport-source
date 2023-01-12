@@ -172,3 +172,12 @@ Route::group(['prefix' => 'refunds', 'as' => 'refunds.'], function(){
     Route::post('approve/{refund_id}', [RefundController::class, 'approveRefund']);
     Route::post('disapprove/{refund_id}', [RefundController::class, 'disapproveRefund']);
 });
+
+/* 
+Global settingjson
+*/
+Route::group(['prefix' => 'global_settings', 'as' => 'global_settings.'], function(){
+    Route::get('', [GlobalSettingsController::class, 'index']);
+});
+
+

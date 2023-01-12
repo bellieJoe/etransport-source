@@ -9,6 +9,8 @@ use App\Models\TransferedBooking;
 use App\Models\TransportBooking;
 use App\Rules\DepartureDate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
@@ -21,6 +23,7 @@ class ServiceController extends Controller
     }
 
     public function store(Request $request){
+        
         $rules = [
             'user_id' => ['required'],
             'driver' => ['required', 'max:1000'],
@@ -36,7 +39,8 @@ class ServiceController extends Controller
             // 'large' => ['required_if:service_type,both,luggage'],
             // 'extra_large' => ['required_if:service_type,both,luggage']
         ];
-
+        $global_settings = json_decode(File::get(Storage::path('/private/global_settings.json')));
+        
         if(isset($request->service_type) && in_array('luggage', $request->service_type)){
             $rules['small'] = ['required'];
             $rules['medium'] = ['required'];
@@ -50,7 +54,7 @@ class ServiceController extends Controller
             'user_id' => $request->user_id
         ])->first();
 
-        \DB::transaction(function () use($administrator, $request) {
+        \DB::transaction(function () use($administrator, $request, $global_settings) {
             $service = Service::create([   
                 'administrator_id' => $administrator->administrator_id,
                 'sid' => 'service_'.Str::random(30).'_'.time(),
@@ -60,6 +64,7 @@ class ServiceController extends Controller
                 'plate_number' => $request->plate_number,
                 'vehicle_model' => $request->vehicle_model,
                 'capacity' => $request->capacity,
+                'fare' => $global_settings->passenger_price,
                 // 'mode_of_payment' => json_encode($request->mode_of_payment),
                 'gcash_account' => $request->gcash_account,
                 'service_status' => 'close',

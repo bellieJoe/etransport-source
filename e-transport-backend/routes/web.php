@@ -20,6 +20,8 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 /*
@@ -33,7 +35,8 @@ use Illuminate\Support\Str;
 |
 */
 Route::get('testing', function(){
-
+    $json = File::get(Storage::path('/private/global_settings.json'));
+    return json_decode($json);
 });
 
 Route::get('/', function () {
