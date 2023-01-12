@@ -1,7 +1,9 @@
 import { ErrorHandler, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { LoadingController, ToastController } from '@ionic/angular';
 import axios from 'axios';
 import { environment } from 'src/environments/environment';
+import { ErrorHandlerService } from '../helpers/error-handler.service';
 import { AuthService } from './auth.service';
 
 axios.defaults.withCredentials = true;
@@ -36,7 +38,9 @@ export class UserService {
   constructor(
     private router : Router,
     private authService : AuthService,
-    private errorHandler : ErrorHandler,
+    private errorHandler : ErrorHandlerService,
+    private loadingController : LoadingController,
+    private toastController : ToastController
   ) { }
 
   user = JSON.parse(localStorage.getItem('user'));
@@ -97,6 +101,74 @@ export class UserService {
 
   logout(){
     localStorage.clear()
+  }
+
+  async sendRecoveryCode(email){
+    const loader = await this.loadingController.create({
+       message: 'Sending Recovery Code',
+       spinner: 'circular',
+       backdropDismiss: false
+    });
+    await loader.present()
+    try {
+      const res = await axios.post(`${environment.apiUrl}/api/emails/send-verification-code/${email}`);
+      await loader.dismiss();
+      return res.data;
+    } catch (error) {
+      await loader.dismiss();
+      this.errorHandler.handleError(error)
+      throw error;
+    }
+  }
+
+  async changePassword(passwords : {password, password_confirmation}, user){
+    const loader = await this.loadingController.create({
+      message: 'Saving new password',
+      spinner: 'circular',
+      backdropDismiss: false
+   });
+   const toast = await this.toastController.create({
+    message: 'Password successfuly updated',
+    duration: 3000
+   })
+   await loader.present()
+   try {
+    const data = {
+      passwords,
+      user
+    }
+     const res = await axios.post(`${environment.apiUrl}/api/users/change-password`, data);
+     await loader.dismiss();
+     await toast.present();
+     return res.data;
+   } catch (error) {
+     await loader.dismiss();
+     this.errorHandler.handleError(error);
+     throw error
+   }
+  }
+
+  async verifyRecoveryCode(verification_code, user) {
+    const loader = await this.loadingController.create({
+      message: 'Saving new password',
+      spinner: 'circular',
+      backdropDismiss: false
+    });
+    await loader.present()
+    try {
+      const data = {
+        verification_code
+      }
+      const res = await axios.post(`${environment.apiUrl}/api/users/verify-email/${user.user_id}`, data);
+      await loader.dismiss();
+      return res;
+    } catch (error) {
+      await loader.dismiss();
+      console.log(error);
+      this.errorHandler.handleError(error)
+      throw error;
+      
+    }
   }
 
 }

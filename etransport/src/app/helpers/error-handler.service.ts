@@ -23,7 +23,7 @@ export class ErrorHandlerService {
       alert.message = error.response.data.message
     }
     if(error.response && error.response.status == 422){
-      alert.message = error.response.data.errors.message
+      alert.message = error.response.data.message
     }
     await alert.present();
   }

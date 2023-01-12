@@ -202,4 +202,53 @@ class UserController extends Controller
             'title' => 'Passengers'
         ]);
     }
+
+    public function sendRecoveryCode($email){
+        $faker = Factory::create();
+
+        $user = User::where('email', $email)->first();
+
+        if(!$user){
+          return response([
+            'message' => "Can't find a user with email " . $email
+          ], 400);
+        }
+
+        $user->update([
+            'verification_code' => $faker->randomNumber(6, true)
+        ]);
+        
+        $user->refresh();
+
+        Mail::to($user)->send(new VerificationEmail($user->verification_code));
+
+        return $user;
+    }
+
+    /* 
+        Request params
+        passwords : {password, password_confirmation}
+        user
+    */
+    public function changePassword(Request $request){
+        $validator = Validator::make(
+            $request->passwords,
+            [
+                'password' => 'required|confirmed'
+            ],
+            []
+        );
+        $validator->validate();
+
+        $user = User::find($request->user['user_id']);
+
+        $user->update([
+            'password' => Hash::make($request->passwords['password']),
+        ]);
+
+        $user->refresh();
+
+        return $user;
+    }
+
 }

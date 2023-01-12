@@ -49,6 +49,7 @@ Route::prefix('users')->group(function () {
     Route::post('verify-email/{user_id}', [UserController::class, 'verifyEmail']);
     Route::post('update-profile/{user_id}', [UserController::class, 'updateProfile']);
     Route::get('{user_id}', [UserController::class, 'getUserByUserId']);
+    Route::post('change-password', [UserController::class, 'changePassword']);
 });
 
 /* 
@@ -56,6 +57,7 @@ Emails
 */
 Route::prefix('emails')->group(function () {
     Route::post('resend-verification-code/{user_id}', [UserController::class, 'resendVerificationCode'])->middleware(['throttle:email-resend']);
+    Route::post('send-verification-code/{email}', [UserController::class, 'sendRecoveryCode']);
 });
 
 /* 
