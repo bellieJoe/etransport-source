@@ -70,6 +70,12 @@
                         <p>Announcements</p>
                     </a>
                 </li>
+                <li class="nav-item ">
+                    <a href="{{ route('preferences.index') }}" class="nav-link {{ $path[0] == 'preferences' ? 'active' : '' }}">
+                        <i class="nav-icon fa-solid fa-sliders"></i>
+                        <p>Preferences</p>
+                    </a>
+                </li>
                 {{-- <li class="nav-item ">
                     <a href="{{ route('payments.index') }}" class="nav-link {{ $path[0] == 'payments' ? 'active' : '' }}">
                         <i class="nav-icon far fa-credit-card"></i>

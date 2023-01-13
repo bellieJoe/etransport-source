@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AnnouncementController;
+use App\Http\Controllers\GlobalSettingsController;
 use App\Http\Controllers\PaymentController; 
 use App\Http\Controllers\RefundController; 
 use App\Models\User;
@@ -97,6 +98,14 @@ Route::group(['prefix' => 'users', 'as' => 'users.'], function(){
     Route::group(['prefix' => 'passengers', 'as' => 'passengers.'], function(){
         Route::get('', [UserController::class, 'indexPassengers'])->name('index')->middleware('auth');
     });
+});
+
+/*
+Preferences
+*/
+Route::group(['prefix' => 'preferences', 'as' => 'preferences.'], function(){
+    Route::get('', [GlobalSettingsController::class, 'indexAdministrators'])->name('index')->middleware('auth');
+    Route::put('update', [GlobalSettingsController::class, 'updateAdministrators'])->name('update')->middleware('auth');
 });
 
 
