@@ -76,7 +76,7 @@ export class TransportBookingService {
     });
     try {
       await loader.present();
-      const res = await axios.post(`${environment.apiUrl}/api/transport-bookings/request-refund/${transport_booking.transport_booking_id}`);
+      const res = await axios.post(`${environment.apiUrl}/api/transport-bookings/request-refund/${transport_booking.transport_booking_id}`, {transport_booking});
       const toast = await this.toastController.create({
         message: 'A refund request has been submitted',
         duration: 1000

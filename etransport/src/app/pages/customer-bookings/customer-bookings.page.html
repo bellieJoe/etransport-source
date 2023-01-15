@@ -228,10 +228,33 @@
           <ion-label>Checkout</ion-label>
         </ion-button>
         
-        <ion-button color="light" (click)="refund(booking)" *ngIf="booking.payment && (booking.payment.status == 'paid' || booking.payment.status == 'partially paid') " >
+        <ion-button id="cancel-refund-modal-{{ booking.transport_booking_id }}" color="light"  *ngIf="booking.payment && (booking.payment.status == 'paid' || booking.payment.status == 'partially paid') " >
           <ion-icon name="cash-outline" slot="start"></ion-icon>
           <ion-label>Cancel & Refund</ion-label>
         </ion-button>
+        <ion-modal trigger="cancel-refund-modal-{{ booking.transport_booking_id }}" [initialBreakpoint]="0.5" [breakpoints]="[0, 0.5, 1]">
+          <ng-template >
+            <ion-header class="ion-no-border">
+              <ion-toolbar>
+                <ion-title>Cancel Booking</ion-title>
+              </ion-toolbar>
+            </ion-header>
+            <ion-content>
+              <div class="px-3">
+                <div class="bg-info p-2">
+                  <p class="mb-0"><i class="fa-solid fa-lightbulb text-warning"></i> <span class="fw-bold">Tips:</span>  You can call the administrator who set the booking to make sure that he/she is formally informed.</p>
+                </div>
+                <ion-item class="mb-2">
+                  <ion-label position="floating">Any reasons for cancelling this booking?</ion-label>
+                  <ion-input type="text" [(ngModel)]="msg_from_customer"></ion-input>
+                </ion-item>
+                <ion-button (click)="refund(booking)" expand="block">
+                  Cancel Booking
+                </ion-button>
+              </div>
+            </ion-content>
+          </ng-template>
+        </ion-modal>
 
         <ion-button color="medium" id="cancel-booking-modal-{{ booking.transport_booking_id }}" fill="outline" *ngIf="booking.booking_status == 'pending'">
           Cancel Booking

@@ -78,6 +78,7 @@ export class AdministratorRefundsPage implements OnInit {
         {
           text: 'Disapprove',
           handler: async () => {
+            console.log(refund)
             const res = await this.refundsService.disapproveRefund(refund);
             if(res){
               this.refunds.map((refund, i) => {

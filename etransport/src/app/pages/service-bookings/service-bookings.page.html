@@ -28,9 +28,9 @@
     <p class="text-center">No Bookings</p>
   </div>
 
-  <ion-item lines="none" detail="false" [color]="serviceService.service.passenger_booking_count >= serviceService.service.capacity ? 'danger' : 'success'" >
+  <ion-item lines="none" detail="false" [color]="serviceService.service.passenger_booking_count >= serviceService.service.capacity ? 'danger' : 'success'" *ngIf="isPassengerType(serviceService.service)">
     <div class="">
-      <p class="mb-0">{{ serviceService.service.passenger_booking_count }} of {{ serviceService.service.capacity }} passenger bookings</p>
+      <p class="mb-0" >{{ serviceService.service.passenger_booking_count }} of {{ serviceService.service.capacity }} passenger bookings</p>
     </div>
     <ion-button (click)="closeService()" color="light" slot="end" fill="outline" *ngIf="serviceService.service.passenger_booking_count >= serviceService.service.capacity && serviceService.service.service_status == 'open'">
       Close now

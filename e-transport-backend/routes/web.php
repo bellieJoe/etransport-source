@@ -36,8 +36,16 @@ use Illuminate\Support\Str;
 |
 */
 Route::get('testing', function(){
-    $json = File::get(Storage::path('/private/global_settings.json'));
-    return json_decode($json);
+    $client = new \GuzzleHttp\Client();
+    $response = $client->request('POST', 'https://api.paymongo.com/v1/links', [
+        'body' => '{"data":{"attributes":{"amount":100000,"description":"Downpayment for Etransport Transport Booking"}}}',
+        'headers' => [
+            'accept' => 'application/json',
+            'authorization' => 'Basic c2tfdGVzdF9xTTdQTnJVN3REM0VxUXNrUldBc2FUeW06',
+            'content-type' => 'application/json',
+        ],
+    ]);
+    return $response->getBody();
 });
 
 Route::get('/', function () {

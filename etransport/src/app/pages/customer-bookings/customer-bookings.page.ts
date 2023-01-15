@@ -7,6 +7,7 @@ import { NotificationService } from 'src/app/services/notification.service';
 import { ReviewService } from 'src/app/services/review.service';
 import { ServiceService } from 'src/app/services/service.service';
 import { TransportBookingService, UpdateStatusData } from '../../services/transport-booking.service';
+import { BookingTransfersPage } from '../booking-transfers/booking-transfers.page';
 
 @Component({
   selector: 'app-customer-bookings',
@@ -223,9 +224,10 @@ export class CustomerBookingsPage implements OnInit {
   }
 
   async refund(booking){
+    booking.msg_from_customer = this.msg_from_customer;
     const alert = await this.alertController.create({
       header: 'Confirm Action',
-      message: 'Request a refund for this transport booking payment?',
+      message: 'Cancel this transport booking & request a refund for the payment?',
       buttons: [
         {
           text: 'Cancel'
@@ -238,7 +240,10 @@ export class CustomerBookingsPage implements OnInit {
         }
       ]
     });
+
     await alert.present();
+    await alert.onDidDismiss();
+    this.closeModals();
     
   }
 }

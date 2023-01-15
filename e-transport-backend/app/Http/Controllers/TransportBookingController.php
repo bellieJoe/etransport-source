@@ -191,8 +191,8 @@ class TransportBookingController extends Controller
         });
     }
 
-    public function requestRefund($transport_booking_id){
-        return \DB::transaction(function () use($transport_booking_id) {
+    public function requestRefund(Request $request, $transport_booking_id){
+        return \DB::transaction(function () use($transport_booking_id, $request) {
             $transport_booking = TransportBooking::find($transport_booking_id);
             if(count($transport_booking->payment->refunds) > 0 && collect($transport_booking->payment->refunds)->last()->status == 'processing'){
                 return response([
@@ -206,6 +206,12 @@ class TransportBookingController extends Controller
             }
             $transport_booking->update([
                 'booking_status' => 'canceled'
+            ]);
+            BookingUpdate::create([
+                'booking_status' => 'canceled',
+                'message' => 'The customer canceled and requested a refund for this booking',
+                'msg_frm_customer' => $request->transport_booking['msg_from_customer'],
+                'transport_booking_id' => $transport_booking_id
             ]);
             $refund = Refund::create([
                 'payment_id' => $transport_booking->payment->payment_id,

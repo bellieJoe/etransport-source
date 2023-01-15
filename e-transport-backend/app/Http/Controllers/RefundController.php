@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BookingUpdate;
 use App\Models\Refund;
 use App\Models\Payment;
 use App\Models\User;
@@ -33,8 +34,8 @@ class RefundController extends Controller
         ->get();
     }
 
-    public function approveRefund($refund_id){
-        return \DB::transaction(function () use($refund_id) {
+    public function approveRefund(Request $request, $refund_id){
+        return \DB::transaction(function () use($refund_id, $request) {
             $refund = Refund::where('refund_id', $refund_id);
             if($refund->first()->expire_date->lessThan(Carbon::now()) ){
                 return response([
@@ -44,12 +45,17 @@ class RefundController extends Controller
             $refund->update([
                 'service_approval' => 'approved'
             ]);
+            BookingUpdate::create([
+                'booking_status' => 'canceled',
+                'message' => 'The refund request has been approved',
+                'transport_booking_id' => $request->refund['payment']['transport_booking_id']
+            ]);
             return $refund->with('payment.user')->first();
         });
     }
 
-    public function disapproveRefund($refund_id){
-        return \DB::transaction(function () use($refund_id) {
+    public function disapproveRefund(Request $request, $refund_id){
+        return \DB::transaction(function () use($refund_id, $request) {
             $refund = Refund::where('refund_id', $refund_id);
             if($refund->first()->expire_date->lessThan(Carbon::now()) ){
                 return response([
@@ -58,6 +64,11 @@ class RefundController extends Controller
             }
             $refund->update([
                 'service_approval' => 'disapproved'
+            ]);
+            BookingUpdate::create([
+                'booking_status' => 'canceled',
+                'message' => 'The refund request has been disapproved',
+                'transport_booking_id' => $request->refund['payment']['transport_booking_id']
             ]);
             return $refund->with('payment.user')->first();
         });

@@ -69,4 +69,11 @@ export class ListingsPage implements OnInit {
     console.log(this.serviceService.listings);
   }
 
+  isPassengerType(service){
+    if(Array.from(service.service_type).includes("passenger")){
+      return true;
+    }
+    return false;
+  }
+
 }

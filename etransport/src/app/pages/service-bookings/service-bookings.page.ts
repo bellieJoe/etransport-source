@@ -408,4 +408,12 @@ export class ServiceBookingsPage implements OnInit {
       });
       await alert.present();
   }
+
+  isPassengerType(service){
+    // console.log(service.service_type)
+    if(service.service_type && Array.from(service.service_type).includes("passenger")){
+      return true;
+    }
+    return false;
+  }
 }
