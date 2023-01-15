@@ -1,3 +1,4 @@
 *
 !public/
+!global_settings.json
 !.gitignore
