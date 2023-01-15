@@ -166,6 +166,10 @@ const routes: Routes = [
   {
     path: 'password-recovery',
     loadChildren: () => import('./pages/password-recovery/password-recovery.module').then( m => m.PasswordRecoveryPageModule)
+  },
+  {
+    path: 'dashboard',
+    loadChildren: () => import('./pages/dashboard/dashboard.module').then( m => m.DashboardPageModule)
   }
 
 

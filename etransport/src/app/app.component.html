@@ -14,6 +14,12 @@
             </ion-item>
           </ion-menu-toggle>
           <ion-menu-toggle  auto-hide="false" *ngIf="user.role_id === 2">
+            <ion-item routerDirection="root" routerLink="/dashboard" lines="none" detail="false" routerLinkActive="selected">
+              <ion-icon slot="start" icon="grid-outline"></ion-icon>
+              <ion-label>Dashboard</ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+          <ion-menu-toggle  auto-hide="false" *ngIf="user.role_id === 2">
             <ion-item routerDirection="root" routerLink="/service" lines="none" detail="false" routerLinkActive="selected">
               <ion-icon slot="start" icon="car-outline"></ion-icon>
               <ion-label>Service</ion-label>
