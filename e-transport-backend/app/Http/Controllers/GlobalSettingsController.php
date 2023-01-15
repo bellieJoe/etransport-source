@@ -11,11 +11,13 @@ class GlobalSettingsController extends Controller
 {
     //
     public function index(){
-        return json_decode(File::get(Storage::path('/private/global_settings.json')));
+
+        return json_decode(File::get(Storage::path('/global_settings.json')));
     }
 
     public function indexAdministrators(){
-        $global_settings = json_decode(File::get(Storage::path('/private/global_settings.json')));
+        $global_settings = json_decode(File::get(Storage::path('/global_settings.json')));
+        
         return view('pages.preferences.index')
         ->with([
             'global_settings' => $global_settings
@@ -29,10 +31,10 @@ class GlobalSettingsController extends Controller
         ]);
 
         \DB::transaction(function () use ($request) {
-            $global_settings = json_decode(File::get(Storage::path('/private/global_settings.json')));
+            $global_settings = json_decode(File::get(Storage::path('/global_settings.json')));
             $global_settings->passenger_price = $request->passenger_price;
             $global_settings->animal_price = $request->animal_price;
-            File::put(Storage::path('/private/global_settings.json'), json_encode($global_settings));
+            File::put(Storage::path('/global_settings.json'), json_encode($global_settings));
             Service::query()->update([
                 'fare' => $request->passenger_price
             ]);

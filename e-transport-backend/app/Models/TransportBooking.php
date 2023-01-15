@@ -44,7 +44,9 @@ class TransportBooking extends Model
         Others
     */
     public function computeTotalFee(){
-        $global_settings = json_decode(File::get(Storage::path('/private/global_settings.json')));
+
+        $global_settings = json_decode(File::get(Storage::path('/global_settings.json')));
+
         $computation = [
             'total' => 0,
             'breakdown' => [
