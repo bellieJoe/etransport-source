@@ -44,13 +44,13 @@
           <label class="h3 mb-0 fw-bold">200 </label><label class="ms-2 text-secondary">Reservation/s</label>
         </div>
         <div class="row text-secondary">
-          <ion-select  placeholder="Select Year" class="col">
-            <ion-select-option value="2022">2022</ion-select-option>
-            <ion-select-option value="2023">2023</ion-select-option>
+          <ion-select [(ngModel)]="year"  placeholder="Select Year" class="col">
+            <ng-container *ngFor="let y of years">
+              <ion-select-option  [value]="y">{{ y }}</ion-select-option>
+            </ng-container>
           </ion-select>
-          <ion-select  placeholder="Select Month" class="col">
-            <ion-select-option value="2022">2022</ion-select-option>
-            <ion-select-option value="2023">2023</ion-select-option>
+          <ion-select [(ngModel)]="month"  placeholder="Select Month" class="col">
+            <ion-select-option *ngFor="let m of months" [value]="m.value">{{ m.name }}</ion-select-option>
           </ion-select>
         </div>
         <div class="">

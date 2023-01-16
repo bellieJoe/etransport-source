@@ -44,8 +44,8 @@ export class AdministratorService {
     return res;
   }
 
-  async getIncomeReport(){
-    const res = await axios.get(`${environment.apiUrl}/api/administrators/get-income-report/${this.authService.getAuth().user_id}`);
+  async getIncomeReport(month : any, year  :any){
+    const res = await axios.get(`${environment.apiUrl}/api/administrators/get-income-report/${this.authService.getAuth().user_id}?year=${year}&month=${month}`);
     return res;
   }
 }
