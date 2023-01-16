@@ -65,8 +65,9 @@ Administrators
 */
 Route::prefix('administrators')->group(function () {
     Route::get('get-administrator-by-user-id/{user_id}', [AdministratorController::class, 'getAdministratorByUserID']);
+    Route::get('get-service-by-user-id/{user_id}', [AdministratorController::class, 'getServiceByUserId']); 
+    Route::get('get-reservation-counts-by-user/{user_id}', [AdministratorController::class, 'getReservationCountsByUser']);
 
-    Route::get('get-service-by-user-id/{user_id}', [AdministratorController::class, 'getServiceByUserId']);
 });
 
 /* 

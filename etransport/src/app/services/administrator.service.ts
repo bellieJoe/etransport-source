@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import axios from "axios";
 import { environment } from 'src/environments/environment';
 import { ErrorHandlerService } from '../helpers/error-handler.service';
+import { AuthService } from './auth.service';
 
 axios.defaults.withCredentials = true;
 axios.defaults.headers.common['Accept'] = 'application/json';
@@ -15,7 +16,8 @@ axios.defaults.headers.common['Access-Control-Allow-Headers'] = '*';
 export class AdministratorService {
 
   constructor(
-    private errorHandler : ErrorHandlerService
+    private errorHandler : ErrorHandlerService,
+    private authService : AuthService
   ) { }
 
   hasService : boolean = false;
@@ -35,5 +37,10 @@ export class AdministratorService {
       this.errorHandler.handleError(error)
     }
    
+  }
+
+  async getReservationCounts(){
+    const res = await axios.get(`${environment.apiUrl}/api/administrators/get-reservation-counts-by-user/${this.authService.getAuth().user_id}`);
+    return res;
   }
 }
