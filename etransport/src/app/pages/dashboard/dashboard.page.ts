@@ -22,8 +22,9 @@ export class DashboardPage implements OnInit {
     this.loading = true;
     try {
       let res = await this.administratorService.getReservationCounts();
-      console.log(res.data)
       this.reservationCounts = res.data;
+      res = await this.administratorService.getIncomeReport();
+      this.loading = false;
     } catch (error) {
       this.loading = false;
       this.errorHandler.handleError(error);

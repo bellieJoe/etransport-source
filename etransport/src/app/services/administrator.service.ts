@@ -43,4 +43,9 @@ export class AdministratorService {
     const res = await axios.get(`${environment.apiUrl}/api/administrators/get-reservation-counts-by-user/${this.authService.getAuth().user_id}`);
     return res;
   }
+
+  async getIncomeReport(){
+    const res = await axios.get(`${environment.apiUrl}/api/administrators/get-income-report/${this.authService.getAuth().user_id}`);
+    return res;
+  }
 }

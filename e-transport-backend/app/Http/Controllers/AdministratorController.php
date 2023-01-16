@@ -60,4 +60,8 @@ class AdministratorController extends Controller
             'canceledOrDeclined' => $canceledOrDeclined
         ];
     }
+
+    public function getIncomeReportByUser($user_id){
+        return (object)[];
+    }
 }
