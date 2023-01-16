@@ -64,7 +64,12 @@ export class SigninPage implements OnInit {
 
       loader.dismiss();
 
-      location.href = '/profile';
+      if(res.data.role_id == 2){
+        location.href = '/dashboard';
+      }
+      else{
+        location.href = '/profile';
+      }
       // this.router.navigate(['/profile']);
 
     },
