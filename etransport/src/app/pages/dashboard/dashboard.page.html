@@ -40,24 +40,19 @@
         <h4 class="my-0 fw-bold "><i class="fa-solid fa-coins me-2"></i>Income</h4>
       </div>
       <div class="rounded border-white bg-white shadow p-3">
-        <div class="my-2">
-          <label class="h3 mb-0 fw-bold">200 </label><label class="ms-2 text-secondary">Reservation/s</label>
-        </div>
+        <small class="text-secondary">Income for the month of</small>
         <div class="row text-secondary">
+          <ion-select [(ngModel)]="month"  placeholder="Select Month" class="col">
+            <ion-select-option *ngFor="let m of months" [value]="m.value">{{ m.name }}</ion-select-option>
+          </ion-select>
           <ion-select [(ngModel)]="year"  placeholder="Select Year" class="col">
             <ng-container *ngFor="let y of years">
               <ion-select-option  [value]="y">{{ y }}</ion-select-option>
             </ng-container>
           </ion-select>
-          <ion-select [(ngModel)]="month"  placeholder="Select Month" class="col">
-            <ion-select-option *ngFor="let m of months" [value]="m.value">{{ m.name }}</ion-select-option>
-          </ion-select>
         </div>
-        <div class="">
-          <label class="fw-bold">20 <span class="fw-normal text-secondary">Completed</span></label>
-        </div>
-        <div class="">
-          <label class="fw-bold">20 <span class="fw-normal text-secondary">Cancelled/Declined</span></label>
+        <div class="my-2">
+          <label class="h3 mb-0 fw-bold">{{ incomes.totalIncome | currency:'PHP' }} </label><label class="ms-2 text-secondary">from all recorded bookings</label>
         </div>
       </div>
     </div>
