@@ -96,4 +96,19 @@ class AdministratorController extends Controller
             'totalIncome' => $totalIncome 
         ];
     }
+
+    public function getReviewsByUser($user_id){
+        $user = User::find($user_id);
+        $service = $user->administrator->service;
+        $reviews = $service->reviews;
+        $ratingsSummation = 0;
+        foreach ($reviews as $k => $review) {
+            $ratingsSummation += $review->rate;
+        }
+        return (object)[
+            'reviews' => $reviews,
+            'totalRatings' => $reviews->count() > 0 ? ($ratingsSummation / $reviews->count()) : 0,
+            'totalReviews' => $reviews->count()
+        ];
+    }
 }

@@ -16,6 +16,7 @@ export class DashboardPage implements OnInit {
 
   reservationCounts : any = {};
   incomes : any = {};
+  reviews : any = {};
 
   loading : boolean = false;
   years : any[] = [];
@@ -86,7 +87,9 @@ export class DashboardPage implements OnInit {
       this.reservationCounts = res.data;
       res = await this.administratorService.getIncomeReport(this.month, this.year);
       this.incomes = res.data
-      console.log(this.incomes)
+      res = await this.administratorService.getReviews();
+      this.reviews = res.data;
+      console.log(this.reviews);
       this.loading = false;
     } catch (error) {
       this.loading = false;

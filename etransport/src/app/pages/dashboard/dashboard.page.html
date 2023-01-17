@@ -61,25 +61,19 @@
       <div class="card-body  rounded-top text-white ">
         <h4 class="my-0 fw-bold "><i class="fa-solid fa-star me-2"></i>Ratings</h4>
       </div>
-      <div class="rounded border-white bg-white shadow p-3">
+      <div class="rounded border-white bg-white shadow p-3" >
+        <small class="d-block text-secondary">Total Ratings</small>
         <div class="my-2">
-          <label class="h3 mb-0 fw-bold">200 </label><label class="ms-2 text-secondary">Reservation/s</label>
+          <label class="h3 mb-0 fw-bold"><i class="fa-solid fa-chart-line"></i> {{ reviews.totalRatings }} / 5 </label><label class="ms-2 text-secondary">average ratings</label>
         </div>
-        <div class="row text-secondary">
-          <ion-select  placeholder="Select Year" class="col">
-            <ion-select-option value="2022">2022</ion-select-option>
-            <ion-select-option value="2023">2023</ion-select-option>
-          </ion-select>
-          <ion-select  placeholder="Select Month" class="col">
-            <ion-select-option value="2022">2022</ion-select-option>
-            <ion-select-option value="2023">2023</ion-select-option>
-          </ion-select>
-        </div>
-        <div class="">
-          <label class="fw-bold">20 <span class="fw-normal text-secondary">Completed</span></label>
-        </div>
-        <div class="">
-          <label class="fw-bold">20 <span class="fw-normal text-secondary">Cancelled/Declined</span></label>
+        <small class="d-block text-secondary">{{ reviews.totalReviews }} Review/s</small>
+        <div class="" *ngIf="reviews.totalReviews > 0" style="overflow:scroll;max-height: 20rem;">
+          <ng-container *ngFor="let review of reviews.reviews">
+            <div class="my-2">
+              <label ><i class="fa-solid fa-star text-warning me-2"></i><span class="fw-normal text-secondary">{{ review.rate }}</span></label>
+              <p class="my-0 small">{{review.content  }}</p>
+            </div>
+          </ng-container>
         </div>
       </div>
     </div>
