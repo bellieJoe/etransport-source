@@ -39,7 +39,7 @@ class ServiceController extends Controller
             // 'large' => ['required_if:service_type,both,luggage'],
             // 'extra_large' => ['required_if:service_type,both,luggage']
         ];
-        $global_settings = json_decode(File::get(Storage::path('/private/global_settings.json')));
+        $global_settings = json_decode(File::get(Storage::path('/global_settings.json')));
         
         if(isset($request->service_type) && in_array('luggage', $request->service_type)){
             $rules['small'] = ['required'];
