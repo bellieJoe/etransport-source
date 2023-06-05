@@ -1,6 +1,8 @@
 import { Component, ErrorHandler, OnInit } from '@angular/core';
 import { ErrorHandlerService } from 'src/app/helpers/error-handler.service';
 import { AdministratorService } from 'src/app/services/administrator.service';
+import { AuthService } from 'src/app/services/auth.service';
+import { PaymentService } from 'src/app/services/payment.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -11,11 +13,14 @@ export class DashboardPage implements OnInit {
   
   constructor(
     private administratorService : AdministratorService,
+    private paymentService : PaymentService,
+    private authService : AuthService,
     private errorHandler : ErrorHandlerService
   ) { }
 
   reservationCounts : any = {};
   incomes : any = {};
+  income: any = 0;
   reviews : any = {};
 
   loading : boolean = false;
@@ -87,6 +92,10 @@ export class DashboardPage implements OnInit {
       this.reservationCounts = res.data;
       res = await this.administratorService.getIncomeReport(this.month, this.year);
       this.incomes = res.data
+      console.log(this.incomes)
+      res = await this.paymentService.computeIncome(this.authService.getAuth().user_id, this.month, this.year);
+      this.income = res;
+      console.log(this.income)
       res = await this.administratorService.getReviews();
       this.reviews = res.data;
       console.log(this.reviews);

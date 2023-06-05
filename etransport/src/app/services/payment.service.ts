@@ -93,4 +93,17 @@ export class PaymentService {
     
   }
 
+  async computeIncome(
+    user_id, month,year){
+    try {
+      const res = await axios.get(`${environment.apiUrl}/api/payments/compute-income/${user_id}`, {params: {month, year}});      
+      return res.data;
+    } catch (error) {
+      console.log('error');
+      console.log(error);
+      this.errorHandlerService.handleError(error);
+    }
+    
+  }
+
 }
