@@ -163,6 +163,7 @@ Route::group(['prefix' => 'payments', 'as' => 'payments.'], function(){
     Route::put('check-payment/{payment_id}', [PaymentController::class, 'checkPayment']);
     Route::get('get-payments-by-service-id/{service_id}', [PaymentController::class, 'getPaymentsByServiceId']);
     Route::get('get-payments-by-user-id/{user_id}', [PaymentController::class, 'getPaymentsByUserId']);
+    Route::get('compute-income/{user_id}', [PaymentController::class, 'computeIncome']);
 });
 
 /* 

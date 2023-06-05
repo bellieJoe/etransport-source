@@ -114,4 +114,29 @@ class PaymentController extends Controller
             'payments' => $payment_query->paginate(15)
         ]);
     }
+
+    public function computeIncome($user_id, Request $request){
+        $user = User::find($user_id);
+        $service = $user->administrator->service;
+        $bookings = TransportBooking::where([
+            'service_id' => $service->service_id,
+            'booking_status' => 'finished'
+        ])
+        ->pluck('transport_booking_id');
+        // return $bookings;
+        return Payment::where([
+            'service_id' => $service->service_id,
+            'status' => 'paid'
+        ])
+        ->whereIn('transport_booking_id', $bookings)
+        ->whereMonth('updated_at', $request->month)
+        ->whereYear('updated_at', $request->year)
+        ->get()
+        ->map(function($payment){
+            $payment->breakdown = json_decode($payment->breakdown);
+            return $payment;
+        })
+        ->flatten()
+        ->sum('breakdown.total');
+    }
 }
